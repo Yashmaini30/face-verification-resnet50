@@ -1,0 +1,36 @@
+{
+  "dataset_name": "Labeled Faces in the Wild (funneled)",
+  "archive_folder": "lfw_funneled",
+  "source_url": "http://vis-www.cs.umass.edu/lfw/",
+  "licence": "Free for non-commercial research use; images from public news photographs.",
+  "image_size": 112,
+  "seed": 42,
+  "num_identities": 1680,
+  "num_images": 9164,
+  "splits": {
+    "train": {
+      "identities": 1500,
+      "images": 7096
+    },
+    "val": {
+      "identities": 60,
+      "images": 1037
+    },
+    "test": {
+      "identities": 120,
+      "images": 1031
+    }
+  },
+  "preprocessing": {
+    "detector": "OpenCV Haar cascade (frontalface_default)",
+    "alignment": "eye-line rotation via haarcascade_eye (applied when 2 eyes found)",
+    "crop_margin": 0.3,
+    "fallback": "central 50% box when detection fails (LFW faces are funnelled/centred)"
+  },
+  "detection_stats": {
+    "detect_ok": 9116,
+    "aligned": 4369,
+    "not_aligned": 4747,
+    "detect_fail": 48
+  }
+}

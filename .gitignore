@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+data_raw/
+submission/dataset/
+*.zip
