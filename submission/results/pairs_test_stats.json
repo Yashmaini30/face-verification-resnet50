@@ -1,0 +1,12 @@
+{
+  "requested_positive": 5000,
+  "requested_negative": 5000,
+  "generated_positive": 5000,
+  "generated_negative": 5000,
+  "num_identities": 120,
+  "num_images": 1031,
+  "max_possible_positive": 7861,
+  "duplicate_pairs": 0,
+  "seed": 42,
+  "split": "test"
+}
