@@ -112,7 +112,6 @@ python evaluate_pairs.py --pairs results/pairs_val.csv  --out results/pair_score
 
 python gallery_probe.py --gallery-per-id 1
 python roc_analysis.py --scores results/pair_scores.csv --val-scores results/pair_scores_val.csv
-python make_report.py
 ```
 
 ### Step 4 — try it on your own images (optional)
@@ -518,7 +517,6 @@ submission/
 ├── evaluate_pairs.py          # embeddings + cosine similarity
 ├── gallery_probe.py           # gallery/probe, Rank-1, Rank-5, CMC
 ├── roc_analysis.py            # ROC, AUC, EER, TAR@FAR, threshold selection
-├── make_report.py             # builds report.pdf from the result files
 ├── check_leakage.py           # independent leakage / duplication audit
 ├── demo_api.py                # optional FastAPI service to try it on your own images
 ├── colab_train.ipynb          # GPU training on Colab
