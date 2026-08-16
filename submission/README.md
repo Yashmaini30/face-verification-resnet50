@@ -17,7 +17,8 @@ ImageNet ResNet50 backbone.
 | | |
 |---|---|
 | **Dataset** | Labeled Faces in the Wild (LFW), *funneled* variant |
-| **Source** | <http://vis-www.cs.umass.edu/lfw/> — downloaded automatically by `dataset_preparation.py` |
+| **Canonical source** | `http://vis-www.cs.umass.edu/lfw/` — the dataset's original home at UMass Amherst. **This host stopped resolving in August 2026** (NXDOMAIN), so it is cited for attribution but is no longer reachable. |
+| **Actually downloaded from** | <https://ndownloader.figshare.com/files/5976015> — the figshare mirror of `lfw-funneled.tgz` that `scikit-learn`'s `fetch_lfw_people` uses. `dataset_preparation.py` tries this first and falls back to UMass in case it returns. |
 | **Licence / usage** | Free for **non-commercial research use**. The maintainers ask that it be used for research purposes and that the original technical report be cited. |
 | **Provenance** | Collected by the LFW maintainers from **public news photographs** (Yahoo! News). No law-enforcement imagery, no mugshots, no criminal-record information. |
 | **Citation** | G.B. Huang, M. Ramesh, T. Berg, E. Learned-Miller. *Labeled Faces in the Wild: A Database for Studying Face Recognition in Unconstrained Environments.* UMass Amherst TR 07-49, 2007. |
@@ -31,13 +32,13 @@ distribution URL, and `dataset/` is a preprocessed derivative of it.
 |---|---|
 | Identities | **1,680** |
 | Images | **9,164** |
-| Resolution | 112 × 112 RGB |
+| Resolution | 224 × 224 RGB |
 | Face detection success | 9,116 / 9,164 (**99.5%**), 48 fell back to a central crop |
 | Eye-alignment applied | 4,369 images |
 
 Pipeline: Haar-cascade face detection → eye-line rotation when both eyes are
 found → square crop with a 30% margin (reflect-padded near borders) → resize to
-112×112 → ImageNet mean/std normalisation at load time.
+224×224 → ImageNet mean/std normalisation at load time.
 
 ### Splits — identity-disjoint
 
@@ -53,7 +54,7 @@ unseen people. Identities need ≥ 4 images to be eligible for `val`/`test`; eve
 remaining identity with ≥ 2 images goes to training, which maximises training
 classes without ever admitting an evaluation identity.
 
-`dataset/` is not committed (74 MB, ~9k files) — regenerate it with step 1 below.
+`dataset/` is not committed (145 MB, ~9k files) — regenerate it with step 1 below.
 
 ---
 
@@ -77,7 +78,7 @@ Tested on Python 3.12 (local, CPU) and Colab (Python 3.11, T4 GPU). Needs about
 ### Step 1 — prepare the dataset (~10 min, downloads ~230 MB)
 
 ```bash
-python dataset_preparation.py --raw-dir ../data_raw --out-dir dataset
+python dataset_preparation.py --raw-dir ../data_raw --out-dir dataset --size 224
 ```
 
 Writes `dataset/person_XXX/img_YY.jpg`, `splits.json`, `dataset_stats.json` and
@@ -87,7 +88,7 @@ original LFW identity, for provenance).
 ### Step 2 — train
 
 ```bash
-python train.py --root . --epochs 30 --batch-p 24 --batch-k 4
+python train.py --root . --size 224 --epochs 30 --batch-p 16 --batch-k 4
 ```
 
 Uses CUDA + mixed precision when a GPU is available, CPU otherwise. Writes
@@ -127,7 +128,7 @@ Open <http://127.0.0.1:8000> for a browser form, or call the endpoints directly:
 # same person?
 curl -X POST http://127.0.0.1:8000/verify \
      -F "image_a=@photo1.jpg" -F "image_b=@photo2.jpg"
-# {"cosine_similarity":0.4791,"threshold":0.1545,"match":true,"margin":0.3246}
+# {"cosine_similarity":0.4028,"threshold":0.1792,"match":true,"margin":0.2236}
 
 # who is this, against the enrolled gallery?
 curl -X POST "http://127.0.0.1:8000/identify?top_k=5" -F "image=@photo.jpg"
@@ -144,7 +145,7 @@ request fails with 422 rather than silently scoring a centre crop.
 ## 4. Model architecture
 
 ```
-Face image (3 × 112 × 112)
+Face image (3 × 224 × 224)
         ↓
 ResNet50 trunk  (torchvision, ImageNet-pretrained, classifier removed)
         ↓
@@ -197,7 +198,7 @@ Why this combination:
    epochs, and the randomly-initialised embedding and ArcFace heads get a 10×
    larger learning rate than the trunk.
 
-**Batch construction.** A P×K sampler draws 24 identities × 4 images per batch.
+**Batch construction.** A P×K sampler draws 16 identities × 4 images per batch.
 Uniform random batches over 1,500 identities would almost never contain two
 images of the same person, leaving the triplet term with no valid positives.
 
@@ -270,42 +271,48 @@ rank of the true identity for error analysis.
 
 ## 8. Results
 
-ResNet50 trained for 30 epochs on a Colab T4 (16 s/epoch, ~8 minutes total). Best
-epoch 28 by validation AUC. All numbers below are measured on the **120 test
-identities, none of which appear in training**, and come from
+ResNet50 trained for 30 epochs at 224×224 on a Colab T4 (41 s/epoch, ~21 minutes
+total). Best epoch 22 by validation AUC. All numbers below are measured on the
+**120 test identities, none of which appear in training**, and come from
 `results/evaluation_results.json`.
 
-Training loss fell 20.38 → 2.36 and train accuracy reached 82.3%. Validation AUC
-rose quickly to ~0.94 by epoch 13 and then flattened (0.9463 at epoch 19 →
-0.9501 at epoch 28) while train accuracy kept climbing from 66% to 82% — the
-model spends the last third of training fitting the training identities rather
-than learning features that transfer. See `results/training_curve.png`. Stopping
-around epoch 20 would give nearly the same result for two-thirds of the compute;
-the remaining headroom is in more data, not more epochs.
+Training loss fell 20.28 → 2.01 and train accuracy reached 89.2%. Validation AUC
+rose to ~0.945 by epoch 10, then improved only slowly (0.9502 at epoch 13 →
+0.9636 at epoch 22) while train accuracy climbed from 51% to 89% — the model
+spends the back half of training fitting the training identities faster than it
+gains transferable signal, and the final 8 epochs give nothing back. See
+`results/training_curve.png`. The remaining headroom is in more data, not more
+epochs.
+
+**On input resolution.** An earlier run at 112×112 reached AUC 0.9539 and Rank-1
+46.54%. The ResNet50 trunk is ImageNet-pretrained at 224×224 and the LFW source
+images are 250×250, so the 112 crops were discarding detail the backbone was
+built to use. Re-prepping at 224 cost 2.5× the training time and bought +0.016
+AUC, −2.2 pp EER and **+9.3 pp Rank-1** — the largest single gain of any change
+made to this pipeline.
 
 | Metric | Value |
 |---|---|
-| **ROC-AUC** | **0.9539** |
-| **Rank-1 accuracy** | **46.54%** |
-| Rank-5 accuracy | 71.46% |
-| **Final cosine threshold** | **0.1545** |
-| Accuracy at threshold | 88.68% |
-| EER | 11.21% |
-| TAR @ FAR = 1% | 57.42% |
-| TAR @ FAR = 0.1% | 29.60% |
-| Precision / Recall / F1 | 0.8848 / 0.8894 / 0.8871 |
-| False accepts | 579 / 5,000 impostor pairs |
-| False rejects | 553 / 5,000 genuine pairs |
-| Genuine similarity | 0.3665 ± 0.1759 |
-| Impostor similarity | 0.0125 ± 0.1172 |
+| **ROC-AUC** | **0.9700** |
+| **Rank-1 accuracy** | **55.87%** |
+| Rank-5 accuracy | 81.89% |
+| **Final cosine threshold** | **0.1792** |
+| Accuracy at threshold | 90.94% |
+| EER | 8.98% |
+| TAR @ FAR = 1% | 67.66% |
+| TAR @ FAR = 0.1% | 37.60% |
+| Precision / Recall / F1 | 0.9186 / 0.8984 / 0.9084 |
+| False accepts | 398 / 5,000 impostor pairs |
+| False rejects | 508 / 5,000 genuine pairs |
+| Genuine similarity | 0.3984 ± 0.1751 |
+| Impostor similarity | 0.0125 ± 0.1144 |
 
-Validation split, for reference: AUC 0.9494, EER 11.70%, best accuracy 88.34% —
+Validation split, for reference: AUC 0.9629, EER 9.86%, best accuracy 90.54% —
 close enough to the test numbers that the threshold transfers cleanly.
 
 **Identification.** 120 identities enrolled with one image each, 911 probes.
-Rank-1 = 46.54% against a 0.83% chance baseline (56× better than random), and the
-correct identity sits at mean rank 7.6 out of 120. CMC climbs 46.5 → 57.1 → 64.2
-→ 68.1 → 71.5% over ranks 1–5.
+Rank-1 = 55.87% against a 0.83% chance baseline (67× better than random), and the
+correct identity sits at mean rank 4.51 out of 120.
 
 Single-image enrolment is the hardest setting, and it is the one reported above.
 Enrolling more images per identity averages several embeddings into each
@@ -314,9 +321,9 @@ the cost of fewer images left to probe with:
 
 | Images enrolled | Rank-1 | Rank-5 | Mean rank | Probes |
 |---|---|---|---|---|
-| 1 | 46.54% | 71.46% | 7.60 | 911 |
-| 2 | 59.04% | 85.84% | 4.56 | 791 |
-| 3 | 66.77% | 89.87% | 3.30 | 671 |
+| 1 | 55.87% | 81.89% | 4.51 | 911 |
+| 2 | 72.82% | 91.28% | 2.55 | 791 |
+| 3 | 75.86% | 94.19% | 2.13 | 671 |
 
 Reproduce with `python gallery_probe.py --gallery-per-id 1 --sweep 3`, which
 writes `results/gallery_probe_multishot.json`. The headline figure stays at
@@ -334,16 +341,16 @@ impostor probes:
 |---|---|
 | Enrolled / unknown identities | 80 / 40 |
 | Known / unknown probes | 552 / 399 |
-| Closed-set Rank-1 on this gallery | 54.53% |
-| **DIR @ FPIR = 1%** | **13.95%** (threshold 0.5176) |
-| DIR @ FPIR = 10% | 31.88% (threshold 0.4159) |
-| Mean top-1 similarity, known / unknown | 0.4031 / 0.3252 |
+| Closed-set Rank-1 on this gallery | 64.13% |
+| **DIR @ FPIR = 1%** | **20.11%** (threshold 0.4852) |
+| DIR @ FPIR = 10% | 42.75% (threshold 0.3947) |
+| Mean top-1 similarity, known / unknown | 0.4107 / 0.3175 |
 
 A probe counts as correct only if its top-1 similarity clears the threshold
-*and* points at the right person. Accuracy collapses from 54.5% to 13.9% once
+*and* points at the right person. Accuracy collapses from 64.1% to 20.1% once
 the system must also reject strangers at a 1% false-alarm rate, and the last row
-explains why: an unknown face scores 0.3252 against its nearest gallery entry
-versus 0.4031 for a genuine match. Out of 80 enrolled people, the closest one to
+explains why: an unknown face scores 0.3175 against its nearest gallery entry
+versus 0.4107 for a genuine match. Out of 80 enrolled people, the closest one to
 a stranger is usually a plausible look-alike. Closing that gap needs a stronger
 embedding, not a better threshold.
 
@@ -352,10 +359,10 @@ Reproduce with `python gallery_probe.py --gallery-per-id 1 --open-set 40`.
 **Decision rule**
 
 ```
-Threshold = 0.1545
+Threshold = 0.1792
 
-Similarity >= 0.1545  ->  Match
-Similarity <  0.1545  ->  Non-Match
+Similarity >= 0.1792  ->  Match
+Similarity <  0.1792  ->  Non-Match
 ```
 
 The threshold is chosen on the validation split by maximising verification
@@ -383,21 +390,63 @@ apply it unchanged to test — gives:
 
 | Target FAR | Oracle TAR (test) | Threshold from val | Actual FAR | Actual TAR |
 |---|---|---|---|---|
-| 1% | 57.42% | 0.3283 | 0.96% | 56.92% |
-| 0.1% | 29.60% | 0.4127 | 0.24% | 38.46% |
+| 1% | 67.66% | 0.3149 | 0.86% | 66.30% |
+| 0.1% | 37.60% | 0.4380 | 0.14% | 38.82% |
 
 At FAR = 1% the threshold transfers almost perfectly — 0.5 points of optimism.
 **At FAR = 0.1% the measurement is not trustworthy**, and the reason is sample
 size rather than leakage: 0.1% of 2,500 validation impostor pairs is between two
 and three pairs, so the threshold is being placed from a handful of points and
-overshoots to 0.24% actual FAR. Treat TAR@FAR=0.1% as indicative only. The
-headline numbers — AUC, EER, Rank-1 and the 0.1545 decision threshold — do not
+lands at 0.14% actual FAR. Treat TAR@FAR=0.1% as indicative only. The
+headline numbers — AUC, EER, Rank-1 and the 0.1792 decision threshold — do not
 depend on this and are unaffected.
 
 **Relatives across splits.** LFW contains six members of the Bush family spread
 across train, val and test. They are distinct people, so this is not leakage, but
 related faces make impostor pairs *harder*. If anything it biases the reported
 numbers down, not up.
+
+### Attempts to improve low-FAR performance, and why they were rejected
+
+TAR@FAR=0.1% (37.60%) is the weakest reported metric, so two standard families of
+post-processing were tried. Both are fitted on the **training** split only
+(identities disjoint from val and test), selected on **validation**, and only
+then measured on **test**. Neither was adopted.
+
+**1 — Embedding transforms.** Subtract the training-set mean embedding
+(centering), optionally followed by ZCA whitening, before re-normalising.
+
+| Variant | val TAR@1% / @0.1% | test TAR@1% / @0.1% | test AUC |
+|---|---|---|---|
+| baseline | 66.56% / 37.40% | **67.66% / 37.60%** | **0.9700** |
+| centered | 65.24% / 37.36% | 66.76% / 36.20% | 0.9691 |
+| centered + whitened | 56.32% / **41.24%** | 59.24% / 27.76% | 0.9390 |
+
+Whitening gained **+3.8 points** of TAR@FAR=0.1% on validation and lost
+**−9.8** on test, while dropping AUC by 0.031.
+
+**2 — Cohort score normalisation.** Normalise each pair score against the
+distribution of that image's similarities to a 2,000-image impostor cohort drawn
+from the training split (Z-norm, symmetric S-norm, and adaptive S-norm over the
+top-200 cohort scores).
+
+| Variant | val TAR@1% / @0.1% | test TAR@1% / @0.1% | test AUC |
+|---|---|---|---|
+| baseline | 66.56% / 37.40% | **67.66% / 37.60%** | **0.9700** |
+| Z-norm | 67.44% / 32.84% | 66.06% / 35.28% | 0.9693 |
+| S-norm | 68.56% / 34.00% | 67.66% / 33.90% | 0.9699 |
+| AS-norm (top-200) | **69.84% / 40.60%** | 68.02% / 35.90% | 0.9697 |
+
+AS-norm gained **+3.2 points** on validation and lost **−1.7** on test.
+
+**Conclusion.** Three separate validation-set gains failed to replicate on test,
+which is the behaviour predicted above: at 5,000 impostor pairs, FAR = 0.1% is
+about five pairs, so that operating point cannot support method selection. More
+usefully, none of these transforms moved **AUC** — when post-processing cannot
+extract additional signal, the constraint is the embedding itself rather than how
+its scores are calibrated. That points back at the training set size (7,096
+images), not at the scoring rule. Reaching TAR@FAR=0.1% of 60% would require a
+corpus like CASIA-WebFace, not further tuning.
 
 ### How the threshold affects false accepts and false rejects
 
@@ -444,8 +493,10 @@ the two rates meet. Only a better embedding lifts the whole curve.
   training run; confidence intervals would need k-fold identity splits or
   repeated seeds.
 * **TAR@FAR = 0.1% rests on too few pairs.** At 5,000 impostor pairs, a 0.1%
-  false-accept rate is five pairs, so that operating point carries wide
-  uncertainty. See *Evaluation integrity* above for the measurement.
+  false-accept rate is about five pairs, so that operating point carries wide
+  uncertainty and cannot support method selection — three separate calibration
+  techniques improved it on validation and lost on test. See *Evaluation
+  integrity* above for the measurements.
 * **No liveness / presentation-attack detection.** The system compares images,
   not live subjects — a printed photograph would verify as readily as a face.
 * **Not a benchmark comparison.** These numbers use a custom identity-disjoint

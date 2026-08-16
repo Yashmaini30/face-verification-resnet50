@@ -1,0 +1,32 @@
+[
+  {
+    "gallery_per_identity": 1,
+    "num_identities": 120,
+    "num_gallery_images": 120,
+    "num_probe_images": 911,
+    "rank1_accuracy": 0.5587266739846323,
+    "rank5_accuracy": 0.818880351262349,
+    "chance_rank1": 0.008333333333333333,
+    "mean_rank_of_true_identity": 4.507135016465423
+  },
+  {
+    "gallery_per_identity": 2,
+    "num_identities": 120,
+    "num_gallery_images": 240,
+    "num_probe_images": 791,
+    "rank1_accuracy": 0.7281921618204804,
+    "rank5_accuracy": 0.9127686472819216,
+    "chance_rank1": 0.008333333333333333,
+    "mean_rank_of_true_identity": 2.552465233881163
+  },
+  {
+    "gallery_per_identity": 3,
+    "num_identities": 120,
+    "num_gallery_images": 360,
+    "num_probe_images": 671,
+    "rank1_accuracy": 0.7585692995529061,
+    "rank5_accuracy": 0.9418777943368107,
+    "chance_rank1": 0.008333333333333333,
+    "mean_rank_of_true_identity": 2.1311475409836067
+  }
+]

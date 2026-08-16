@@ -134,7 +134,9 @@ def main():
     if stats:
         sp = stats.get("splits", {})
         story += [
-            Paragraph(f"<b>{stats['dataset_name']}</b> - {stats['source_url']}<br/>"
+            Paragraph(f"<b>{stats['dataset_name']}</b><br/>"
+                      f"<i>Canonical source:</i> {stats.get('canonical_source', '-')}<br/>"
+                      f"<i>Downloaded from:</i> {stats.get('downloaded_from', '-')}<br/>"
                       f"<i>Licence:</i> {stats['licence']} Images come from public news "
                       f"photographs; no law-enforcement or criminal-record imagery is involved.", BODY),
             table([
@@ -157,7 +159,7 @@ def main():
 
     story += [
         Paragraph("3. Model and training strategy", H2),
-        Paragraph("<b>Architecture.</b> Face image (3x112x112) -> ResNet50 trunk "
+        Paragraph("<b>Architecture.</b> Face image (3x224x224) -> ResNet50 trunk "
                   "(ImageNet-pretrained, classifier removed) -> global average pooling (2048-D) -> "
                   "Dropout -> Linear(512, no bias) -> BatchNorm1d -> L2 normalisation -> 512-D "
                   "embedding on the unit hypersphere.", BODY),
@@ -272,6 +274,22 @@ def main():
     story += figure("threshold_analysis.png",
                     "Figure 4 - FAR, FRR and accuracy across the threshold range. The FAR/FRR "
                     "crossing point is the EER.")
+
+    story += [
+        Paragraph("<b>Attempts to improve low-FAR performance.</b> TAR@FAR=0.1% is the weakest "
+                  "reported metric, so two standard families of post-processing were tried, each "
+                  "fitted on the training split only and selected on validation before being "
+                  "measured on test. Embedding transforms (mean-centering, ZCA whitening) and "
+                  "cohort score normalisation (Z-norm, S-norm, adaptive S-norm) were both "
+                  "rejected. Whitening gained 3.8 points of TAR@FAR=0.1% on validation and lost "
+                  "9.8 on test; adaptive S-norm gained 3.2 on validation and lost 1.7 on test. "
+                  "Three validation gains in a row failed to replicate, which is exactly what "
+                  "should be expected when FAR = 0.1% corresponds to about five impostor pairs. "
+                  "Critically, none of these transforms moved AUC at all - when post-processing "
+                  "cannot extract more signal, the constraint is the embedding rather than the "
+                  "scoring rule, which points back at the 7,096-image training set. Full tables "
+                  "are in the README.", BODY),
+    ]
 
     story.append(Paragraph("7. Gallery / probe identification", H2))
     if ident:

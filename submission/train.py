@@ -86,6 +86,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--dim", type=int, default=512)
+    ap.add_argument("--size", type=int, default=224)
     ap.add_argument("--epochs", type=int, default=30)
     ap.add_argument("--batch-p", type=int, default=16)
     ap.add_argument("--batch-k", type=int, default=4)
@@ -115,7 +116,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     print(f"device={device}")
 
-    ds = FaceData(args.root, "train", train_tf())
+    ds = FaceData(args.root, "train", train_tf(args.size))
     sampler = PKSampler(ds, args.batch_p, args.batch_k, args.batches_per_epoch)
     loader = DataLoader(ds, batch_sampler=sampler, num_workers=args.workers,
                         pin_memory=(device.type == "cuda"),
@@ -123,7 +124,7 @@ def main():
     print(f"{len(ds)} images / {len(ds.classes)} identities, {len(sampler)} batches "
           f"of {args.batch_p * args.batch_k}")
 
-    model = FaceNet(args.dim).to(device)
+    model = FaceNet(args.dim, size=args.size).to(device)
     head = ArcFace(args.dim, len(ds.classes), args.arc_scale, args.arc_margin).to(device)
     criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
 
@@ -203,7 +204,8 @@ def main():
 
         if m["roc_auc"] > best:
             best = m["roc_auc"]
-            torch.save({"model": model.state_dict(), "dim": args.dim, "epoch": epoch,
+            torch.save({"model": model.state_dict(), "dim": args.dim, "size": args.size,
+                        "epoch": epoch,
                         "val_metrics": m, "backbone": "resnet50",
                         "train_identities": len(ds.classes)}, out / "best_model.pth")
             print(f"        saved (val AUC {best:.4f})")
@@ -211,6 +213,7 @@ def main():
     (out / "training_history.json").write_text(json.dumps({
         "backbone": "resnet50",
         "dim": args.dim,
+        "size": args.size,
         "train_identities": len(ds.classes),
         "train_images": len(ds),
         "history": history,

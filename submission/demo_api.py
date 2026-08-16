@@ -26,7 +26,7 @@ from dataset_preparation import Cropper
 from model import embed, eval_tf, load_model
 
 ROOT = Path(__file__).resolve().parent
-DEFAULT_THRESHOLD = 0.1545
+DEFAULT_THRESHOLD = 0.1792
 
 app = FastAPI(title="Face Verification")
 state = {}
@@ -135,8 +135,8 @@ async def index():
 def setup(checkpoint, gallery_split, gallery_per_id, device):
     state["device"] = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
     state["model"] = load_model(checkpoint, state["device"])
-    state["cropper"] = Cropper()
-    state["tf"] = eval_tf()
+    state["cropper"] = Cropper(size=state["model"].input_size)
+    state["tf"] = eval_tf(state["model"].input_size)
     state["threshold"] = load_threshold()
     state["templates"] = None
     state["names"] = []

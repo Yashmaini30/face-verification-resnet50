@@ -12,12 +12,12 @@ from torchvision.models import ResNet50_Weights, resnet50
 
 MEAN = (0.485, 0.456, 0.406)
 STD = (0.229, 0.224, 0.225)
-SIZE = 112
+SIZE = 224
 
 
-def train_tf():
+def train_tf(size=SIZE):
     return transforms.Compose([
-        transforms.Resize((SIZE, SIZE)),
+        transforms.Resize((size, size)),
         transforms.RandomHorizontalFlip(),
         transforms.RandomApply(
             [transforms.RandomAffine(8, translate=(0.05, 0.05), scale=(0.92, 1.08))], p=0.7),
@@ -28,9 +28,9 @@ def train_tf():
     ])
 
 
-def eval_tf():
+def eval_tf(size=SIZE):
     return transforms.Compose([
-        transforms.Resize((SIZE, SIZE)),
+        transforms.Resize((size, size)),
         transforms.ToTensor(),
         transforms.Normalize(MEAN, STD),
     ])
@@ -49,7 +49,7 @@ class PathData(Dataset):
 
 
 class FaceNet(nn.Module):
-    def __init__(self, dim=512, pretrained=True, dropout=0.4):
+    def __init__(self, dim=512, pretrained=True, dropout=0.4, size=SIZE):
         super().__init__()
         net = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2 if pretrained else None)
         self.trunk = nn.Sequential(*list(net.children())[:-1])
@@ -59,6 +59,7 @@ class FaceNet(nn.Module):
             nn.BatchNorm1d(dim),
         )
         self.dim = dim
+        self.input_size = size
 
     def forward(self, x, normalize=True):
         z = self.head(self.trunk(x).flatten(1))
@@ -103,7 +104,8 @@ def triplet_loss(z, y, margin=0.3):
 
 def load_model(path, device="cpu"):
     ckpt = torch.load(path, map_location=device, weights_only=False)
-    model = FaceNet(dim=ckpt.get("dim", 512), pretrained=False)
+    model = FaceNet(dim=ckpt.get("dim", 512), pretrained=False,
+                    size=ckpt.get("size", SIZE))
     model.load_state_dict(ckpt["model"])
     return model.to(device).eval()
 
@@ -111,7 +113,8 @@ def load_model(path, device="cpu"):
 @torch.no_grad()
 def embed(model, paths, device, batch_size=128, workers=0):
     """L2-normalised embeddings for paths, with horizontal-flip TTA."""
-    loader = DataLoader(PathData(paths), batch_size=batch_size, num_workers=workers,
+    tf = eval_tf(getattr(model, "input_size", SIZE))
+    loader = DataLoader(PathData(paths, tf), batch_size=batch_size, num_workers=workers,
                         pin_memory=(str(device) == "cuda"))
     model.eval()
     out = []

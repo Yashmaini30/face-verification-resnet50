@@ -1,0 +1,100 @@
+# Face Verification / Re-Identification
+
+A face verification and re-identification pipeline built on a ResNet50 embedding
+model. Given two face images it answers *"are these the same person?"* using
+cosine similarity between 512-D L2-normalised embeddings, and it identifies a
+face against an enrolled gallery.
+
+The ArcFace head and batch-hard triplet loss are implemented from scratch. No
+packaged face-recognition library (`face_recognition`, `deepface`, `insightface`,
+`facenet-pytorch`) is used — the only pretrained component is the ImageNet
+ResNet50 backbone.
+
+## Results
+
+Measured on **120 identities that never appear in training** (LFW, identity-disjoint split).
+
+| | |
+|---|---|
+| ROC-AUC | **0.9700** |
+| Equal Error Rate | 8.98% |
+| Verification accuracy | 90.94% at threshold **0.1792** |
+| Rank-1 / Rank-5 | **55.87%** / 81.89% (chance 0.83%) |
+| TAR @ FAR = 1% | 67.66% |
+| Open-set DIR @ FPIR = 1% | 20.11% |
+
+<p align="center">
+  <img src="submission/results/roc_curve.png" width="90%"><br>
+  <img src="submission/results/similarity_distribution.png" width="70%">
+</p>
+
+## Pipeline
+
+```
+LFW  →  face detection / alignment / crop  →  224×224
+     →  ResNet50  →  512-D embedding  →  L2 normalise
+     →  ├── pair generation → cosine similarity → ROC / AUC → threshold
+        └── gallery + probe → cosine search → Rank-1 / CMC / open-set
+```
+
+Trained with **ArcFace cross-entropy + batch-hard triplet loss**: ArcFace because
+the deployed system scores by cosine similarity, so training should optimise the
+same angular geometry; the triplet term because the classifier is discarded at
+inference and hard mining works directly on the sample-to-sample distances the
+ROC is built from.
+
+## Quick start
+
+```bash
+pip install -r submission/requirements.txt
+cd submission
+
+python dataset_preparation.py --size 224   # download + preprocess LFW (~13 min)
+python train.py --root . --size 224 --epochs 30   # or colab_train.ipynb for a free GPU
+python generate_pairs.py --split test --n-positive 5000 --n-negative 5000 --out results/pairs_test.csv
+python evaluate_pairs.py --pairs results/pairs_test.csv --out results/pair_scores.csv
+python gallery_probe.py --gallery-per-id 1
+python roc_analysis.py
+```
+
+Try it on your own photos:
+
+```bash
+python demo_api.py --gallery test
+# open http://127.0.0.1:8000
+```
+
+## Repository
+
+| Path | |
+|---|---|
+| [`submission/README.md`](submission/README.md) | Full documentation — dataset licence, methodology, results, limitations |
+| [`submission/report.pdf`](submission/report.pdf) | Technical report |
+| [`submission/`](submission/) | All code, checkpoints and result artefacts |
+| [`submission/check_leakage.py`](submission/check_leakage.py) | Independent audit of the no-leakage claims |
+
+`submission/dataset/` is not committed (74 MB); `dataset_preparation.py`
+regenerates it byte-for-byte from the LFW archive.
+
+## Dataset
+
+**Labeled Faces in the Wild**, funneled variant — 1,680 identities / 9,164 images
+after preprocessing. Free for non-commercial research use; images come from
+public news photographs. Nothing was scraped, and no law-enforcement or
+criminal-record imagery is involved. Splits are drawn over **identities**, so no
+test person appears anywhere in training.
+
+The dataset's canonical home, `http://vis-www.cs.umass.edu/lfw/`, **stopped
+resolving in August 2026**. It is cited for attribution, but the archive is
+downloaded from the [figshare mirror](https://ndownloader.figshare.com/files/5976015)
+that `scikit-learn` uses. See [`submission/README.md`](submission/README.md#1-dataset)
+for the full provenance record.
+
+## Known limitations
+
+Absolute accuracy sits below published LFW figures because those train on
+external corpora orders of magnitude larger than the ~7k images used here. LFW
+skews heavily towards light-skinned adult males in frontal poses, so these
+numbers are **not** evidence of fairness across demographics. Open-set rejection
+is measured rather than assumed, and it is weak. Full discussion in
+[`submission/README.md`](submission/README.md#9-known-limitations).

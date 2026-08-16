@@ -12,14 +12,23 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+# The canonical UMass host (vis-www.cs.umass.edu) stopped resolving in Aug 2026,
+# so the figshare mirror that scikit-learn uses is tried first and UMass is kept
+# as a fallback in case it comes back.
 URLS = [
-    "http://vis-www.cs.umass.edu/lfw/lfw-deepfunneled.tgz",
     "https://ndownloader.figshare.com/files/5976015",
+    "http://vis-www.cs.umass.edu/lfw/lfw-deepfunneled.tgz",
 ]
+
+SOURCES = {
+    "lfw_funneled": ("funneled", "https://ndownloader.figshare.com/files/5976015"),
+    "lfw-deepfunneled": ("deep-funneled", "http://vis-www.cs.umass.edu/lfw/lfw-deepfunneled.tgz"),
+    "lfw": ("original (unfunneled)", "http://vis-www.cs.umass.edu/lfw/lfw.tgz"),
+}
 
 MIN_EVAL = 4
 MIN_TRAIN = 2
-SIZE = 112
+SIZE = 224
 MARGIN = 0.30
 SEED = 42
 
@@ -166,6 +175,7 @@ def main():
     ap.add_argument("--out-dir", default="dataset")
     ap.add_argument("--n-test", type=int, default=120)
     ap.add_argument("--n-val", type=int, default=60)
+    ap.add_argument("--size", type=int, default=SIZE)
     ap.add_argument("--seed", type=int, default=SEED)
     ap.add_argument("--force", action="store_true")
     args = ap.parse_args()
@@ -187,7 +197,7 @@ def main():
     for k, v in splits.items():
         print(f"  {k}: {len(v)} identities")
 
-    cropper = Cropper()
+    cropper = Cropper(size=args.size)
     ordered = sorted((s, p) for s in splits for p in splits[s])
     ordered.sort(key=lambda t: t[1])
 
@@ -216,13 +226,14 @@ def main():
         if i % 200 == 0:
             print(f"  {i}/{len(ordered)}")
 
-    variant = {"lfw-deepfunneled": "deep-funneled", "lfw_funneled": "funneled"}.get(lfw.name, lfw.name)
+    variant, download_url = SOURCES.get(lfw.name, (lfw.name, "unknown"))
     stats = {
         "dataset_name": f"Labeled Faces in the Wild ({variant})",
         "archive_folder": lfw.name,
-        "source_url": "http://vis-www.cs.umass.edu/lfw/",
+        "downloaded_from": download_url,
+        "canonical_source": "http://vis-www.cs.umass.edu/lfw/ (offline since Aug 2026)",
         "licence": "Free for non-commercial research use; images from public news photographs.",
-        "image_size": SIZE,
+        "image_size": args.size,
         "seed": args.seed,
         "num_identities": len(manifest),
         "num_images": total,
