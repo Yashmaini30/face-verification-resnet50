@@ -139,6 +139,11 @@ threshold is read from `results/evaluation_results.json`, so the service always
 decides with the same value the evaluation reported. If no face is detected the
 request fails with 422 rather than silently scoring a centre crop.
 
+A hosted Streamlit version of the same demo lives in [`demo/`](../demo/); it
+pulls the weights from
+[huggingface.co/yashMaini/face-verification-resnet50](https://huggingface.co/yashMaini/face-verification-resnet50)
+rather than requiring a local checkpoint.
+
 ---
 
 ## 4. Model architecture

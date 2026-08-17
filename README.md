@@ -10,6 +10,14 @@ packaged face-recognition library (`face_recognition`, `deepface`, `insightface`
 `facenet-pytorch`) is used — the only pretrained component is the ImageNet
 ResNet50 backbone.
 
+## Links
+
+| | |
+|---|---|
+| **Live demo** | Streamlit app in [`demo/`](demo/) — upload two photos, get a same/different verdict |
+| **Model weights** | [huggingface.co/yashMaini/face-verification-resnet50](https://huggingface.co/yashMaini/face-verification-resnet50) |
+| **Technical report** | [`submission/report.pdf`](submission/report.pdf) |
+
 ## Results
 
 Measured on **120 identities that never appear in training** (LFW, identity-disjoint split).
