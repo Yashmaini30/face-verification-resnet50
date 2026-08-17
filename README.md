@@ -18,6 +18,7 @@ ResNet50 backbone.
 | **REST API** | FastAPI service in [`demo/api.py`](demo/api.py) — `/verify`, `/identify`, `/health`, interactive docs at `/docs` |
 | **Model weights** | [huggingface.co/yashMaini/face-verification-resnet50](https://huggingface.co/yashMaini/face-verification-resnet50) |
 | **Technical report** | [`submission/report.pdf`](submission/report.pdf) |
+| **Metrics summary (txt)** | [`submission/results/metrics_summary.txt`](submission/results/metrics_summary.txt) — every number in one plain-text file |
 
 ## Results
 

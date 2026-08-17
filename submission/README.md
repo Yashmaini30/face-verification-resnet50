@@ -444,6 +444,20 @@ The headline numbers elsewhere in this README stay on the 5k/5k protocol, which
 is what the assessment specifies; the exhaustive run is reported alongside it
 because low-FAR claims need the extra pairs to mean anything.
 
+### Plain-text metrics summary
+
+Everything above in one readable file, regenerated from the result JSONs so the
+text can never drift from the measurements:
+
+```bash
+python make_summary.py     # -> results/metrics_summary.txt
+```
+
+`results/metrics_summary.txt` covers the dataset and splits, training, pair
+counts, verification metrics with the full FAR/FRR breakdown, the exhaustive
+low-FAR table, identification and multi-shot results, open-set numbers, the top
+15 false accepts and false rejects by name, and a short guide to reading them.
+
 ### Error analysis — the actual false accepts and false rejects
 
 `error_analysis.py` lists every pair the system gets wrong at the operating
