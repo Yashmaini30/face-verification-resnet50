@@ -405,6 +405,40 @@ across train, val and test. They are distinct people, so this is not leakage, bu
 related faces make impostor pairs *harder*. If anything it biases the reported
 numbers down, not up.
 
+### Exhaustive evaluation — resolving FAR below 10⁻⁴
+
+The 5,000 + 5,000 sampled set the assessment asks for cannot resolve a FAR
+smaller than 1/5000 = 2×10⁻⁴, so its low-FAR operating points rest on a handful
+of pairs. Scoring **every** pair in the test split instead — all C(1031, 2) =
+530,965 of them — raises the impostor count from 5,000 to **523,104** and makes
+FAR down to 1.9×10⁻⁶ measurable.
+
+```bash
+python roc_analysis.py --exhaustive --split test
+```
+
+| | 5k/5k sample | **all pairs** |
+|---|---|---|
+| Genuine / impostor pairs | 5,000 / 5,000 | 7,861 / **523,104** |
+| Smallest measurable FAR | 2.0×10⁻⁴ | **1.9×10⁻⁶** |
+| ROC-AUC | 0.9700 | **0.9710** |
+| EER | 8.98% | **8.92%** |
+| TAR @ FAR = 10⁻² | 67.66% | **67.07%** (5,231 pairs) |
+| TAR @ FAR = 10⁻³ | 37.60% *(5 pairs)* | **40.34%** (523 pairs) |
+| TAR @ FAR = 10⁻⁴ | not measurable | **23.14%** (52 pairs) |
+| TAR @ FAR = 10⁻⁵ | not measurable | **12.64%** (5 pairs) |
+
+AUC and EER agree to within 0.001 and 0.06 points, which confirms the sampled
+set was representative — the round-robin pair sampling did not bias the
+distribution. What changes is *resolution*: TAR@FAR=10⁻³ moves from 37.60% to
+40.34%, and the sampled figure was the noisy one, resting on about five pairs
+against 523. `results/roc_curve_exhaustive.png` plots this down to 10⁻⁵, where
+the curve is smooth rather than a staircase.
+
+The headline numbers elsewhere in this README stay on the 5k/5k protocol, which
+is what the assessment specifies; the exhaustive run is reported alongside it
+because low-FAR claims need the extra pairs to mean anything.
+
 ### Attempts to improve low-FAR performance, and why they were rejected
 
 TAR@FAR=0.1% (37.60%) is the weakest reported metric, so two standard families of

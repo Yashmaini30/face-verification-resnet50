@@ -82,7 +82,7 @@ def metrics(scores, labels, threshold=None):
         "genuine_std": float(gen.std()),
         "impostor_mean": float(imp.mean()),
         "impostor_std": float(imp.std()),
-        "roc_curve": {"fpr": fpr.tolist(), "tpr": tpr.tolist()},
+        "roc_curve": {"fpr": fpr.tolist(), "tpr": tpr.tolist(), "thresholds": thr.tolist()},
     }
 
 
@@ -162,8 +162,76 @@ def plot_sweep(scores, labels, t, path):
     plt.close()
 
 
+def exhaustive_scores(root, split, checkpoint, batch_size=64, workers=0, device=None):
+    """Score every possible pair in a split, not a 5k/5k sample.
+
+    The sampled evaluation set cannot resolve below FAR = 1/5000 = 2e-4, so the
+    low-FAR operating points rest on a handful of pairs. Using all C(n,2) pairs
+    of the split raises the impostor count by two orders of magnitude and makes
+    FAR down to ~1e-6 measurable.
+    """
+    import torch
+    from dataset_preparation import load_split
+    from model import embed, load_model
+
+    dev = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
+    model = load_model(checkpoint, dev)
+
+    people = load_split(root, split)
+    paths, owner = [], []
+    for person, imgs in people.items():
+        paths += imgs
+        owner += [person] * len(imgs)
+
+    z = embed(model, paths, dev, batch_size, workers)
+    sim = z @ z.T
+    own = np.array(owner)
+    same = own[:, None] == own[None, :]
+    iu = np.triu_indices(len(paths), k=1)
+    return sim[iu], same[iu].astype(int), len(paths)
+
+
+def plot_lowfar(m, path, marks=(1e-2, 1e-3, 1e-4, 1e-5)):
+    fpr = np.array(m["roc_curve"]["fpr"])
+    tpr = np.array(m["roc_curve"]["tpr"])
+    fig, ax = plt.subplots(1, 2, figsize=(13, 5.5))
+
+    ax[0].plot(fpr, tpr, lw=2, color="#1f77b4", label=f"ROC (AUC = {m['roc_auc']:.4f})")
+    ax[0].plot([0, 1], [0, 1], "--", color="grey", lw=1, label="Chance")
+    ax[0].plot(m["eer"], 1 - m["eer"], "o", color="#d62728", ms=8, label=f"EER = {m['eer']:.4f}")
+    ax[0].set_xlabel("False Positive Rate (FAR)")
+    ax[0].set_ylabel("True Positive Rate (TAR)")
+    ax[0].set_title("ROC curve - face verification (all pairs)")
+    ax[0].legend(loc="lower right")
+    ax[0].grid(alpha=0.3)
+
+    keep = fpr > 0
+    ax[1].semilogx(fpr[keep], tpr[keep], lw=2, color="#1f77b4")
+    for far in marks:
+        ok = np.where(fpr <= far)[0]
+        if ok.size == 0:
+            continue
+        ax[1].axvline(far, ls="--", color="grey", lw=1)
+        ax[1].plot(far, tpr[ok[-1]], "o", ms=7, label=f"TAR@FAR={far:g} = {tpr[ok[-1]]:.4f}")
+    ax[1].set_xlim(left=min(marks) / 2)
+    ax[1].set_xlabel("False Positive Rate (log scale)")
+    ax[1].set_ylabel("True Positive Rate")
+    ax[1].set_title("Low-FAR operating region")
+    ax[1].legend(loc="lower right", fontsize=8)
+    ax[1].grid(alpha=0.3, which="both")
+
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--exhaustive", action="store_true",
+                    help="score every pair in the split instead of the 5k/5k sample")
+    ap.add_argument("--split", default="test")
+    ap.add_argument("--root", default=".")
+    ap.add_argument("--checkpoint", default="checkpoints/best_model.pth")
     ap.add_argument("--scores", default="results/pair_scores.csv")
     ap.add_argument("--val-scores", default="results/pair_scores_val.csv")
     ap.add_argument("--results-dir", default="results")
@@ -171,6 +239,42 @@ def main():
 
     res = Path(args.results_dir)
     res.mkdir(parents=True, exist_ok=True)
+
+    if args.exhaustive:
+        scores, labels, n_img = exhaustive_scores(args.root, args.split, args.checkpoint)
+        m = metrics(scores, labels)
+        plot_lowfar(m, res / "roc_curve_exhaustive.png")
+        curve = m.pop("roc_curve")
+        fpr, tpr = np.array(curve["fpr"]), np.array(curve["tpr"])
+        n_imp = int((labels == 0).sum())
+        out = {
+            "protocol": f"all C(n,2) pairs of the {args.split} split",
+            "num_images": n_img,
+            "num_genuine": int(labels.sum()),
+            "num_impostor": n_imp,
+            "smallest_measurable_far": 1.0 / n_imp,
+            "roc_auc": m["roc_auc"],
+            "eer": m["eer"],
+            "tar_at_far": {},
+        }
+        for far in (1e-2, 1e-3, 1e-4, 1e-5):
+            ok = np.where(fpr <= far)[0]
+            if ok.size:
+                out["tar_at_far"][f"{far:g}"] = {
+                    "tar": float(tpr[ok[-1]]),
+                    "threshold": float(curve["thresholds"][ok[-1]]) if "thresholds" in curve else None,
+                    "impostor_pairs_at_this_far": round(far * n_imp, 1),
+                }
+        (res / "exhaustive_metrics.json").write_text(json.dumps(out, indent=2))
+        print(f"\n--- exhaustive ({args.split}) ---")
+        print(f"  images {n_img}  genuine {out['num_genuine']:,}  impostor {n_imp:,}")
+        print(f"  smallest measurable FAR = {out['smallest_measurable_far']:.2e}")
+        print(f"  AUC {m['roc_auc']:.4f}   EER {m['eer']*100:.2f}%")
+        for k, v in out["tar_at_far"].items():
+            print(f"  TAR@FAR={k:<6s} {v['tar']*100:6.2f}%   ({v['impostor_pairs_at_this_far']} impostor pairs)")
+        print(f"\n[roc] wrote roc_curve_exhaustive.png and exhaustive_metrics.json -> {res}")
+        return
+
     scores, labels = read_scores(args.scores)
 
     # threshold comes from validation so the test numbers stay honest

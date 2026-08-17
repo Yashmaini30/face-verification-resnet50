@@ -1,0 +1,31 @@
+{
+  "protocol": "all C(n,2) pairs of the test split",
+  "num_images": 1031,
+  "num_genuine": 7861,
+  "num_impostor": 523104,
+  "smallest_measurable_far": 1.911665749067107e-06,
+  "roc_auc": 0.9710410831283257,
+  "eer": 0.08917585041008956,
+  "tar_at_far": {
+    "0.01": {
+      "tar": 0.6706525887291693,
+      "threshold": 0.3122794032096863,
+      "impostor_pairs_at_this_far": 5231.0
+    },
+    "0.001": {
+      "tar": 0.40338379341050756,
+      "threshold": 0.42414724826812744,
+      "impostor_pairs_at_this_far": 523.1
+    },
+    "0.0001": {
+      "tar": 0.2313954967561379,
+      "threshold": 0.5202609896659851,
+      "impostor_pairs_at_this_far": 52.3
+    },
+    "1e-05": {
+      "tar": 0.12644701691896706,
+      "threshold": 0.6140795946121216,
+      "impostor_pairs_at_this_far": 5.2
+    }
+  }
+}

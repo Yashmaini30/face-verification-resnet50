@@ -28,6 +28,29 @@ Measured on **120 identities that never appear in training** (LFW, identity-disj
   <img src="submission/results/similarity_distribution.png" width="70%">
 </p>
 
+### Low-FAR operating points
+
+The 5,000 + 5,000 evaluation set the assessment specifies cannot resolve a
+false-accept rate below 1/5000 = 2×10⁻⁴. Scoring **every** test pair instead —
+all 530,965, of which 523,104 are impostors — pushes the measurement floor to
+1.9×10⁻⁶:
+
+| FAR | TAR | impostor pairs behind it |
+|---|---|---|
+| 10⁻² | 67.07% | 5,231 |
+| 10⁻³ | **40.34%** | 523 |
+| 10⁻⁴ | 23.14% | 52 |
+| 10⁻⁵ | 12.64% | 5 — a plot endpoint, not a reliable measurement |
+
+<p align="center">
+  <img src="submission/results/roc_curve_exhaustive.png" width="90%">
+</p>
+
+AUC 0.9710 and EER 8.92% on all pairs, within 0.001 and 0.06 points of the
+sampled protocol — so the round-robin sampling was representative and what
+changes is resolution, not bias. Reproduce with
+`python roc_analysis.py --exhaustive --split test`.
+
 ## Pipeline
 
 ```
@@ -73,7 +96,7 @@ python demo_api.py --gallery test
 | [`submission/`](submission/) | All code, checkpoints and result artefacts |
 | [`submission/check_leakage.py`](submission/check_leakage.py) | Independent audit of the no-leakage claims |
 
-`submission/dataset/` is not committed (74 MB); `dataset_preparation.py`
+`submission/dataset/` is not committed (145 MB); `dataset_preparation.py`
 regenerates it byte-for-byte from the LFW archive.
 
 ## Dataset
