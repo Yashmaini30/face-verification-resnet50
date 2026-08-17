@@ -24,8 +24,10 @@ Measured on **120 identities that never appear in training** (LFW, identity-disj
 | Open-set DIR @ FPIR = 1% | 20.11% |
 
 <p align="center">
-  <img src="submission/results/roc_curve.png" width="90%"><br>
-  <img src="submission/results/similarity_distribution.png" width="70%">
+  <img src="submission/results/roc_curve_exhaustive.png" width="92%"><br>
+  <sub>ROC over all 530,965 test pairs. The right panel resolves down to FAR = 10⁻⁵.</sub><br><br>
+  <img src="submission/results/similarity_distribution.png" width="72%"><br>
+  <sub>Genuine vs impostor cosine similarity, with the 0.1792 decision threshold.</sub>
 </p>
 
 ### Low-FAR operating points
@@ -41,10 +43,6 @@ all 530,965, of which 523,104 are impostors — pushes the measurement floor to
 | 10⁻³ | **40.34%** | 523 |
 | 10⁻⁴ | 23.14% | 52 |
 | 10⁻⁵ | 12.64% | 5 — a plot endpoint, not a reliable measurement |
-
-<p align="center">
-  <img src="submission/results/roc_curve_exhaustive.png" width="90%">
-</p>
 
 AUC 0.9710 and EER 8.92% on all pairs, within 0.001 and 0.06 points of the
 sampled protocol — so the round-robin sampling was representative and what
