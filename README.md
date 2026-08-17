@@ -14,7 +14,7 @@ ResNet50 backbone.
 
 | | |
 |---|---|
-| **Live demo** | <https://face-verification-resnet50-mainiyash.streamlit.app> — verify two photos, or enrol a gallery and identify a probe |
+| **Live demo** | <https://face-verification-resnet50-mainiyash.streamlit.app> — verify two photos, or identify a probe against a built-in 120-identity gallery |
 | **REST API** | FastAPI service in [`demo/api.py`](demo/api.py) — `/verify`, `/identify`, `/health`, interactive docs at `/docs` |
 | **Model weights** | [huggingface.co/yashMaini/face-verification-resnet50](https://huggingface.co/yashMaini/face-verification-resnet50) |
 | **Technical report** | [`submission/report.pdf`](submission/report.pdf) |
@@ -52,6 +52,8 @@ all 530,965, of which 523,104 are impostors — pushes the measurement floor to
 | 10⁻³ | **40.34%** | 523 |
 | 10⁻⁴ | 23.14% | 52 |
 | 10⁻⁵ | 12.64% | 5 — a plot endpoint, not a reliable measurement |
+
+Every pair the system gets wrong is listed out: [`false_accepts.csv`](submission/results/false_accepts.csv) — 398 impostor pairs accepted at the threshold, **7.96% FAR** — and [`false_rejects.csv`](submission/results/false_rejects.csv) — 508 genuine pairs rejected, **10.16% FRR** — both with real identity names, scores and margins, plus montages of the worst cases in `submission/results/`.
 
 AUC 0.9710 and EER 8.92% on all pairs, within 0.001 and 0.06 points of the
 sampled protocol — so the round-robin sampling was representative and what

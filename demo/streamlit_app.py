@@ -101,6 +101,16 @@ def load():
     return model, Cropper(), tf
 
 
+GALLERY_DIR = Path(__file__).parent / "gallery"
+
+
+@st.cache_resource(show_spinner="Loading gallery…")
+def load_gallery():
+    """120 pre-enrolled test identities: templates, display names, folder ids."""
+    d = np.load(GALLERY_DIR / "gallery.npz", allow_pickle=False)
+    return d["templates"], list(d["labels"]), list(d["folders"])
+
+
 model, cropper, tf = load()
 
 
@@ -188,57 +198,86 @@ with tab_v:
             )
 
 with tab_i:
-    st.write(
-        "Enrol a few people by uploading one photo each — the filename becomes the label — "
-        "then upload a probe photo. The probe is compared against every enrolled face by "
-        "cosine similarity and ranked. This is the gallery/probe protocol from the report, "
-        "run on your own images."
-    )
-    g_files = st.file_uploader("Gallery — one photo per person", type=["jpg", "jpeg", "png"],
-                               accept_multiple_files=True, key="gal")
-    p_file = st.file_uploader("Probe — who is this?", type=["jpg", "jpeg", "png"], key="probe")
+    mode = st.radio("Gallery", ["Built-in — 120 LFW identities from the test split",
+                                "Upload my own gallery"], key="galmode")
+    builtin = mode.startswith("Built-in")
 
-    gallery, skipped = [], []
-    for f in g_files or []:
-        face = cropper(to_bgr(Image.open(f)))
-        (gallery.append((Path(f.name).stem, face)) if face is not None else skipped.append(f.name))
-    if skipped:
-        st.warning("No face detected, skipped: " + ", ".join(skipped))
-    if gallery:
-        st.caption(f"{len(gallery)} identities enrolled")
-        st.image([cv2.cvtColor(f, cv2.COLOR_BGR2RGB) for _, f in gallery],
-                 caption=[n for n, _ in gallery], width=96)
+    if builtin:
+        st.write(
+            "The gallery holds **120 identities** from the held-out test split, each enrolled "
+            "from 2 photos averaged into a single template — the same protocol as the report. "
+            "Upload a probe and it is ranked against all 120 by cosine similarity. "
+            "Rank-1 on this gallery is **72.82%**, Rank-5 **91.28%** (chance 0.83%)."
+        )
+        probe_file = st.file_uploader("Probe — who is this?", type=["jpg", "jpeg", "png"],
+                                      key="probe_builtin")
+        gallery = None
+    else:
+        st.write(
+            "Enrol a few people by uploading one photo each — the filename becomes the label — "
+            "then upload a probe. The probe is compared against every enrolled face by cosine "
+            "similarity and ranked, the same protocol run on your own images."
+        )
+        g_files = st.file_uploader("Gallery — one photo per person", type=["jpg", "jpeg", "png"],
+                                   accept_multiple_files=True, key="gal")
+        probe_file = st.file_uploader("Probe — who is this?", type=["jpg", "jpeg", "png"],
+                                      key="probe")
+        gallery, skipped = [], []
+        for f in g_files or []:
+            face = cropper(to_bgr(Image.open(f)))
+            (gallery.append((Path(f.name).stem, face)) if face is not None
+             else skipped.append(f.name))
+        if skipped:
+            st.warning("No face detected, skipped: " + ", ".join(skipped))
+        if gallery:
+            st.caption(f"{len(gallery)} identities enrolled")
+            st.image([cv2.cvtColor(f, cv2.COLOR_BGR2RGB) for _, f in gallery],
+                     caption=[n for n, _ in gallery], width=96)
 
-    if p_file and len(gallery) >= 2:
-        probe = cropper(to_bgr(Image.open(p_file)))
-        if probe is None:
-            st.error("No face detected in the probe image.")
+    probe = cropper(to_bgr(Image.open(probe_file))) if probe_file else None
+    if probe_file and probe is None:
+        st.error("No face detected in the probe image.")
+
+    ranked = None
+    if probe is not None:
+        if builtin:
+            T, labels, folders = load_gallery()
+            sim = T @ embed(probe)
+            order = np.argsort(-sim)[:5]
+            ranked = [(labels[i], float(sim[i]), GALLERY_DIR / "thumbs" / f"{folders[i]}.jpg")
+                      for i in order]
+        elif gallery and len(gallery) >= 2:
+            ranked = [(n, s, f) for n, s, f in rank_probe(probe, gallery)][:5]
         else:
-            ranked = rank_probe(probe, gallery)
-            c1, c2 = st.columns([1, 3])
-            c1.image(cv2.cvtColor(probe, cv2.COLOR_BGR2RGB), caption="Probe", width=140)
-            top_name, top_score, _ = ranked[0]
-            gap = top_score - (ranked[1][1] if len(ranked) > 1 else -1.0)
-            if top_score >= THRESHOLD:
-                c2.success(f"### Rank-1: {top_name}\n\nsimilarity {top_score:.4f} "
-                           f"· leads runner-up by {gap:+.4f}")
+            st.info("Enrol at least two people first, so there is something to rank against.")
+
+    if ranked:
+        c1, c2 = st.columns([1, 3])
+        c1.image(cv2.cvtColor(probe, cv2.COLOR_BGR2RGB), caption="Probe", width=140)
+        top_name, top_score, _ = ranked[0]
+        gap = top_score - (ranked[1][1] if len(ranked) > 1 else -1.0)
+        if top_score >= THRESHOLD:
+            c2.success(f"### Rank-1: {top_name}\n\nsimilarity {top_score:.4f} "
+                       f"· leads runner-up by {gap:+.4f}")
+        else:
+            c2.warning(f"### Closest: {top_name} ({top_score:.4f})\n\nbelow the {THRESHOLD} "
+                       f"threshold — this face is probably not in the gallery.")
+
+        st.write("**Ranking**")
+        for rank, (name, score, face) in enumerate(ranked, 1):
+            a, b, c = st.columns([1, 3, 2])
+            if isinstance(face, Path):
+                if face.exists():
+                    a.image(str(face), width=64)
             else:
-                c2.warning(f"### Closest: {top_name} ({top_score:.4f})\n\n"
-                           f"below the {THRESHOLD} threshold — the probe may not be "
-                           f"anyone in this gallery.")
-            st.write("**Ranking**")
-            for i, (name, score, face) in enumerate(ranked[:5], 1):
-                a, b, c = st.columns([1, 3, 2])
                 a.image(cv2.cvtColor(face, cv2.COLOR_BGR2RGB), width=64)
-                b.write(f"**{i}. {name}**")
-                c.write(f"{score:.4f}")
-            st.caption(
-                "Closed-set identification always returns the nearest enrolled face, even for "
-                "someone who is not enrolled. A large rank-1 to rank-2 gap is the confidence "
-                "signal; a flat ranking means the model is unsure."
-            )
-    elif p_file:
-        st.info("Enrol at least two people first, so there is something to rank against.")
+            b.write(f"**{rank}. {name}**")
+            c.write(f"{score:.4f}")
+        st.caption(
+            "Closed-set identification always returns the nearest enrolled face, even for "
+            "someone who is not enrolled. A large rank-1 to rank-2 gap is the confidence "
+            "signal; a flat ranking means the model is unsure."
+        )
 
 
 with st.expander("Limitations"):

@@ -444,6 +444,36 @@ The headline numbers elsewhere in this README stay on the 5k/5k protocol, which
 is what the assessment specifies; the exhaustive run is reported alongside it
 because low-FAR claims need the extra pairs to mean anything.
 
+### Error analysis — the actual false accepts and false rejects
+
+`error_analysis.py` lists every pair the system gets wrong at the operating
+threshold, worst first, with the real identity behind each `person_XXX` folder:
+
+```bash
+python error_analysis.py
+```
+
+| | |
+|---|---|
+| False accepts | **398 / 5,000** impostor pairs = **7.96% FAR** |
+| False rejects | **508 / 5,000** genuine pairs = **10.16% FRR** |
+| Worst false accept | Jiang Zemin vs Win Aung, similarity **0.5573** |
+| Worst false reject | Alvaro Uribe with himself, similarity **−0.1729** |
+
+Outputs:
+
+* `results/false_accepts.csv` — all 398 pairs, both image paths, both real names, score and margin
+* `results/false_rejects.csv` — all 508 pairs, same columns
+* `results/false_accepts_examples.png` — the eight worst false accepts side by side
+* `results/false_rejects_examples.png` — the eight worst false rejects
+* `results/error_summary.json` — counts and rates
+
+The montage makes the failure mode obvious: the top false accepts are
+Jiang Zemin/Li Peng, Kofi Annan/Edmund Stoiber, Kate Hudson/Ludivine Sagnier —
+pairs matched on age, hair, skin tone and press-photo styling rather than facial
+geometry. That is what an embedding trained on 7,000 images leans on, and it is
+the same weakness the open-set numbers expose.
+
 ### Attempts to improve low-FAR performance, and why they were rejected
 
 TAR@FAR=0.1% (37.60%) is the weakest reported metric, so two standard families of
