@@ -14,7 +14,8 @@ ResNet50 backbone.
 
 | | |
 |---|---|
-| **Live demo** | Streamlit app in [`demo/`](demo/) — verify two photos, or enrol a gallery and identify a probe |
+| **Live demo** | <https://face-verification-resnet50-mainiyash.streamlit.app> — verify two photos, or enrol a gallery and identify a probe |
+| **REST API** | FastAPI service in [`demo/api.py`](demo/api.py) — `/verify`, `/identify`, `/health`, interactive docs at `/docs` |
 | **Model weights** | [huggingface.co/yashMaini/face-verification-resnet50](https://huggingface.co/yashMaini/face-verification-resnet50) |
 | **Technical report** | [`submission/report.pdf`](submission/report.pdf) |
 
