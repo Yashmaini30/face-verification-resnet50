@@ -189,7 +189,61 @@ def main():
                   f"{r['name_a']}")
             P(f"    ... full list of {len(rows)} pairs in results/false_rejects.csv")
 
-    P(rule("9. HOW TO READ THESE NUMBERS"))
+    lm = load(res / "identity_audit.json")
+    if lm:
+        P(rule("9. IDENTITY LABEL AUDIT  (same name / different person, and vice versa)"))
+        P(f"  Exact duplicate images        : {lm['exact_duplicate_images']}")
+        P(f"  Flagged one-label-two-people  : {len(lm['suspect_one_label_two_people'])}")
+        P(f"  Flagged two-labels-one-person : {len(lm['suspect_two_labels_one_person'])}")
+        P("")
+        P("  Pair generation trusts the folder label, so:")
+        P("    one label / two people  -> genuine pairs become impostor pairs")
+        P("    two labels / one person -> impostor pairs become genuine pairs")
+        P("  Both push the measured numbers PESSIMISTIC. A label error cannot invent")
+        P("  a correct match, so neither can flatter the model.")
+        if lm["suspect_two_labels_one_person"]:
+            P("")
+            P("  closest distinct identities (look-alikes, not confirmed duplicates):")
+            for c in lm["suspect_two_labels_one_person"][:6]:
+                P(f"    {c['similarity']:.4f}  {c['name_a']}  vs  {c['name_b']}")
+
+    ds = load(res / "dataset_roc_metrics.json")
+    ml = load(res / "mlfw_metrics.json")
+    if ds or ml:
+        P(rule("10. CROSS-DATASET: LFW vs MLFW (masked faces)"))
+        if ds:
+            P("  Same checkpoint, same balanced pairing protocol, MLFW restricted to")
+            P("  identities absent from the training split.")
+            P("")
+            P(f"    {'dataset':10s} {'pairs':>8s} {'AUC':>8s} {'EER':>8s} {'TAR@1%':>9s}")
+            for k in ("LFW", "MLFW"):
+                d = ds[k]
+                P(f"    {k:10s} {d['pairs']:>8,} {d['roc_auc']:>8.4f} "
+                  f"{d['eer']*100:>7.2f}% {d['tar_at_far_1pct']*100:>8.2f}%")
+            c = ds["cost_of_mask"]
+            P("")
+            P(f"  Cost of the mask: -{c['auc_drop']:.4f} AUC, "
+              f"+{c['eer_increase_pp']:.2f} pp EER, -{c['tar_at_far_1pct_drop_pp']:.2f} pp TAR@FAR=1%")
+        if ml:
+            P("")
+            P("  MLFW official protocol, for reference:")
+            P(f"    identities                  : {ml['identities']:,}")
+            P(f"    of those seen in training   : {ml['identities_in_train']:,} "
+              f"({ml['train_overlap_fraction']*100:.1f}%)")
+            for key, lbl in [("official_(leaky)", "official (leaky)"),
+                             ("leakage-free_subset", "leakage-free subset"),
+                             ("leakage-free_balanced", "leakage-free balanced")]:
+                if key in ml:
+                    d = ml[key]
+                    P(f"    {lbl:26s}: AUC {d['roc_auc']:.4f}  EER {d['eer']*100:5.2f}%  "
+                      f"({d['pairs']:,} pairs)")
+            P("")
+            P("  MLFW is adversarial by construction: the same identity wears different")
+            P("  masks while different identities wear the same mask, on top of CALFW's")
+            P("  cross-age gap. This model saw no masked faces in training, so near-chance")
+            P("  on the official protocol is the expected outcome rather than a defect.")
+
+    P(rule("11. HOW TO READ THESE NUMBERS"))
     P("  Verification is 1:1 - compare two photos, clear a threshold. Identification")
     P("  is 1:N - beat every other enrolled person. Identification is harder, which is")
     P("  why Rank-1 is well below verification accuracy on the same embedding.")

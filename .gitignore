@@ -4,3 +4,6 @@ __pycache__/
 data_raw/
 submission/dataset*/
 *.zip
+submission/results/_mlfw_emb.npz
+models/
+.devcontainer/

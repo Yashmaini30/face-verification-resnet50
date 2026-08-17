@@ -1,0 +1,267 @@
+{
+  "split": "test",
+  "identities": 120,
+  "images": 1031,
+  "exact_duplicate_images": 0,
+  "split_threshold": 0.15,
+  "merge_threshold": 0.55,
+  "suspect_one_label_two_people": [],
+  "suspect_two_labels_one_person": [
+    {
+      "a": "person_853",
+      "b": "person_935",
+      "name_a": "Julianne Moore",
+      "name_b": "Laura Linney",
+      "similarity": 0.6563066244125366
+    },
+    {
+      "a": "person_162",
+      "b": "person_367",
+      "name_a": "Bill Frist",
+      "name_b": "Dennis Kucinich",
+      "similarity": 0.6363880634307861
+    },
+    {
+      "a": "person_1653",
+      "b": "person_1669",
+      "name_a": "Win Aung",
+      "name_b": "Yu Shyi-kun",
+      "similarity": 0.6290095448493958
+    },
+    {
+      "a": "person_1411",
+      "b": "person_710",
+      "name_a": "Roman Polanski",
+      "name_b": "Jean Charest",
+      "similarity": 0.5824164748191833
+    },
+    {
+      "a": "person_1382",
+      "b": "person_1492",
+      "name_a": "Robert Duvall",
+      "name_b": "Silvio Berlusconi",
+      "similarity": 0.5723953247070312
+    },
+    {
+      "a": "person_369",
+      "b": "person_769",
+      "name_a": "Denzel Washington",
+      "name_b": "John Allen Muhammad",
+      "similarity": 0.5721243023872375
+    }
+  ],
+  "lowest_coherence": [
+    {
+      "folder": "person_804",
+      "name": "John Travolta",
+      "images": 7,
+      "mean_intra": 0.17139951884746552,
+      "min_intra": -0.16891337931156158
+    },
+    {
+      "folder": "person_1531",
+      "name": "Sylvester Stallone",
+      "images": 9,
+      "mean_intra": 0.17631103098392487,
+      "min_intra": -0.12135732173919678
+    },
+    {
+      "folder": "person_844",
+      "name": "Juan Pablo Montoya",
+      "images": 8,
+      "mean_intra": 0.22708913683891296,
+      "min_intra": -0.004507274366915226
+    },
+    {
+      "folder": "person_1420",
+      "name": "Roy Moore",
+      "images": 6,
+      "mean_intra": 0.23432184755802155,
+      "min_intra": -0.09788117557764053
+    },
+    {
+      "folder": "person_064",
+      "name": "Alvaro Silva Calderon",
+      "images": 4,
+      "mean_intra": 0.24729524552822113,
+      "min_intra": 0.11788778007030487
+    },
+    {
+      "folder": "person_911",
+      "name": "Kristanna Loken",
+      "images": 5,
+      "mean_intra": 0.24934275448322296,
+      "min_intra": -0.10967367142438889
+    },
+    {
+      "folder": "person_1411",
+      "name": "Roman Polanski",
+      "images": 6,
+      "mean_intra": 0.25195273756980896,
+      "min_intra": 0.037472568452358246
+    },
+    {
+      "folder": "person_1302",
+      "name": "Princess Caroline",
+      "images": 5,
+      "mean_intra": 0.25500938296318054,
+      "min_intra": 0.06156041845679283
+    },
+    {
+      "folder": "person_916",
+      "name": "Kurt Warner",
+      "images": 5,
+      "mean_intra": 0.25750112533569336,
+      "min_intra": 0.10712267458438873
+    },
+    {
+      "folder": "person_861",
+      "name": "Justin Timberlake",
+      "images": 8,
+      "mean_intra": 0.258573979139328,
+      "min_intra": -0.009925110265612602
+    },
+    {
+      "folder": "person_853",
+      "name": "Julianne Moore",
+      "images": 19,
+      "mean_intra": 0.26712101697921753,
+      "min_intra": -0.1693723499774933
+    },
+    {
+      "folder": "person_1490",
+      "name": "Silvan Shalom",
+      "images": 6,
+      "mean_intra": 0.27091872692108154,
+      "min_intra": -0.014878193847835064
+    },
+    {
+      "folder": "person_871",
+      "name": "Katherine Harris",
+      "images": 4,
+      "mean_intra": 0.2741233706474304,
+      "min_intra": 0.18650534749031067
+    },
+    {
+      "folder": "person_287",
+      "name": "Christine Todd Whitman",
+      "images": 6,
+      "mean_intra": 0.27740055322647095,
+      "min_intra": 0.03852662444114685
+    },
+    {
+      "folder": "person_924",
+      "name": "Larry Brown",
+      "images": 7,
+      "mean_intra": 0.27837035059928894,
+      "min_intra": 0.05279780924320221
+    }
+  ],
+  "closest_identity_pairs": [
+    {
+      "a": "person_853",
+      "b": "person_935",
+      "name_a": "Julianne Moore",
+      "name_b": "Laura Linney",
+      "similarity": 0.6563066244125366
+    },
+    {
+      "a": "person_162",
+      "b": "person_367",
+      "name_a": "Bill Frist",
+      "name_b": "Dennis Kucinich",
+      "similarity": 0.6363880634307861
+    },
+    {
+      "a": "person_1653",
+      "b": "person_1669",
+      "name_a": "Win Aung",
+      "name_b": "Yu Shyi-kun",
+      "similarity": 0.6290095448493958
+    },
+    {
+      "a": "person_1411",
+      "b": "person_710",
+      "name_a": "Roman Polanski",
+      "name_b": "Jean Charest",
+      "similarity": 0.5824164748191833
+    },
+    {
+      "a": "person_1382",
+      "b": "person_1492",
+      "name_a": "Robert Duvall",
+      "name_b": "Silvio Berlusconi",
+      "similarity": 0.5723953247070312
+    },
+    {
+      "a": "person_369",
+      "b": "person_769",
+      "name_a": "Denzel Washington",
+      "name_b": "John Allen Muhammad",
+      "similarity": 0.5721243023872375
+    },
+    {
+      "a": "person_744",
+      "b": "person_963",
+      "name_a": "Jiang Zemin",
+      "name_b": "Li Peng",
+      "similarity": 0.5450049638748169
+    },
+    {
+      "a": "person_1486",
+      "b": "person_235",
+      "name_a": "Sheryl Crow",
+      "name_b": "Carmen Electra",
+      "similarity": 0.5277730226516724
+    },
+    {
+      "a": "person_1022",
+      "b": "person_1369",
+      "name_a": "Maria Shriver",
+      "name_b": "Rita Wilson",
+      "similarity": 0.5274648666381836
+    },
+    {
+      "a": "person_1439",
+      "b": "person_869",
+      "name_a": "Sally Kirkland",
+      "name_b": "Kate Hudson",
+      "similarity": 0.5264513492584229
+    },
+    {
+      "a": "person_869",
+      "b": "person_870",
+      "name_a": "Kate Hudson",
+      "name_b": "Kate Winslet",
+      "similarity": 0.5173392295837402
+    },
+    {
+      "a": "person_1369",
+      "b": "person_374",
+      "name_a": "Rita Wilson",
+      "name_b": "Diana Krall",
+      "similarity": 0.5131433606147766
+    },
+    {
+      "a": "person_869",
+      "b": "person_911",
+      "name_a": "Kate Hudson",
+      "name_b": "Kristanna Loken",
+      "similarity": 0.5092393159866333
+    },
+    {
+      "a": "person_111",
+      "b": "person_287",
+      "name_a": "Arianna Huffington",
+      "name_b": "Christine Todd Whitman",
+      "similarity": 0.4947381913661957
+    },
+    {
+      "a": "person_1101",
+      "b": "person_909",
+      "name_a": "Michael Jordan",
+      "name_b": "Kofi Annan",
+      "similarity": 0.4918152987957001
+    }
+  ]
+}

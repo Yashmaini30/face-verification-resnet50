@@ -23,15 +23,12 @@
     }
   },
   "preprocessing": {
-    "detector": "OpenCV Haar cascade (frontalface_default)",
-    "alignment": "eye-line rotation via haarcascade_eye when both eyes found",
+    "detector": "OpenCV YuNet (5-point landmarks), Haar cascade fallback",
+    "alignment": "similarity transform of the 5 landmarks onto the ArcFace template",
     "crop_margin": 0.3,
     "fallback": "central 50% box when detection fails"
   },
   "detection_stats": {
-    "detect_ok": 9116,
-    "aligned": 4369,
-    "not_aligned": 4747,
-    "detect_fail": 48
+    "landmark_aligned": 9164
   }
 }

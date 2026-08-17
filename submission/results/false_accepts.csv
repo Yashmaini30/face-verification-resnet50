@@ -1,399 +1,370 @@
 image_a,image_b,name_a,name_b,cosine_similarity,margin
-dataset/person_744/img_09.jpg,dataset/person_1653/img_03.jpg,Jiang Zemin,Win Aung,0.557325,0.3781
-dataset/person_963/img_06.jpg,dataset/person_744/img_05.jpg,Li Peng,Jiang Zemin,0.488351,0.3091
-dataset/person_909/img_22.jpg,dataset/person_411/img_12.jpg,Kofi Annan,Edmund Stoiber,0.471119,0.2919
-dataset/person_989/img_03.jpg,dataset/person_869/img_05.jpg,Ludivine Sagnier,Kate Hudson,0.469221,0.29
-dataset/person_1572/img_02.jpg,dataset/person_311/img_04.jpg,Tom Crean,Conan OBrien,0.456418,0.2772
-dataset/person_1191/img_04.jpg,dataset/person_1022/img_04.jpg,Nia Vardalos,Maria Shriver,0.443658,0.2644
-dataset/person_935/img_04.jpg,dataset/person_869/img_01.jpg,Laura Linney,Kate Hudson,0.440358,0.2611
-dataset/person_1022/img_02.jpg,dataset/person_1369/img_04.jpg,Maria Shriver,Rita Wilson,0.41968,0.2405
-dataset/person_1563/img_01.jpg,dataset/person_1101/img_02.jpg,Tim Duncan,Michael Jordan,0.415238,0.236
-dataset/person_1669/img_03.jpg,dataset/person_1653/img_01.jpg,Yu Shyi-kun,Win Aung,0.413384,0.2342
-dataset/person_935/img_02.jpg,dataset/person_911/img_03.jpg,Laura Linney,Kristanna Loken,0.409911,0.2307
-dataset/person_1653/img_04.jpg,dataset/person_065/img_19.jpg,Win Aung,Alvaro Uribe,0.40072,0.2215
-dataset/person_1244/img_05.jpg,dataset/person_311/img_04.jpg,Paul Bremer,Conan OBrien,0.392891,0.2137
-dataset/person_1326/img_09.jpg,dataset/person_313/img_11.jpg,Ray Romano,Condoleezza Rice,0.387663,0.2084
-dataset/person_1653/img_01.jpg,dataset/person_1669/img_04.jpg,Win Aung,Yu Shyi-kun,0.384943,0.2057
-dataset/person_1334/img_25.jpg,dataset/person_474/img_04.jpg,Ricardo Lagos,Fernando Henrique Cardoso,0.382855,0.2036
-dataset/person_861/img_08.jpg,dataset/person_601/img_04.jpg,Justin Timberlake,Heath Ledger,0.376779,0.1976
-dataset/person_935/img_01.jpg,dataset/person_1369/img_03.jpg,Laura Linney,Rita Wilson,0.371006,0.1918
-dataset/person_911/img_04.jpg,dataset/person_1486/img_07.jpg,Kristanna Loken,Sheryl Crow,0.370994,0.1918
-dataset/person_1369/img_03.jpg,dataset/person_935/img_03.jpg,Rita Wilson,Laura Linney,0.370643,0.1914
-dataset/person_869/img_09.jpg,dataset/person_870/img_02.jpg,Kate Hudson,Kate Winslet,0.367501,0.1883
-dataset/person_374/img_01.jpg,dataset/person_989/img_03.jpg,Diana Krall,Ludivine Sagnier,0.365434,0.1862
-dataset/person_1658/img_03.jpg,dataset/person_1588/img_01.jpg,Xanana Gusmao,Tony Bennett,0.357893,0.1787
-dataset/person_989/img_04.jpg,dataset/person_287/img_02.jpg,Ludivine Sagnier,Christine Todd Whitman,0.355036,0.1758
-dataset/person_909/img_09.jpg,dataset/person_1601/img_06.jpg,Kofi Annan,Tung Chee-hwa,0.353087,0.1739
-dataset/person_559/img_05.jpg,dataset/person_916/img_01.jpg,Grant Hackett,Kurt Warner,0.35164,0.1724
-dataset/person_1326/img_04.jpg,dataset/person_687/img_02.jpg,Ray Romano,Janet Napolitano,0.348651,0.1694
-dataset/person_474/img_04.jpg,dataset/person_963/img_03.jpg,Fernando Henrique Cardoso,Li Peng,0.347153,0.1679
-dataset/person_355/img_02.jpg,dataset/person_1151/img_07.jpg,David Wells,Mohamed ElBaradei,0.345739,0.1665
-dataset/person_585/img_08.jpg,dataset/person_1097/img_03.jpg,Hamid Karzai,Michael Chiklis,0.34443,0.1652
-dataset/person_1192/img_02.jpg,dataset/person_043/img_30.jpg,Nicanor Duarte Frutos,Alejandro Toledo,0.342058,0.1628
-dataset/person_1420/img_02.jpg,dataset/person_367/img_01.jpg,Roy Moore,Dennis Kucinich,0.341598,0.1624
-dataset/person_1438/img_02.jpg,dataset/person_1155/img_02.jpg,Sally Field,Monica Bellucci,0.336836,0.1576
-dataset/person_519/img_03.jpg,dataset/person_049/img_04.jpg,George Clooney,Alexander Losyukov,0.336441,0.1572
-dataset/person_1492/img_05.jpg,dataset/person_1355/img_02.jpg,Silvio Berlusconi,Rick Carlisle,0.334332,0.1551
-dataset/person_909/img_09.jpg,dataset/person_1334/img_08.jpg,Kofi Annan,Ricardo Lagos,0.331711,0.1525
-dataset/person_287/img_04.jpg,dataset/person_1191/img_01.jpg,Christine Todd Whitman,Nia Vardalos,0.329138,0.1499
-dataset/person_034/img_01.jpg,dataset/person_287/img_06.jpg,Alastair Campbell,Christine Todd Whitman,0.325355,0.1461
-dataset/person_1334/img_19.jpg,dataset/person_1097/img_01.jpg,Ricardo Lagos,Michael Chiklis,0.323759,0.1445
-dataset/person_783/img_03.jpg,dataset/person_1680/img_01.jpg,John Manley,Zoran Djindjic,0.321015,0.1418
-dataset/person_785/img_06.jpg,dataset/person_1334/img_24.jpg,John McCain,Ricardo Lagos,0.32014,0.1409
-dataset/person_869/img_03.jpg,dataset/person_989/img_05.jpg,Kate Hudson,Ludivine Sagnier,0.320076,0.1409
-dataset/person_935/img_02.jpg,dataset/person_022/img_04.jpg,Laura Linney,Ai Sugiyama,0.315274,0.1361
-dataset/person_1192/img_02.jpg,dataset/person_871/img_03.jpg,Nicanor Duarte Frutos,Katherine Harris,0.314148,0.1349
-dataset/person_989/img_02.jpg,dataset/person_935/img_03.jpg,Ludivine Sagnier,Laura Linney,0.313667,0.1345
-dataset/person_1411/img_01.jpg,dataset/person_1262/img_01.jpg,Roman Polanski,Paul Wolfowitz,0.31339,0.1342
-dataset/person_1492/img_08.jpg,dataset/person_1490/img_01.jpg,Silvio Berlusconi,Silvan Shalom,0.312749,0.1335
-dataset/person_871/img_03.jpg,dataset/person_1438/img_04.jpg,Katherine Harris,Sally Field,0.311712,0.1325
-dataset/person_930/img_01.jpg,dataset/person_1653/img_04.jpg,Larry Thompson,Win Aung,0.310537,0.1313
-dataset/person_431/img_05.jpg,dataset/person_1309/img_05.jpg,Elizabeth Smart,Queen Elizabeth II,0.309645,0.1304
-dataset/person_1438/img_04.jpg,dataset/person_246/img_05.jpg,Sally Field,Catherine Deneuve,0.309159,0.1299
-dataset/person_911/img_04.jpg,dataset/person_870/img_01.jpg,Kristanna Loken,Kate Winslet,0.308998,0.1298
-dataset/person_547/img_03.jpg,dataset/person_1355/img_02.jpg,Giuseppe Gibilisco,Rick Carlisle,0.307599,0.1284
-dataset/person_1601/img_04.jpg,dataset/person_1492/img_14.jpg,Tung Chee-hwa,Silvio Berlusconi,0.307406,0.1282
-dataset/person_162/img_07.jpg,dataset/person_354/img_03.jpg,Bill Frist,David Trimble,0.30673,0.1275
-dataset/person_1018/img_02.jpg,dataset/person_1531/img_06.jpg,Marco Antonio Barrera,Sylvester Stallone,0.303864,0.1246
-dataset/person_246/img_01.jpg,dataset/person_111/img_03.jpg,Catherine Deneuve,Arianna Huffington,0.303578,0.1244
-dataset/person_963/img_05.jpg,dataset/person_1653/img_03.jpg,Li Peng,Win Aung,0.303415,0.1242
-dataset/person_935/img_03.jpg,dataset/person_1052/img_02.jpg,Laura Linney,Martha Burk,0.302412,0.1232
-dataset/person_1531/img_07.jpg,dataset/person_1352/img_06.jpg,Sylvester Stallone,Richard Virenque,0.302321,0.1231
-dataset/person_491/img_05.jpg,dataset/person_601/img_03.jpg,Frank Solich,Heath Ledger,0.301926,0.1227
-dataset/person_313/img_11.jpg,dataset/person_1572/img_03.jpg,Condoleezza Rice,Tom Crean,0.301197,0.122
-dataset/person_191/img_03.jpg,dataset/person_034/img_05.jpg,Boris Becker,Alastair Campbell,0.30019,0.121
-dataset/person_544/img_03.jpg,dataset/person_1588/img_03.jpg,Gilberto Rodriguez Orejuela,Tony Bennett,0.300104,0.1209
-dataset/person_1355/img_04.jpg,dataset/person_547/img_02.jpg,Rick Carlisle,Giuseppe Gibilisco,0.299326,0.1201
-dataset/person_229/img_16.jpg,dataset/person_355/img_01.jpg,Carlos Moya,David Wells,0.298853,0.1196
-dataset/person_585/img_16.jpg,dataset/person_1658/img_04.jpg,Hamid Karzai,Xanana Gusmao,0.298571,0.1194
-dataset/person_1577/img_03.jpg,dataset/person_1262/img_02.jpg,Tom Harkin,Paul Wolfowitz,0.298542,0.1193
-dataset/person_1653/img_02.jpg,dataset/person_043/img_05.jpg,Win Aung,Alejandro Toledo,0.296312,0.1171
-dataset/person_1155/img_01.jpg,dataset/person_1302/img_02.jpg,Monica Bellucci,Princess Caroline,0.295452,0.1162
-dataset/person_311/img_04.jpg,dataset/person_1244/img_14.jpg,Conan OBrien,Paul Bremer,0.295077,0.1159
-dataset/person_1396/img_03.jpg,dataset/person_1490/img_03.jpg,Roberto Carlos,Silvan Shalom,0.294757,0.1155
-dataset/person_527/img_05.jpg,dataset/person_783/img_02.jpg,George Pataki,John Manley,0.293778,0.1146
-dataset/person_515/img_04.jpg,dataset/person_411/img_03.jpg,Gene Robinson,Edmund Stoiber,0.293241,0.114
-dataset/person_367/img_07.jpg,dataset/person_655/img_12.jpg,Dennis Kucinich,Jackie Chan,0.293005,0.1138
-dataset/person_1580/img_01.jpg,dataset/person_1492/img_07.jpg,Tom Ridge,Silvio Berlusconi,0.291148,0.1119
-dataset/person_289/img_01.jpg,dataset/person_309/img_03.jpg,Christopher Reeve,Colin Montgomerie,0.290716,0.1115
-dataset/person_1486/img_02.jpg,dataset/person_256/img_04.jpg,Sheryl Crow,Chanda Rubin,0.287252,0.108
-dataset/person_1309/img_09.jpg,dataset/person_711/img_24.jpg,Queen Elizabeth II,Jean Chretien,0.286366,0.1072
-dataset/person_246/img_02.jpg,dataset/person_235/img_02.jpg,Catherine Deneuve,Carmen Electra,0.28257,0.1034
-dataset/person_1244/img_15.jpg,dataset/person_1454/img_02.jpg,Paul Bremer,Scott McClellan,0.281914,0.1027
-dataset/person_1244/img_03.jpg,dataset/person_162/img_01.jpg,Paul Bremer,Bill Frist,0.280937,0.1017
-dataset/person_544/img_02.jpg,dataset/person_1658/img_05.jpg,Gilberto Rodriguez Orejuela,Xanana Gusmao,0.280662,0.1014
-dataset/person_896/img_13.jpg,dataset/person_1439/img_03.jpg,Kim Clijsters,Sally Kirkland,0.280622,0.1014
-dataset/person_1653/img_04.jpg,dataset/person_911/img_04.jpg,Win Aung,Kristanna Loken,0.280356,0.1011
-dataset/person_869/img_09.jpg,dataset/person_870/img_03.jpg,Kate Hudson,Kate Winslet,0.27945,0.1002
-dataset/person_354/img_03.jpg,dataset/person_289/img_01.jpg,David Trimble,Christopher Reeve,0.279371,0.1002
-dataset/person_1486/img_01.jpg,dataset/person_474/img_02.jpg,Sheryl Crow,Fernando Henrique Cardoso,0.278915,0.0997
-dataset/person_1669/img_02.jpg,dataset/person_744/img_10.jpg,Yu Shyi-kun,Jiang Zemin,0.278339,0.0991
-dataset/person_989/img_02.jpg,dataset/person_911/img_01.jpg,Ludivine Sagnier,Kristanna Loken,0.278124,0.0989
-dataset/person_391/img_02.jpg,dataset/person_713/img_09.jpg,Donald Fehr,Jeb Bush,0.275446,0.0962
-dataset/person_785/img_02.jpg,dataset/person_411/img_11.jpg,John McCain,Edmund Stoiber,0.27465,0.0954
-dataset/person_1669/img_02.jpg,dataset/person_064/img_01.jpg,Yu Shyi-kun,Alvaro Silva Calderon,0.273697,0.0945
-dataset/person_1191/img_02.jpg,dataset/person_235/img_04.jpg,Nia Vardalos,Carmen Electra,0.272248,0.093
-dataset/person_1454/img_04.jpg,dataset/person_065/img_27.jpg,Scott McClellan,Alvaro Uribe,0.270902,0.0917
-dataset/person_034/img_04.jpg,dataset/person_1098/img_02.jpg,Alastair Campbell,Michael Douglas,0.269901,0.0907
-dataset/person_1658/img_05.jpg,dataset/person_1262/img_06.jpg,Xanana Gusmao,Paul Wolfowitz,0.269406,0.0902
-dataset/person_1052/img_04.jpg,dataset/person_1531/img_03.jpg,Martha Burk,Sylvester Stallone,0.268948,0.0897
-dataset/person_769/img_06.jpg,dataset/person_1563/img_03.jpg,John Allen Muhammad,Tim Duncan,0.268158,0.0889
-dataset/person_547/img_01.jpg,dataset/person_1546/img_02.jpg,Giuseppe Gibilisco,Thaksin Shinawatra,0.267501,0.0883
-dataset/person_853/img_17.jpg,dataset/person_1486/img_04.jpg,Julianne Moore,Sheryl Crow,0.267402,0.0882
-dataset/person_896/img_13.jpg,dataset/person_1486/img_02.jpg,Kim Clijsters,Sheryl Crow,0.266285,0.0871
-dataset/person_474/img_06.jpg,dataset/person_1653/img_04.jpg,Fernando Henrique Cardoso,Win Aung,0.265537,0.0863
-dataset/person_1396/img_02.jpg,dataset/person_1387/img_04.jpg,Roberto Carlos,Robert Kocharian,0.264142,0.0849
-dataset/person_313/img_07.jpg,dataset/person_989/img_05.jpg,Condoleezza Rice,Ludivine Sagnier,0.263623,0.0844
-dataset/person_491/img_04.jpg,dataset/person_1244/img_07.jpg,Frank Solich,Paul Bremer,0.26341,0.0842
-dataset/person_1262/img_03.jpg,dataset/person_655/img_09.jpg,Paul Wolfowitz,Jackie Chan,0.262802,0.0836
-dataset/person_527/img_05.jpg,dataset/person_391/img_04.jpg,George Pataki,Donald Fehr,0.260714,0.0815
-dataset/person_022/img_02.jpg,dataset/person_896/img_05.jpg,Ai Sugiyama,Kim Clijsters,0.260618,0.0814
-dataset/person_804/img_02.jpg,dataset/person_369/img_02.jpg,John Travolta,Denzel Washington,0.260395,0.0812
-dataset/person_713/img_08.jpg,dataset/person_1244/img_01.jpg,Jeb Bush,Paul Bremer,0.259787,0.0806
-dataset/person_235/img_05.jpg,dataset/person_1022/img_01.jpg,Carmen Electra,Maria Shriver,0.259684,0.0805
-dataset/person_1098/img_06.jpg,dataset/person_391/img_01.jpg,Michael Douglas,Donald Fehr,0.259633,0.0804
-dataset/person_1202/img_04.jpg,dataset/person_853/img_14.jpg,Noelle Bush,Julianne Moore,0.258881,0.0797
-dataset/person_916/img_04.jpg,dataset/person_861/img_02.jpg,Kurt Warner,Justin Timberlake,0.258559,0.0793
-dataset/person_1490/img_04.jpg,dataset/person_585/img_05.jpg,Silvan Shalom,Hamid Karzai,0.258511,0.0793
-dataset/person_1097/img_03.jpg,dataset/person_1309/img_03.jpg,Michael Chiklis,Queen Elizabeth II,0.257751,0.0785
-dataset/person_527/img_03.jpg,dataset/person_1546/img_06.jpg,George Pataki,Thaksin Shinawatra,0.257323,0.0781
-dataset/person_935/img_03.jpg,dataset/person_1369/img_01.jpg,Laura Linney,Rita Wilson,0.256766,0.0776
-dataset/person_149/img_01.jpg,dataset/person_515/img_01.jpg,Bernard Law,Gene Robinson,0.256152,0.0769
-dataset/person_1371/img_01.jpg,dataset/person_1302/img_02.jpg,Rob Marshall,Princess Caroline,0.256105,0.0769
-dataset/person_896/img_05.jpg,dataset/person_1202/img_01.jpg,Kim Clijsters,Noelle Bush,0.255864,0.0766
-dataset/person_411/img_01.jpg,dataset/person_711/img_09.jpg,Edmund Stoiber,Jean Chretien,0.254925,0.0757
-dataset/person_871/img_04.jpg,dataset/person_1202/img_01.jpg,Katherine Harris,Noelle Bush,0.254847,0.0756
-dataset/person_1217/img_04.jpg,dataset/person_1658/img_05.jpg,Osama bin Laden,Xanana Gusmao,0.254648,0.0754
-dataset/person_1601/img_08.jpg,dataset/person_1588/img_01.jpg,Tung Chee-hwa,Tony Bennett,0.254413,0.0752
-dataset/person_1097/img_04.jpg,dataset/person_1396/img_03.jpg,Michael Chiklis,Roberto Carlos,0.25403,0.0748
-dataset/person_1334/img_08.jpg,dataset/person_1653/img_04.jpg,Ricardo Lagos,Win Aung,0.253781,0.0746
-dataset/person_1302/img_03.jpg,dataset/person_544/img_03.jpg,Princess Caroline,Gilberto Rodriguez Orejuela,0.253622,0.0744
-dataset/person_1680/img_02.jpg,dataset/person_1098/img_06.jpg,Zoran Djindjic,Michael Douglas,0.253365,0.0741
-dataset/person_1653/img_01.jpg,dataset/person_744/img_18.jpg,Win Aung,Jiang Zemin,0.252714,0.0735
-dataset/person_1580/img_19.jpg,dataset/person_367/img_01.jpg,Tom Ridge,Dennis Kucinich,0.252419,0.0732
-dataset/person_1669/img_03.jpg,dataset/person_963/img_02.jpg,Yu Shyi-kun,Li Peng,0.251729,0.0725
-dataset/person_1352/img_02.jpg,dataset/person_1382/img_01.jpg,Richard Virenque,Robert Duvall,0.251713,0.0725
-dataset/person_989/img_03.jpg,dataset/person_1309/img_08.jpg,Ludivine Sagnier,Queen Elizabeth II,0.251505,0.0723
-dataset/person_474/img_05.jpg,dataset/person_1334/img_07.jpg,Fernando Henrique Cardoso,Ricardo Lagos,0.251494,0.0723
-dataset/person_1262/img_04.jpg,dataset/person_043/img_20.jpg,Paul Wolfowitz,Alejandro Toledo,0.250825,0.0716
-dataset/person_1658/img_05.jpg,dataset/person_1217/img_03.jpg,Xanana Gusmao,Osama bin Laden,0.250469,0.0713
-dataset/person_519/img_09.jpg,dataset/person_1355/img_02.jpg,George Clooney,Rick Carlisle,0.250185,0.071
-dataset/person_1369/img_01.jpg,dataset/person_989/img_03.jpg,Rita Wilson,Ludivine Sagnier,0.249907,0.0707
-dataset/person_1262/img_09.jpg,dataset/person_043/img_38.jpg,Paul Wolfowitz,Alejandro Toledo,0.249889,0.0707
-dataset/person_256/img_01.jpg,dataset/person_661/img_06.jpg,Chanda Rubin,James Blake,0.249593,0.0704
-dataset/person_064/img_01.jpg,dataset/person_1302/img_01.jpg,Alvaro Silva Calderon,Princess Caroline,0.249142,0.0699
-dataset/person_1097/img_05.jpg,dataset/person_935/img_03.jpg,Michael Chiklis,Laura Linney,0.248514,0.0693
-dataset/person_891/img_03.jpg,dataset/person_710/img_12.jpg,Kevin Spacey,Jean Charest,0.248102,0.0689
-dataset/person_661/img_05.jpg,dataset/person_1022/img_06.jpg,James Blake,Maria Shriver,0.247867,0.0687
-dataset/person_527/img_04.jpg,dataset/person_891/img_05.jpg,George Pataki,Kevin Spacey,0.247108,0.0679
-dataset/person_783/img_07.jpg,dataset/person_1244/img_13.jpg,John Manley,Paul Bremer,0.2469,0.0677
-dataset/person_313/img_03.jpg,dataset/person_687/img_03.jpg,Condoleezza Rice,Janet Napolitano,0.246877,0.0677
-dataset/person_1097/img_05.jpg,dataset/person_149/img_02.jpg,Michael Chiklis,Bernard Law,0.246419,0.0672
-dataset/person_411/img_13.jpg,dataset/person_1316/img_03.jpg,Edmund Stoiber,Rainer Schuettler,0.246416,0.0672
-dataset/person_1601/img_03.jpg,dataset/person_1546/img_04.jpg,Tung Chee-hwa,Thaksin Shinawatra,0.246182,0.067
-dataset/person_1387/img_01.jpg,dataset/person_1396/img_02.jpg,Robert Kocharian,Roberto Carlos,0.245569,0.0664
-dataset/person_1022/img_08.jpg,dataset/person_246/img_01.jpg,Maria Shriver,Catherine Deneuve,0.245144,0.0659
-dataset/person_411/img_04.jpg,dataset/person_515/img_05.jpg,Edmund Stoiber,Gene Robinson,0.244989,0.0658
-dataset/person_1097/img_02.jpg,dataset/person_149/img_05.jpg,Michael Chiklis,Bernard Law,0.244866,0.0657
-dataset/person_783/img_06.jpg,dataset/person_1098/img_06.jpg,John Manley,Michael Douglas,0.244796,0.0656
-dataset/person_412/img_05.jpg,dataset/person_411/img_01.jpg,Eduard Shevardnadze,Edmund Stoiber,0.244296,0.0651
-dataset/person_1580/img_03.jpg,dataset/person_374/img_04.jpg,Tom Ridge,Diana Krall,0.243668,0.0645
-dataset/person_1326/img_07.jpg,dataset/person_559/img_01.jpg,Ray Romano,Grant Hackett,0.243483,0.0643
-dataset/person_411/img_07.jpg,dataset/person_1411/img_03.jpg,Edmund Stoiber,Roman Polanski,0.243141,0.0639
-dataset/person_1355/img_04.jpg,dataset/person_1226/img_08.jpg,Rick Carlisle,Paradorn Srichaphan,0.241236,0.062
-dataset/person_256/img_04.jpg,dataset/person_924/img_03.jpg,Chanda Rubin,Larry Brown,0.240824,0.0616
-dataset/person_194/img_01.jpg,dataset/person_1588/img_04.jpg,Brad Garrett,Tony Bennett,0.240682,0.0615
-dataset/person_065/img_20.jpg,dataset/person_527/img_01.jpg,Alvaro Uribe,George Pataki,0.240538,0.0613
-dataset/person_064/img_04.jpg,dataset/person_411/img_03.jpg,Alvaro Silva Calderon,Edmund Stoiber,0.24053,0.0613
-dataset/person_1653/img_03.jpg,dataset/person_1097/img_04.jpg,Win Aung,Michael Chiklis,0.239805,0.0606
-dataset/person_815/img_03.jpg,dataset/person_374/img_06.jpg,Jon Gruden,Diana Krall,0.239764,0.0605
-dataset/person_989/img_04.jpg,dataset/person_853/img_11.jpg,Ludivine Sagnier,Julianne Moore,0.239738,0.0605
-dataset/person_431/img_05.jpg,dataset/person_783/img_07.jpg,Elizabeth Smart,John Manley,0.239471,0.0603
-dataset/person_963/img_08.jpg,dataset/person_655/img_04.jpg,Li Peng,Jackie Chan,0.239257,0.06
-dataset/person_034/img_02.jpg,dataset/person_043/img_24.jpg,Alastair Campbell,Alejandro Toledo,0.239197,0.06
-dataset/person_1588/img_01.jpg,dataset/person_891/img_02.jpg,Tony Bennett,Kevin Spacey,0.238068,0.0589
-dataset/person_515/img_02.jpg,dataset/person_1170/img_03.jpg,Gene Robinson,Nan Wang,0.237658,0.0584
-dataset/person_896/img_03.jpg,dataset/person_235/img_02.jpg,Kim Clijsters,Carmen Electra,0.237582,0.0584
-dataset/person_1192/img_11.jpg,dataset/person_711/img_49.jpg,Nicanor Duarte Frutos,Jean Chretien,0.237576,0.0584
-dataset/person_311/img_03.jpg,dataset/person_559/img_05.jpg,Conan OBrien,Grant Hackett,0.236048,0.0568
-dataset/person_785/img_07.jpg,dataset/person_1371/img_02.jpg,John McCain,Rob Marshall,0.235952,0.0567
-dataset/person_776/img_02.jpg,dataset/person_1097/img_01.jpg,John Edwards,Michael Chiklis,0.235835,0.0566
-dataset/person_1411/img_04.jpg,dataset/person_1420/img_01.jpg,Roman Polanski,Roy Moore,0.235642,0.0564
-dataset/person_1202/img_02.jpg,dataset/person_111/img_04.jpg,Noelle Bush,Arianna Huffington,0.235601,0.0564
-dataset/person_311/img_01.jpg,dataset/person_1653/img_04.jpg,Conan OBrien,Win Aung,0.235372,0.0562
-dataset/person_585/img_21.jpg,dataset/person_1101/img_03.jpg,Hamid Karzai,Michael Jordan,0.235225,0.056
-dataset/person_785/img_05.jpg,dataset/person_309/img_02.jpg,John McCain,Colin Montgomerie,0.23512,0.0559
-dataset/person_162/img_02.jpg,dataset/person_783/img_01.jpg,Bill Frist,John Manley,0.234623,0.0554
-dataset/person_064/img_03.jpg,dataset/person_354/img_02.jpg,Alvaro Silva Calderon,David Trimble,0.234244,0.055
-dataset/person_815/img_06.jpg,dataset/person_710/img_13.jpg,Jon Gruden,Jean Charest,0.234216,0.055
-dataset/person_1387/img_02.jpg,dataset/person_585/img_12.jpg,Robert Kocharian,Hamid Karzai,0.233886,0.0547
-dataset/person_1101/img_02.jpg,dataset/person_544/img_04.jpg,Michael Jordan,Gilberto Rodriguez Orejuela,0.233682,0.0545
-dataset/person_815/img_06.jpg,dataset/person_935/img_01.jpg,Jon Gruden,Laura Linney,0.232896,0.0537
-dataset/person_229/img_09.jpg,dataset/person_1396/img_01.jpg,Carlos Moya,Roberto Carlos,0.232558,0.0533
-dataset/person_022/img_03.jpg,dataset/person_1546/img_03.jpg,Ai Sugiyama,Thaksin Shinawatra,0.232243,0.053
-dataset/person_1170/img_01.jpg,dataset/person_861/img_03.jpg,Nan Wang,Justin Timberlake,0.231566,0.0524
-dataset/person_1580/img_05.jpg,dataset/person_040/img_01.jpg,Tom Ridge,Alec Baldwin,0.231435,0.0522
-dataset/person_711/img_02.jpg,dataset/person_411/img_12.jpg,Jean Chretien,Edmund Stoiber,0.231191,0.052
-dataset/person_374/img_05.jpg,dataset/person_354/img_04.jpg,Diana Krall,David Trimble,0.23113,0.0519
-dataset/person_1490/img_04.jpg,dataset/person_785/img_04.jpg,Silvan Shalom,John McCain,0.231088,0.0519
-dataset/person_1653/img_04.jpg,dataset/person_474/img_02.jpg,Win Aung,Fernando Henrique Cardoso,0.230968,0.0518
-dataset/person_585/img_21.jpg,dataset/person_1490/img_04.jpg,Hamid Karzai,Silvan Shalom,0.230803,0.0516
-dataset/person_527/img_04.jpg,dataset/person_655/img_12.jpg,George Pataki,Jackie Chan,0.229706,0.0505
-dataset/person_367/img_04.jpg,dataset/person_713/img_12.jpg,Dennis Kucinich,Jeb Bush,0.229615,0.0504
-dataset/person_1588/img_02.jpg,dataset/person_544/img_04.jpg,Tony Bennett,Gilberto Rodriguez Orejuela,0.229456,0.0502
-dataset/person_815/img_04.jpg,dataset/person_1454/img_02.jpg,Jon Gruden,Scott McClellan,0.228453,0.0492
-dataset/person_065/img_17.jpg,dataset/person_535/img_02.jpg,Alvaro Uribe,Geraldine Chaplin,0.228433,0.0492
-dataset/person_815/img_04.jpg,dataset/person_1098/img_05.jpg,Jon Gruden,Michael Douglas,0.228228,0.049
-dataset/person_776/img_07.jpg,dataset/person_687/img_02.jpg,John Edwards,Janet Napolitano,0.2281,0.0489
-dataset/person_1022/img_07.jpg,dataset/person_547/img_02.jpg,Maria Shriver,Giuseppe Gibilisco,0.227681,0.0485
-dataset/person_1382/img_01.jpg,dataset/person_785/img_01.jpg,Robert Duvall,John McCain,0.227533,0.0483
-dataset/person_1352/img_03.jpg,dataset/person_1396/img_01.jpg,Richard Virenque,Roberto Carlos,0.227268,0.0481
-dataset/person_1396/img_04.jpg,dataset/person_1563/img_01.jpg,Roberto Carlos,Tim Duncan,0.227109,0.0479
-dataset/person_1155/img_03.jpg,dataset/person_1387/img_04.jpg,Monica Bellucci,Robert Kocharian,0.225952,0.0467
-dataset/person_367/img_03.jpg,dataset/person_783/img_05.jpg,Dennis Kucinich,John Manley,0.225926,0.0467
-dataset/person_544/img_02.jpg,dataset/person_1577/img_01.jpg,Gilberto Rodriguez Orejuela,Tom Harkin,0.225276,0.0461
-dataset/person_870/img_04.jpg,dataset/person_601/img_03.jpg,Kate Winslet,Heath Ledger,0.22521,0.046
-dataset/person_870/img_03.jpg,dataset/person_235/img_01.jpg,Kate Winslet,Carmen Electra,0.224901,0.0457
-dataset/person_711/img_33.jpg,dataset/person_1411/img_06.jpg,Jean Chretien,Roman Polanski,0.224893,0.0457
-dataset/person_1439/img_04.jpg,dataset/person_374/img_06.jpg,Sally Kirkland,Diana Krall,0.224775,0.0456
-dataset/person_1022/img_03.jpg,dataset/person_374/img_01.jpg,Maria Shriver,Diana Krall,0.224697,0.0455
-dataset/person_313/img_04.jpg,dataset/person_256/img_02.jpg,Condoleezza Rice,Chanda Rubin,0.224646,0.0454
-dataset/person_1202/img_02.jpg,dataset/person_256/img_03.jpg,Noelle Bush,Chanda Rubin,0.224455,0.0452
-dataset/person_246/img_02.jpg,dataset/person_235/img_05.jpg,Catherine Deneuve,Carmen Electra,0.22394,0.0447
-dataset/person_287/img_03.jpg,dataset/person_162/img_01.jpg,Christine Todd Whitman,Bill Frist,0.22387,0.0447
-dataset/person_744/img_20.jpg,dataset/person_1580/img_10.jpg,Jiang Zemin,Tom Ridge,0.22366,0.0444
-dataset/person_1352/img_02.jpg,dataset/person_311/img_03.jpg,Richard Virenque,Conan OBrien,0.223218,0.044
-dataset/person_527/img_05.jpg,dataset/person_1098/img_02.jpg,George Pataki,Michael Douglas,0.223001,0.0438
-dataset/person_909/img_05.jpg,dataset/person_1334/img_08.jpg,Kofi Annan,Ricardo Lagos,0.22275,0.0435
-dataset/person_1101/img_03.jpg,dataset/person_1396/img_01.jpg,Michael Jordan,Roberto Carlos,0.222053,0.0428
-dataset/person_1098/img_06.jpg,dataset/person_896/img_03.jpg,Michael Douglas,Kim Clijsters,0.22123,0.042
-dataset/person_311/img_01.jpg,dataset/person_815/img_06.jpg,Conan OBrien,Jon Gruden,0.221204,0.042
-dataset/person_935/img_02.jpg,dataset/person_064/img_03.jpg,Laura Linney,Alvaro Silva Calderon,0.22038,0.0412
-dataset/person_909/img_03.jpg,dataset/person_1588/img_01.jpg,Kofi Annan,Tony Bennett,0.220159,0.0409
-dataset/person_515/img_02.jpg,dataset/person_1334/img_16.jpg,Gene Robinson,Ricardo Lagos,0.220094,0.0409
-dataset/person_1052/img_03.jpg,dataset/person_1226/img_05.jpg,Martha Burk,Paradorn Srichaphan,0.220081,0.0409
-dataset/person_431/img_01.jpg,dataset/person_1052/img_02.jpg,Elizabeth Smart,Martha Burk,0.219913,0.0407
-dataset/person_930/img_03.jpg,dataset/person_256/img_01.jpg,Larry Thompson,Chanda Rubin,0.219745,0.0405
-dataset/person_287/img_02.jpg,dataset/person_1352/img_02.jpg,Christine Todd Whitman,Richard Virenque,0.219542,0.0403
-dataset/person_776/img_06.jpg,dataset/person_785/img_02.jpg,John Edwards,John McCain,0.219506,0.0403
-dataset/person_1191/img_01.jpg,dataset/person_989/img_01.jpg,Nia Vardalos,Ludivine Sagnier,0.219492,0.0403
-dataset/person_1396/img_03.jpg,dataset/person_1382/img_05.jpg,Roberto Carlos,Robert Duvall,0.219254,0.04
-dataset/person_1226/img_05.jpg,dataset/person_022/img_03.jpg,Paradorn Srichaphan,Ai Sugiyama,0.218332,0.0391
-dataset/person_1151/img_08.jpg,dataset/person_930/img_01.jpg,Mohamed ElBaradei,Larry Thompson,0.217921,0.0387
-dataset/person_1439/img_03.jpg,dataset/person_287/img_04.jpg,Sally Kirkland,Christine Todd Whitman,0.217821,0.0386
-dataset/person_256/img_05.jpg,dataset/person_930/img_04.jpg,Chanda Rubin,Larry Thompson,0.217569,0.0384
-dataset/person_924/img_07.jpg,dataset/person_1226/img_09.jpg,Larry Brown,Paradorn Srichaphan,0.216729,0.0375
-dataset/person_1098/img_05.jpg,dataset/person_191/img_04.jpg,Michael Douglas,Boris Becker,0.216437,0.0372
-dataset/person_289/img_01.jpg,dataset/person_815/img_04.jpg,Christopher Reeve,Jon Gruden,0.216318,0.0371
-dataset/person_1244/img_04.jpg,dataset/person_1572/img_03.jpg,Paul Bremer,Tom Crean,0.216017,0.0368
-dataset/person_1454/img_03.jpg,dataset/person_1371/img_05.jpg,Scott McClellan,Rob Marshall,0.215687,0.0365
-dataset/person_022/img_02.jpg,dataset/person_065/img_14.jpg,Ai Sugiyama,Alvaro Uribe,0.215373,0.0362
-dataset/person_769/img_08.jpg,dataset/person_1334/img_12.jpg,John Allen Muhammad,Ricardo Lagos,0.215185,0.036
-dataset/person_655/img_02.jpg,dataset/person_1588/img_02.jpg,Jackie Chan,Tony Bennett,0.215129,0.0359
-dataset/person_924/img_04.jpg,dataset/person_515/img_03.jpg,Larry Brown,Gene Robinson,0.214995,0.0358
-dataset/person_891/img_04.jpg,dataset/person_1387/img_05.jpg,Kevin Spacey,Robert Kocharian,0.214659,0.0354
-dataset/person_355/img_01.jpg,dataset/person_1018/img_05.jpg,David Wells,Marco Antonio Barrera,0.214368,0.0352
-dataset/person_194/img_03.jpg,dataset/person_559/img_05.jpg,Brad Garrett,Grant Hackett,0.213995,0.0348
-dataset/person_909/img_32.jpg,dataset/person_544/img_04.jpg,Kofi Annan,Gilberto Rodriguez Orejuela,0.213902,0.0347
-dataset/person_853/img_07.jpg,dataset/person_911/img_01.jpg,Julianne Moore,Kristanna Loken,0.213695,0.0345
-dataset/person_1572/img_01.jpg,dataset/person_1226/img_02.jpg,Tom Crean,Paradorn Srichaphan,0.212574,0.0334
-dataset/person_1355/img_01.jpg,dataset/person_034/img_03.jpg,Rick Carlisle,Alastair Campbell,0.211517,0.0323
-dataset/person_1454/img_02.jpg,dataset/person_034/img_02.jpg,Scott McClellan,Alastair Campbell,0.211371,0.0322
-dataset/person_769/img_02.jpg,dataset/person_313/img_11.jpg,John Allen Muhammad,Condoleezza Rice,0.211126,0.0319
-dataset/person_313/img_06.jpg,dataset/person_235/img_02.jpg,Condoleezza Rice,Carmen Electra,0.211064,0.0318
-dataset/person_911/img_05.jpg,dataset/person_1563/img_02.jpg,Kristanna Loken,Tim Duncan,0.209787,0.0306
-dataset/person_034/img_01.jpg,dataset/person_111/img_04.jpg,Alastair Campbell,Arianna Huffington,0.209669,0.0305
-dataset/person_1244/img_17.jpg,dataset/person_1577/img_02.jpg,Paul Bremer,Tom Harkin,0.209097,0.0299
-dataset/person_1658/img_04.jpg,dataset/person_911/img_04.jpg,Xanana Gusmao,Kristanna Loken,0.208583,0.0294
-dataset/person_783/img_06.jpg,dataset/person_431/img_04.jpg,John Manley,Elizabeth Smart,0.208571,0.0294
-dataset/person_1601/img_08.jpg,dataset/person_219/img_02.jpg,Tung Chee-hwa,Candie Kung,0.208563,0.0293
-dataset/person_869/img_08.jpg,dataset/person_1022/img_08.jpg,Kate Hudson,Maria Shriver,0.208537,0.0293
-dataset/person_111/img_01.jpg,dataset/person_1492/img_26.jpg,Arianna Huffington,Silvio Berlusconi,0.208336,0.0291
-dataset/person_547/img_01.jpg,dataset/person_585/img_07.jpg,Giuseppe Gibilisco,Hamid Karzai,0.208043,0.0288
-dataset/person_1098/img_01.jpg,dataset/person_1382/img_08.jpg,Michael Douglas,Robert Duvall,0.207718,0.0285
-dataset/person_311/img_01.jpg,dataset/person_1411/img_05.jpg,Conan OBrien,Roman Polanski,0.20761,0.0284
-dataset/person_1490/img_03.jpg,dataset/person_1191/img_04.jpg,Silvan Shalom,Nia Vardalos,0.206943,0.0277
-dataset/person_916/img_05.jpg,dataset/person_374/img_05.jpg,Kurt Warner,Diana Krall,0.206177,0.027
-dataset/person_1411/img_01.jpg,dataset/person_431/img_02.jpg,Roman Polanski,Elizabeth Smart,0.206072,0.0269
-dataset/person_911/img_01.jpg,dataset/person_853/img_19.jpg,Kristanna Loken,Julianne Moore,0.205517,0.0263
-dataset/person_869/img_03.jpg,dataset/person_391/img_01.jpg,Kate Hudson,Donald Fehr,0.20546,0.0262
-dataset/person_909/img_17.jpg,dataset/person_1588/img_01.jpg,Kofi Annan,Tony Bennett,0.205338,0.0261
-dataset/person_1226/img_04.jpg,dataset/person_769/img_05.jpg,Paradorn Srichaphan,John Allen Muhammad,0.204683,0.0255
-dataset/person_411/img_05.jpg,dataset/person_1151/img_01.jpg,Edmund Stoiber,Mohamed ElBaradei,0.204445,0.0252
-dataset/person_374/img_01.jpg,dataset/person_896/img_05.jpg,Diana Krall,Kim Clijsters,0.204421,0.0252
-dataset/person_930/img_02.jpg,dataset/person_043/img_37.jpg,Larry Thompson,Alejandro Toledo,0.204416,0.0252
-dataset/person_1202/img_02.jpg,dataset/person_989/img_01.jpg,Noelle Bush,Ludivine Sagnier,0.203548,0.0243
-dataset/person_1588/img_02.jpg,dataset/person_040/img_01.jpg,Tony Bennett,Alec Baldwin,0.20347,0.0243
-dataset/person_911/img_01.jpg,dataset/person_1486/img_05.jpg,Kristanna Loken,Sheryl Crow,0.203195,0.024
-dataset/person_1546/img_05.jpg,dataset/person_1170/img_02.jpg,Thaksin Shinawatra,Nan Wang,0.202741,0.0235
-dataset/person_1492/img_11.jpg,dataset/person_527/img_02.jpg,Silvio Berlusconi,George Pataki,0.202663,0.0234
-dataset/person_219/img_01.jpg,dataset/person_1101/img_02.jpg,Candie Kung,Michael Jordan,0.202578,0.0234
-dataset/person_1202/img_02.jpg,dataset/person_1098/img_06.jpg,Noelle Bush,Michael Douglas,0.202421,0.0232
-dataset/person_1151/img_05.jpg,dataset/person_246/img_03.jpg,Mohamed ElBaradei,Catherine Deneuve,0.202408,0.0232
-dataset/person_229/img_11.jpg,dataset/person_559/img_05.jpg,Carlos Moya,Grant Hackett,0.202342,0.0231
-dataset/person_559/img_05.jpg,dataset/person_713/img_11.jpg,Grant Hackett,Jeb Bush,0.202214,0.023
-dataset/person_065/img_01.jpg,dataset/person_391/img_01.jpg,Alvaro Uribe,Donald Fehr,0.201952,0.0227
-dataset/person_1420/img_01.jpg,dataset/person_1352/img_06.jpg,Roy Moore,Richard Virenque,0.201718,0.0225
-dataset/person_989/img_05.jpg,dataset/person_1369/img_02.jpg,Ludivine Sagnier,Rita Wilson,0.201448,0.0222
-dataset/person_687/img_03.jpg,dataset/person_162/img_02.jpg,Janet Napolitano,Bill Frist,0.201323,0.0221
-dataset/person_049/img_01.jpg,dataset/person_1155/img_01.jpg,Alexander Losyukov,Monica Bellucci,0.201281,0.0221
-dataset/person_191/img_02.jpg,dataset/person_311/img_01.jpg,Boris Becker,Conan OBrien,0.201208,0.022
-dataset/person_1316/img_01.jpg,dataset/person_896/img_13.jpg,Rainer Schuettler,Kim Clijsters,0.201195,0.022
-dataset/person_1302/img_04.jpg,dataset/person_804/img_02.jpg,Princess Caroline,John Travolta,0.201133,0.0219
-dataset/person_687/img_04.jpg,dataset/person_1546/img_03.jpg,Janet Napolitano,Thaksin Shinawatra,0.200904,0.0217
-dataset/person_1531/img_06.jpg,dataset/person_043/img_38.jpg,Sylvester Stallone,Alejandro Toledo,0.200758,0.0215
-dataset/person_309/img_04.jpg,dataset/person_871/img_03.jpg,Colin Montgomerie,Katherine Harris,0.200565,0.0213
-dataset/person_804/img_03.jpg,dataset/person_065/img_31.jpg,John Travolta,Alvaro Uribe,0.200363,0.0211
-dataset/person_535/img_04.jpg,dataset/person_1531/img_02.jpg,Geraldine Chaplin,Sylvester Stallone,0.199957,0.0207
-dataset/person_924/img_04.jpg,dataset/person_785/img_01.jpg,Larry Brown,John McCain,0.199719,0.0205
-dataset/person_1572/img_02.jpg,dataset/person_311/img_03.jpg,Tom Crean,Conan OBrien,0.199501,0.0203
-dataset/person_049/img_04.jpg,dataset/person_853/img_01.jpg,Alexander Losyukov,Julianne Moore,0.199005,0.0198
-dataset/person_219/img_01.jpg,dataset/person_1018/img_03.jpg,Candie Kung,Marco Antonio Barrera,0.198854,0.0196
-dataset/person_229/img_11.jpg,dataset/person_1101/img_02.jpg,Carlos Moya,Michael Jordan,0.19823,0.019
-dataset/person_1352/img_04.jpg,dataset/person_040/img_01.jpg,Richard Virenque,Alec Baldwin,0.198076,0.0189
-dataset/person_1658/img_04.jpg,dataset/person_871/img_02.jpg,Xanana Gusmao,Katherine Harris,0.197805,0.0186
-dataset/person_411/img_13.jpg,dataset/person_815/img_04.jpg,Edmund Stoiber,Jon Gruden,0.197243,0.018
-dataset/person_911/img_03.jpg,dataset/person_1309/img_07.jpg,Kristanna Loken,Queen Elizabeth II,0.197096,0.0179
-dataset/person_871/img_01.jpg,dataset/person_246/img_01.jpg,Katherine Harris,Catherine Deneuve,0.197066,0.0179
-dataset/person_585/img_16.jpg,dataset/person_1680/img_01.jpg,Hamid Karzai,Zoran Djindjic,0.196978,0.0178
-dataset/person_311/img_04.jpg,dataset/person_162/img_02.jpg,Conan OBrien,Bill Frist,0.196888,0.0177
-dataset/person_1580/img_12.jpg,dataset/person_1369/img_02.jpg,Tom Ridge,Rita Wilson,0.196212,0.017
-dataset/person_309/img_01.jpg,dataset/person_1316/img_03.jpg,Colin Montgomerie,Rainer Schuettler,0.19542,0.0162
-dataset/person_1226/img_05.jpg,dataset/person_229/img_18.jpg,Paradorn Srichaphan,Carlos Moya,0.19524,0.016
-dataset/person_1202/img_01.jpg,dataset/person_1098/img_03.jpg,Noelle Bush,Michael Douglas,0.195126,0.0159
-dataset/person_1572/img_02.jpg,dataset/person_776/img_07.jpg,Tom Crean,John Edwards,0.195111,0.0159
-dataset/person_1396/img_01.jpg,dataset/person_559/img_04.jpg,Roberto Carlos,Grant Hackett,0.194903,0.0157
-dataset/person_1355/img_03.jpg,dataset/person_289/img_03.jpg,Rick Carlisle,Christopher Reeve,0.194162,0.0149
-dataset/person_229/img_16.jpg,dataset/person_1580/img_33.jpg,Carlos Moya,Tom Ridge,0.194123,0.0149
-dataset/person_744/img_09.jpg,dataset/person_1262/img_07.jpg,Jiang Zemin,Paul Wolfowitz,0.194068,0.0149
-dataset/person_1052/img_02.jpg,dataset/person_1454/img_05.jpg,Martha Burk,Scott McClellan,0.193902,0.0147
-dataset/person_1382/img_06.jpg,dataset/person_064/img_02.jpg,Robert Duvall,Alvaro Silva Calderon,0.193549,0.0143
-dataset/person_369/img_04.jpg,dataset/person_519/img_07.jpg,Denzel Washington,George Clooney,0.193409,0.0142
-dataset/person_1226/img_10.jpg,dataset/person_547/img_03.jpg,Paradorn Srichaphan,Giuseppe Gibilisco,0.193222,0.014
-dataset/person_1492/img_21.jpg,dataset/person_1097/img_01.jpg,Silvio Berlusconi,Michael Chiklis,0.19306,0.0138
-dataset/person_769/img_07.jpg,dataset/person_891/img_01.jpg,John Allen Muhammad,Kevin Spacey,0.19259,0.0134
-dataset/person_935/img_04.jpg,dataset/person_853/img_02.jpg,Laura Linney,Julianne Moore,0.192072,0.0129
-dataset/person_367/img_05.jpg,dataset/person_354/img_03.jpg,Dennis Kucinich,David Trimble,0.1919,0.0127
-dataset/person_034/img_01.jpg,dataset/person_367/img_06.jpg,Alastair Campbell,Dennis Kucinich,0.191705,0.0125
-dataset/person_034/img_02.jpg,dataset/person_194/img_03.jpg,Alastair Campbell,Brad Garrett,0.191578,0.0124
-dataset/person_804/img_07.jpg,dataset/person_411/img_09.jpg,John Travolta,Edmund Stoiber,0.191222,0.012
-dataset/person_1316/img_03.jpg,dataset/person_309/img_03.jpg,Rainer Schuettler,Colin Montgomerie,0.190864,0.0116
-dataset/person_391/img_04.jpg,dataset/person_367/img_01.jpg,Donald Fehr,Dennis Kucinich,0.190831,0.0116
-dataset/person_1226/img_05.jpg,dataset/person_601/img_01.jpg,Paradorn Srichaphan,Heath Ledger,0.190341,0.0111
-dataset/person_1097/img_03.jpg,dataset/person_1387/img_04.jpg,Michael Chiklis,Robert Kocharian,0.190318,0.0111
-dataset/person_064/img_01.jpg,dataset/person_065/img_33.jpg,Alvaro Silva Calderon,Alvaro Uribe,0.190313,0.0111
-dataset/person_1396/img_04.jpg,dataset/person_1101/img_03.jpg,Roberto Carlos,Michael Jordan,0.190305,0.0111
-dataset/person_1191/img_03.jpg,dataset/person_870/img_01.jpg,Nia Vardalos,Kate Winslet,0.190033,0.0108
-dataset/person_1490/img_04.jpg,dataset/person_1601/img_01.jpg,Silvan Shalom,Tung Chee-hwa,0.189967,0.0108
-dataset/person_040/img_04.jpg,dataset/person_891/img_04.jpg,Alec Baldwin,Kevin Spacey,0.189683,0.0105
-dataset/person_1101/img_04.jpg,dataset/person_585/img_13.jpg,Michael Jordan,Hamid Karzai,0.189561,0.0103
-dataset/person_1572/img_05.jpg,dataset/person_1669/img_02.jpg,Tom Crean,Yu Shyi-kun,0.189553,0.0103
-dataset/person_313/img_07.jpg,dataset/person_311/img_04.jpg,Condoleezza Rice,Conan OBrien,0.189434,0.0102
-dataset/person_1244/img_07.jpg,dataset/person_367/img_05.jpg,Paul Bremer,Dennis Kucinich,0.189354,0.0101
-dataset/person_1680/img_03.jpg,dataset/person_896/img_03.jpg,Zoran Djindjic,Kim Clijsters,0.189167,0.01
-dataset/person_924/img_07.jpg,dataset/person_1439/img_03.jpg,Larry Brown,Sally Kirkland,0.189156,0.0099
-dataset/person_1601/img_01.jpg,dataset/person_909/img_02.jpg,Tung Chee-hwa,Kofi Annan,0.188011,0.0088
-dataset/person_911/img_04.jpg,dataset/person_1022/img_08.jpg,Kristanna Loken,Maria Shriver,0.187994,0.0088
-dataset/person_411/img_02.jpg,dataset/person_412/img_01.jpg,Edmund Stoiber,Eduard Shevardnadze,0.187941,0.0087
-dataset/person_491/img_01.jpg,dataset/person_711/img_20.jpg,Frank Solich,Jean Chretien,0.187909,0.0087
-dataset/person_1217/img_02.jpg,dataset/person_065/img_34.jpg,Osama bin Laden,Alvaro Uribe,0.187189,0.008
-dataset/person_043/img_26.jpg,dataset/person_1669/img_03.jpg,Alejandro Toledo,Yu Shyi-kun,0.186509,0.0073
-dataset/person_1396/img_02.jpg,dataset/person_661/img_08.jpg,Roberto Carlos,James Blake,0.186497,0.0073
-dataset/person_535/img_03.jpg,dataset/person_256/img_02.jpg,Geraldine Chaplin,Chanda Rubin,0.18637,0.0072
-dataset/person_1439/img_01.jpg,dataset/person_911/img_02.jpg,Sally Kirkland,Kristanna Loken,0.186284,0.0071
-dataset/person_930/img_01.jpg,dataset/person_1669/img_03.jpg,Larry Thompson,Yu Shyi-kun,0.186128,0.0069
-dataset/person_369/img_05.jpg,dataset/person_1326/img_03.jpg,Denzel Washington,Ray Romano,0.185938,0.0067
-dataset/person_1326/img_07.jpg,dataset/person_909/img_28.jpg,Ray Romano,Kofi Annan,0.185686,0.0065
-dataset/person_309/img_04.jpg,dataset/person_713/img_01.jpg,Colin Montgomerie,Jeb Bush,0.185471,0.0063
-dataset/person_989/img_04.jpg,dataset/person_861/img_08.jpg,Ludivine Sagnier,Justin Timberlake,0.185062,0.0058
-dataset/person_256/img_03.jpg,dataset/person_369/img_03.jpg,Chanda Rubin,Denzel Washington,0.184827,0.0056
-dataset/person_519/img_06.jpg,dataset/person_1192/img_11.jpg,George Clooney,Nicanor Duarte Frutos,0.184809,0.0056
-dataset/person_891/img_02.jpg,dataset/person_1369/img_03.jpg,Kevin Spacey,Rita Wilson,0.1837,0.0045
-dataset/person_1490/img_04.jpg,dataset/person_661/img_14.jpg,Silvan Shalom,James Blake,0.183694,0.0045
-dataset/person_769/img_10.jpg,dataset/person_1563/img_01.jpg,John Allen Muhammad,Tim Duncan,0.183659,0.0044
-dataset/person_1022/img_03.jpg,dataset/person_1531/img_09.jpg,Maria Shriver,Sylvester Stallone,0.183585,0.0044
-dataset/person_930/img_03.jpg,dataset/person_313/img_02.jpg,Larry Thompson,Condoleezza Rice,0.183187,0.004
-dataset/person_1192/img_02.jpg,dataset/person_355/img_07.jpg,Nicanor Duarte Frutos,David Wells,0.183036,0.0038
-dataset/person_1411/img_02.jpg,dataset/person_1371/img_05.jpg,Roman Polanski,Rob Marshall,0.182964,0.0037
-dataset/person_713/img_04.jpg,dataset/person_1588/img_02.jpg,Jeb Bush,Tony Bennett,0.182787,0.0036
-dataset/person_1098/img_01.jpg,dataset/person_815/img_02.jpg,Michael Douglas,Jon Gruden,0.182768,0.0036
-dataset/person_474/img_04.jpg,dataset/person_1022/img_01.jpg,Fernando Henrique Cardoso,Maria Shriver,0.182636,0.0034
-dataset/person_815/img_02.jpg,dataset/person_1486/img_04.jpg,Jon Gruden,Sheryl Crow,0.182548,0.0033
-dataset/person_1580/img_19.jpg,dataset/person_431/img_02.jpg,Tom Ridge,Elizabeth Smart,0.182252,0.003
-dataset/person_1420/img_06.jpg,dataset/person_1316/img_04.jpg,Roy Moore,Rainer Schuettler,0.182096,0.0029
-dataset/person_491/img_04.jpg,dataset/person_162/img_08.jpg,Frank Solich,Bill Frist,0.182021,0.0028
-dataset/person_070/img_07.jpg,dataset/person_391/img_02.jpg,Amelia Vega,Donald Fehr,0.182016,0.0028
-dataset/person_1202/img_01.jpg,dataset/person_1326/img_03.jpg,Noelle Bush,Ray Romano,0.181714,0.0025
-dataset/person_1454/img_04.jpg,dataset/person_661/img_12.jpg,Scott McClellan,James Blake,0.181507,0.0023
-dataset/person_1371/img_03.jpg,dataset/person_1411/img_01.jpg,Rob Marshall,Roman Polanski,0.18123,0.002
-dataset/person_769/img_09.jpg,dataset/person_909/img_18.jpg,John Allen Muhammad,Kofi Annan,0.181218,0.002
-dataset/person_519/img_03.jpg,dataset/person_1580/img_18.jpg,George Clooney,Tom Ridge,0.180991,0.0018
-dataset/person_1191/img_02.jpg,dataset/person_1396/img_04.jpg,Nia Vardalos,Roberto Carlos,0.180475,0.0013
-dataset/person_710/img_06.jpg,dataset/person_815/img_03.jpg,Jean Charest,Jon Gruden,0.180456,0.0012
-dataset/person_1454/img_05.jpg,dataset/person_1326/img_05.jpg,Scott McClellan,Ray Romano,0.180439,0.0012
-dataset/person_1170/img_03.jpg,dataset/person_870/img_02.jpg,Nan Wang,Kate Winslet,0.180376,0.0012
-dataset/person_1334/img_16.jpg,dataset/person_354/img_03.jpg,Ricardo Lagos,David Trimble,0.180047,0.0008
-dataset/person_1680/img_02.jpg,dataset/person_1052/img_03.jpg,Zoran Djindjic,Martha Burk,0.179993,0.0008
-dataset/person_661/img_04.jpg,dataset/person_1155/img_03.jpg,James Blake,Monica Bellucci,0.179938,0.0007
-dataset/person_713/img_11.jpg,dataset/person_1022/img_07.jpg,Jeb Bush,Maria Shriver,0.179918,0.0007
-dataset/person_1546/img_02.jpg,dataset/person_783/img_05.jpg,Thaksin Shinawatra,John Manley,0.17942,0.0002
+dataset/person_1653/img_01.jpg,dataset/person_1669/img_04.jpg,Win Aung,Yu Shyi-kun,0.537592,0.3538
+dataset/person_744/img_09.jpg,dataset/person_1653/img_03.jpg,Jiang Zemin,Win Aung,0.498489,0.3147
+dataset/person_935/img_02.jpg,dataset/person_911/img_03.jpg,Laura Linney,Kristanna Loken,0.451467,0.2677
+dataset/person_1601/img_01.jpg,dataset/person_1490/img_03.jpg,Tung Chee-hwa,Silvan Shalom,0.447523,0.2637
+dataset/person_1653/img_02.jpg,dataset/person_043/img_05.jpg,Win Aung,Alejandro Toledo,0.445383,0.2616
+dataset/person_374/img_01.jpg,dataset/person_989/img_03.jpg,Diana Krall,Ludivine Sagnier,0.436297,0.2525
+dataset/person_935/img_04.jpg,dataset/person_869/img_01.jpg,Laura Linney,Kate Hudson,0.41713,0.2333
+dataset/person_547/img_03.jpg,dataset/person_1355/img_02.jpg,Giuseppe Gibilisco,Rick Carlisle,0.414434,0.2306
+dataset/person_1022/img_02.jpg,dataset/person_1369/img_04.jpg,Maria Shriver,Rita Wilson,0.411514,0.2277
+dataset/person_355/img_02.jpg,dataset/person_1151/img_07.jpg,David Wells,Mohamed ElBaradei,0.394069,0.2103
+dataset/person_1577/img_03.jpg,dataset/person_1262/img_02.jpg,Tom Harkin,Paul Wolfowitz,0.377539,0.1937
+dataset/person_1262/img_10.jpg,dataset/person_474/img_07.jpg,Paul Wolfowitz,Fernando Henrique Cardoso,0.374114,0.1903
+dataset/person_064/img_03.jpg,dataset/person_354/img_02.jpg,Alvaro Silva Calderon,David Trimble,0.371927,0.1881
+dataset/person_391/img_02.jpg,dataset/person_713/img_09.jpg,Donald Fehr,Jeb Bush,0.36933,0.1855
+dataset/person_1052/img_04.jpg,dataset/person_1531/img_03.jpg,Martha Burk,Sylvester Stallone,0.368342,0.1845
+dataset/person_924/img_04.jpg,dataset/person_515/img_03.jpg,Larry Brown,Gene Robinson,0.366038,0.1822
+dataset/person_861/img_08.jpg,dataset/person_601/img_04.jpg,Justin Timberlake,Heath Ledger,0.357045,0.1732
+dataset/person_963/img_05.jpg,dataset/person_1653/img_03.jpg,Li Peng,Win Aung,0.354974,0.1712
+dataset/person_711/img_29.jpg,dataset/person_162/img_04.jpg,Jean Chretien,Bill Frist,0.353707,0.1699
+dataset/person_1326/img_07.jpg,dataset/person_559/img_01.jpg,Ray Romano,Grant Hackett,0.353292,0.1695
+dataset/person_924/img_04.jpg,dataset/person_785/img_01.jpg,Larry Brown,John McCain,0.353128,0.1693
+dataset/person_1226/img_10.jpg,dataset/person_547/img_03.jpg,Paradorn Srichaphan,Giuseppe Gibilisco,0.34483,0.161
+dataset/person_313/img_03.jpg,dataset/person_896/img_12.jpg,Condoleezza Rice,Kim Clijsters,0.344081,0.1603
+dataset/person_547/img_03.jpg,dataset/person_1244/img_07.jpg,Giuseppe Gibilisco,Paul Bremer,0.343099,0.1593
+dataset/person_043/img_24.jpg,dataset/person_1262/img_07.jpg,Alejandro Toledo,Paul Wolfowitz,0.338403,0.1546
+dataset/person_355/img_06.jpg,dataset/person_229/img_06.jpg,David Wells,Carlos Moya,0.336428,0.1526
+dataset/person_1669/img_03.jpg,dataset/person_1653/img_01.jpg,Yu Shyi-kun,Win Aung,0.335785,0.152
+dataset/person_1192/img_09.jpg,dataset/person_1490/img_01.jpg,Nicanor Duarte Frutos,Silvan Shalom,0.335685,0.1519
+dataset/person_1371/img_01.jpg,dataset/person_1302/img_02.jpg,Rob Marshall,Princess Caroline,0.334854,0.151
+dataset/person_1420/img_06.jpg,dataset/person_367/img_01.jpg,Roy Moore,Dennis Kucinich,0.33241,0.1486
+dataset/person_519/img_08.jpg,dataset/person_049/img_04.jpg,George Clooney,Alexander Losyukov,0.331719,0.1479
+dataset/person_1382/img_02.jpg,dataset/person_1097/img_01.jpg,Robert Duvall,Michael Chiklis,0.331655,0.1479
+dataset/person_989/img_03.jpg,dataset/person_869/img_05.jpg,Ludivine Sagnier,Kate Hudson,0.327377,0.1436
+dataset/person_1355/img_04.jpg,dataset/person_1438/img_03.jpg,Rick Carlisle,Sally Field,0.326757,0.143
+dataset/person_1601/img_03.jpg,dataset/person_1546/img_04.jpg,Tung Chee-hwa,Thaksin Shinawatra,0.322461,0.1387
+dataset/person_989/img_02.jpg,dataset/person_935/img_03.jpg,Ludivine Sagnier,Laura Linney,0.322426,0.1386
+dataset/person_1022/img_02.jpg,dataset/person_049/img_04.jpg,Maria Shriver,Alexander Losyukov,0.319456,0.1357
+dataset/person_1244/img_05.jpg,dataset/person_311/img_04.jpg,Paul Bremer,Conan OBrien,0.316365,0.1326
+dataset/person_1382/img_03.jpg,dataset/person_1669/img_04.jpg,Robert Duvall,Yu Shyi-kun,0.314837,0.131
+dataset/person_710/img_06.jpg,dataset/person_1577/img_01.jpg,Jean Charest,Tom Harkin,0.31438,0.1306
+dataset/person_909/img_09.jpg,dataset/person_1334/img_08.jpg,Kofi Annan,Ricardo Lagos,0.313599,0.1298
+dataset/person_162/img_07.jpg,dataset/person_354/img_03.jpg,Bill Frist,David Trimble,0.310504,0.1267
+dataset/person_1262/img_03.jpg,dataset/person_655/img_09.jpg,Paul Wolfowitz,Jackie Chan,0.30968,0.1259
+dataset/person_1097/img_03.jpg,dataset/person_1387/img_04.jpg,Michael Chiklis,Robert Kocharian,0.309105,0.1253
+dataset/person_1658/img_04.jpg,dataset/person_1151/img_03.jpg,Xanana Gusmao,Mohamed ElBaradei,0.305974,0.1222
+dataset/person_1101/img_01.jpg,dataset/person_930/img_01.jpg,Michael Jordan,Larry Thompson,0.305306,0.1215
+dataset/person_064/img_04.jpg,dataset/person_1151/img_08.jpg,Alvaro Silva Calderon,Mohamed ElBaradei,0.303457,0.1197
+dataset/person_1653/img_04.jpg,dataset/person_065/img_19.jpg,Win Aung,Alvaro Uribe,0.301286,0.1175
+dataset/person_1244/img_03.jpg,dataset/person_162/img_01.jpg,Paul Bremer,Bill Frist,0.301236,0.1174
+dataset/person_891/img_04.jpg,dataset/person_1387/img_05.jpg,Kevin Spacey,Robert Kocharian,0.301205,0.1174
+dataset/person_869/img_03.jpg,dataset/person_989/img_05.jpg,Kate Hudson,Ludivine Sagnier,0.30022,0.1164
+dataset/person_474/img_05.jpg,dataset/person_1334/img_07.jpg,Fernando Henrique Cardoso,Ricardo Lagos,0.299613,0.1158
+dataset/person_070/img_01.jpg,dataset/person_891/img_03.jpg,Amelia Vega,Kevin Spacey,0.296507,0.1127
+dataset/person_1492/img_31.jpg,dataset/person_711/img_24.jpg,Silvio Berlusconi,Jean Chretien,0.296255,0.1125
+dataset/person_391/img_03.jpg,dataset/person_711/img_53.jpg,Donald Fehr,Jean Chretien,0.29574,0.1119
+dataset/person_1244/img_02.jpg,dataset/person_369/img_02.jpg,Paul Bremer,Denzel Washington,0.295252,0.1114
+dataset/person_871/img_01.jpg,dataset/person_1052/img_01.jpg,Katherine Harris,Martha Burk,0.293974,0.1102
+dataset/person_815/img_03.jpg,dataset/person_289/img_03.jpg,Jon Gruden,Christopher Reeve,0.292648,0.1088
+dataset/person_1454/img_04.jpg,dataset/person_661/img_12.jpg,Scott McClellan,James Blake,0.291724,0.1079
+dataset/person_1411/img_04.jpg,dataset/person_1052/img_01.jpg,Roman Polanski,Martha Burk,0.291487,0.1077
+dataset/person_1420/img_02.jpg,dataset/person_367/img_01.jpg,Roy Moore,Dennis Kucinich,0.29117,0.1074
+dataset/person_289/img_01.jpg,dataset/person_815/img_04.jpg,Christopher Reeve,Jon Gruden,0.291076,0.1073
+dataset/person_909/img_03.jpg,dataset/person_1588/img_01.jpg,Kofi Annan,Tony Bennett,0.290526,0.1067
+dataset/person_871/img_03.jpg,dataset/person_1438/img_04.jpg,Katherine Harris,Sally Field,0.289689,0.1059
+dataset/person_1588/img_04.jpg,dataset/person_191/img_01.jpg,Tony Bennett,Boris Becker,0.289404,0.1056
+dataset/person_911/img_02.jpg,dataset/person_909/img_22.jpg,Kristanna Loken,Kofi Annan,0.288683,0.1049
+dataset/person_1155/img_04.jpg,dataset/person_1438/img_03.jpg,Monica Bellucci,Sally Field,0.288371,0.1046
+dataset/person_661/img_10.jpg,dataset/person_1387/img_03.jpg,James Blake,Robert Kocharian,0.287967,0.1042
+dataset/person_1151/img_02.jpg,dataset/person_065/img_29.jpg,Mohamed ElBaradei,Alvaro Uribe,0.287821,0.104
+dataset/person_1302/img_04.jpg,dataset/person_804/img_02.jpg,Princess Caroline,John Travolta,0.286195,0.1024
+dataset/person_869/img_03.jpg,dataset/person_391/img_01.jpg,Kate Hudson,Donald Fehr,0.285791,0.102
+dataset/person_1018/img_02.jpg,dataset/person_1531/img_06.jpg,Marco Antonio Barrera,Sylvester Stallone,0.285588,0.1018
+dataset/person_1355/img_02.jpg,dataset/person_287/img_05.jpg,Rick Carlisle,Christine Todd Whitman,0.285542,0.1017
+dataset/person_1226/img_05.jpg,dataset/person_022/img_03.jpg,Paradorn Srichaphan,Ai Sugiyama,0.285155,0.1014
+dataset/person_1396/img_03.jpg,dataset/person_1382/img_05.jpg,Roberto Carlos,Robert Duvall,0.28448,0.1007
+dataset/person_769/img_07.jpg,dataset/person_194/img_01.jpg,John Allen Muhammad,Brad Garrett,0.284232,0.1004
+dataset/person_040/img_01.jpg,dataset/person_354/img_04.jpg,Alec Baldwin,David Trimble,0.283308,0.0995
+dataset/person_1052/img_02.jpg,dataset/person_687/img_03.jpg,Martha Burk,Janet Napolitano,0.283131,0.0993
+dataset/person_1191/img_04.jpg,dataset/person_1022/img_04.jpg,Nia Vardalos,Maria Shriver,0.282425,0.0986
+dataset/person_1577/img_02.jpg,dataset/person_891/img_03.jpg,Tom Harkin,Kevin Spacey,0.282324,0.0985
+dataset/person_313/img_04.jpg,dataset/person_256/img_02.jpg,Condoleezza Rice,Chanda Rubin,0.281685,0.0979
+dataset/person_1572/img_02.jpg,dataset/person_311/img_04.jpg,Tom Crean,Conan OBrien,0.280693,0.0969
+dataset/person_1546/img_03.jpg,dataset/person_367/img_01.jpg,Thaksin Shinawatra,Dennis Kucinich,0.280554,0.0968
+dataset/person_391/img_03.jpg,dataset/person_785/img_01.jpg,Donald Fehr,John McCain,0.279512,0.0957
+dataset/person_311/img_04.jpg,dataset/person_1580/img_11.jpg,Conan OBrien,Tom Ridge,0.279476,0.0957
+dataset/person_229/img_08.jpg,dataset/person_896/img_08.jpg,Carlos Moya,Kim Clijsters,0.278679,0.0949
+dataset/person_891/img_03.jpg,dataset/person_710/img_12.jpg,Kevin Spacey,Jean Charest,0.276672,0.0929
+dataset/person_1192/img_06.jpg,dataset/person_1588/img_04.jpg,Nicanor Duarte Frutos,Tony Bennett,0.27628,0.0925
+dataset/person_1326/img_07.jpg,dataset/person_194/img_03.jpg,Ray Romano,Brad Garrett,0.274638,0.0908
+dataset/person_1572/img_01.jpg,dataset/person_1326/img_02.jpg,Tom Crean,Ray Romano,0.273937,0.0901
+dataset/person_1658/img_05.jpg,dataset/person_1217/img_03.jpg,Xanana Gusmao,Osama bin Laden,0.273916,0.0901
+dataset/person_710/img_17.jpg,dataset/person_527/img_05.jpg,Jean Charest,George Pataki,0.272658,0.0889
+dataset/person_411/img_05.jpg,dataset/person_1151/img_01.jpg,Edmund Stoiber,Mohamed ElBaradei,0.272632,0.0888
+dataset/person_219/img_03.jpg,dataset/person_1546/img_01.jpg,Candie Kung,Thaksin Shinawatra,0.272539,0.0887
+dataset/person_713/img_08.jpg,dataset/person_1244/img_01.jpg,Jeb Bush,Paul Bremer,0.271941,0.0881
+dataset/person_367/img_07.jpg,dataset/person_655/img_12.jpg,Dennis Kucinich,Jackie Chan,0.270969,0.0872
+dataset/person_861/img_01.jpg,dataset/person_585/img_14.jpg,Justin Timberlake,Hamid Karzai,0.270551,0.0867
+dataset/person_034/img_01.jpg,dataset/person_431/img_03.jpg,Alastair Campbell,Elizabeth Smart,0.269162,0.0854
+dataset/person_1226/img_04.jpg,dataset/person_769/img_05.jpg,Paradorn Srichaphan,John Allen Muhammad,0.269103,0.0853
+dataset/person_655/img_11.jpg,dataset/person_804/img_05.jpg,Jackie Chan,John Travolta,0.268592,0.0848
+dataset/person_559/img_05.jpg,dataset/person_916/img_01.jpg,Grant Hackett,Kurt Warner,0.267841,0.084
+dataset/person_785/img_02.jpg,dataset/person_411/img_11.jpg,John McCain,Edmund Stoiber,0.267799,0.084
+dataset/person_661/img_08.jpg,dataset/person_1454/img_04.jpg,James Blake,Scott McClellan,0.267394,0.0836
+dataset/person_1396/img_04.jpg,dataset/person_1101/img_03.jpg,Roberto Carlos,Michael Jordan,0.267122,0.0833
+dataset/person_687/img_03.jpg,dataset/person_1438/img_04.jpg,Janet Napolitano,Sally Field,0.266824,0.083
+dataset/person_963/img_01.jpg,dataset/person_1572/img_02.jpg,Li Peng,Tom Crean,0.266162,0.0824
+dataset/person_1244/img_07.jpg,dataset/person_309/img_03.jpg,Paul Bremer,Colin Montgomerie,0.265461,0.0817
+dataset/person_1018/img_05.jpg,dataset/person_804/img_07.jpg,Marco Antonio Barrera,John Travolta,0.265343,0.0815
+dataset/person_246/img_01.jpg,dataset/person_111/img_03.jpg,Catherine Deneuve,Arianna Huffington,0.265306,0.0815
+dataset/person_191/img_03.jpg,dataset/person_034/img_05.jpg,Boris Becker,Alastair Campbell,0.265226,0.0814
+dataset/person_1151/img_04.jpg,dataset/person_049/img_01.jpg,Mohamed ElBaradei,Alexander Losyukov,0.264748,0.0809
+dataset/person_1382/img_03.jpg,dataset/person_544/img_01.jpg,Robert Duvall,Gilberto Rodriguez Orejuela,0.264105,0.0803
+dataset/person_815/img_06.jpg,dataset/person_710/img_13.jpg,Jon Gruden,Jean Charest,0.263673,0.0799
+dataset/person_1382/img_06.jpg,dataset/person_661/img_04.jpg,Robert Duvall,James Blake,0.262745,0.0789
+dataset/person_1680/img_04.jpg,dataset/person_149/img_05.jpg,Zoran Djindjic,Bernard Law,0.262686,0.0789
+dataset/person_1262/img_04.jpg,dataset/person_043/img_20.jpg,Paul Wolfowitz,Alejandro Toledo,0.26211,0.0783
+dataset/person_431/img_04.jpg,dataset/person_391/img_03.jpg,Elizabeth Smart,Donald Fehr,0.261953,0.0781
+dataset/person_1492/img_05.jpg,dataset/person_1355/img_02.jpg,Silvio Berlusconi,Rick Carlisle,0.261942,0.0781
+dataset/person_924/img_05.jpg,dataset/person_527/img_02.jpg,Larry Brown,George Pataki,0.259876,0.0761
+dataset/person_911/img_04.jpg,dataset/person_1486/img_07.jpg,Kristanna Loken,Sheryl Crow,0.259587,0.0758
+dataset/person_1580/img_03.jpg,dataset/person_374/img_04.jpg,Tom Ridge,Diana Krall,0.258757,0.075
+dataset/person_861/img_06.jpg,dataset/person_601/img_02.jpg,Justin Timberlake,Heath Ledger,0.25816,0.0744
+dataset/person_474/img_03.jpg,dataset/person_1658/img_01.jpg,Fernando Henrique Cardoso,Xanana Gusmao,0.257675,0.0739
+dataset/person_896/img_05.jpg,dataset/person_1202/img_01.jpg,Kim Clijsters,Noelle Bush,0.256732,0.0729
+dataset/person_043/img_26.jpg,dataset/person_1669/img_03.jpg,Alejandro Toledo,Yu Shyi-kun,0.255716,0.0719
+dataset/person_1355/img_01.jpg,dataset/person_1387/img_03.jpg,Rick Carlisle,Robert Kocharian,0.254564,0.0708
+dataset/person_1191/img_04.jpg,dataset/person_111/img_02.jpg,Nia Vardalos,Arianna Huffington,0.254395,0.0706
+dataset/person_256/img_04.jpg,dataset/person_924/img_03.jpg,Chanda Rubin,Larry Brown,0.252874,0.0691
+dataset/person_065/img_01.jpg,dataset/person_391/img_01.jpg,Alvaro Uribe,Donald Fehr,0.252344,0.0685
+dataset/person_909/img_09.jpg,dataset/person_1601/img_06.jpg,Kofi Annan,Tung Chee-hwa,0.251595,0.0678
+dataset/person_354/img_03.jpg,dataset/person_289/img_01.jpg,David Trimble,Christopher Reeve,0.251385,0.0676
+dataset/person_1658/img_04.jpg,dataset/person_871/img_02.jpg,Xanana Gusmao,Katherine Harris,0.251363,0.0676
+dataset/person_1170/img_01.jpg,dataset/person_861/img_03.jpg,Nan Wang,Justin Timberlake,0.251219,0.0674
+dataset/person_1387/img_01.jpg,dataset/person_891/img_04.jpg,Robert Kocharian,Kevin Spacey,0.250455,0.0667
+dataset/person_989/img_03.jpg,dataset/person_815/img_07.jpg,Ludivine Sagnier,Jon Gruden,0.250415,0.0666
+dataset/person_861/img_01.jpg,dataset/person_1563/img_04.jpg,Justin Timberlake,Tim Duncan,0.250339,0.0665
+dataset/person_1577/img_02.jpg,dataset/person_687/img_02.jpg,Tom Harkin,Janet Napolitano,0.2503,0.0665
+dataset/person_1202/img_01.jpg,dataset/person_896/img_12.jpg,Noelle Bush,Kim Clijsters,0.248937,0.0651
+dataset/person_1302/img_05.jpg,dataset/person_256/img_04.jpg,Princess Caroline,Chanda Rubin,0.248776,0.065
+dataset/person_1669/img_02.jpg,dataset/person_744/img_10.jpg,Yu Shyi-kun,Jiang Zemin,0.248397,0.0646
+dataset/person_1563/img_01.jpg,dataset/person_1101/img_02.jpg,Tim Duncan,Michael Jordan,0.248185,0.0644
+dataset/person_869/img_09.jpg,dataset/person_870/img_02.jpg,Kate Hudson,Kate Winslet,0.24744,0.0636
+dataset/person_219/img_01.jpg,dataset/person_1018/img_03.jpg,Candie Kung,Marco Antonio Barrera,0.247361,0.0636
+dataset/person_1588/img_04.jpg,dataset/person_043/img_21.jpg,Tony Bennett,Alejandro Toledo,0.245619,0.0618
+dataset/person_1155/img_04.jpg,dataset/person_022/img_01.jpg,Monica Bellucci,Ai Sugiyama,0.245371,0.0616
+dataset/person_935/img_01.jpg,dataset/person_1369/img_03.jpg,Laura Linney,Rita Wilson,0.245284,0.0615
+dataset/person_896/img_12.jpg,dataset/person_309/img_04.jpg,Kim Clijsters,Colin Montgomerie,0.245195,0.0614
+dataset/person_049/img_01.jpg,dataset/person_871/img_01.jpg,Alexander Losyukov,Katherine Harris,0.244087,0.0603
+dataset/person_1262/img_03.jpg,dataset/person_1588/img_04.jpg,Paul Wolfowitz,Tony Bennett,0.243918,0.0601
+dataset/person_1588/img_03.jpg,dataset/person_022/img_05.jpg,Tony Bennett,Ai Sugiyama,0.24336,0.0596
+dataset/person_1309/img_12.jpg,dataset/person_710/img_17.jpg,Queen Elizabeth II,Jean Charest,0.242559,0.0588
+dataset/person_769/img_09.jpg,dataset/person_909/img_18.jpg,John Allen Muhammad,Kofi Annan,0.242166,0.0584
+dataset/person_309/img_03.jpg,dataset/person_1420/img_05.jpg,Colin Montgomerie,Roy Moore,0.241995,0.0582
+dataset/person_229/img_07.jpg,dataset/person_870/img_02.jpg,Carlos Moya,Kate Winslet,0.24153,0.0577
+dataset/person_1439/img_01.jpg,dataset/person_911/img_02.jpg,Sally Kirkland,Kristanna Loken,0.241438,0.0576
+dataset/person_287/img_04.jpg,dataset/person_1191/img_01.jpg,Christine Todd Whitman,Nia Vardalos,0.241068,0.0573
+dataset/person_853/img_18.jpg,dataset/person_527/img_01.jpg,Julianne Moore,George Pataki,0.24106,0.0573
+dataset/person_1155/img_01.jpg,dataset/person_1302/img_02.jpg,Monica Bellucci,Princess Caroline,0.240932,0.0571
+dataset/person_049/img_02.jpg,dataset/person_1387/img_02.jpg,Alexander Losyukov,Robert Kocharian,0.240349,0.0565
+dataset/person_1097/img_05.jpg,dataset/person_935/img_03.jpg,Michael Chiklis,Laura Linney,0.240292,0.0565
+dataset/person_547/img_03.jpg,dataset/person_1563/img_01.jpg,Giuseppe Gibilisco,Tim Duncan,0.240065,0.0563
+dataset/person_853/img_14.jpg,dataset/person_1371/img_01.jpg,Julianne Moore,Rob Marshall,0.240062,0.0563
+dataset/person_871/img_03.jpg,dataset/person_1371/img_05.jpg,Katherine Harris,Rob Marshall,0.23983,0.056
+dataset/person_313/img_07.jpg,dataset/person_311/img_04.jpg,Condoleezza Rice,Conan OBrien,0.239236,0.0554
+dataset/person_785/img_06.jpg,dataset/person_1334/img_24.jpg,John McCain,Ricardo Lagos,0.239215,0.0554
+dataset/person_369/img_05.jpg,dataset/person_1326/img_03.jpg,Denzel Washington,Ray Romano,0.23883,0.055
+dataset/person_909/img_17.jpg,dataset/person_1588/img_01.jpg,Kofi Annan,Tony Bennett,0.238687,0.0549
+dataset/person_815/img_03.jpg,dataset/person_374/img_06.jpg,Jon Gruden,Diana Krall,0.238654,0.0549
+dataset/person_219/img_01.jpg,dataset/person_355/img_06.jpg,Candie Kung,David Wells,0.238251,0.0544
+dataset/person_1601/img_04.jpg,dataset/person_1492/img_14.jpg,Tung Chee-hwa,Silvio Berlusconi,0.238099,0.0543
+dataset/person_1411/img_01.jpg,dataset/person_1262/img_01.jpg,Roman Polanski,Paul Wolfowitz,0.237693,0.0539
+dataset/person_585/img_16.jpg,dataset/person_1680/img_01.jpg,Hamid Karzai,Zoran Djindjic,0.237564,0.0538
+dataset/person_1577/img_01.jpg,dataset/person_043/img_12.jpg,Tom Harkin,Alejandro Toledo,0.237108,0.0533
+dataset/person_871/img_04.jpg,dataset/person_1531/img_04.jpg,Katherine Harris,Sylvester Stallone,0.236649,0.0528
+dataset/person_1226/img_06.jpg,dataset/person_687/img_04.jpg,Paradorn Srichaphan,Janet Napolitano,0.236621,0.0528
+dataset/person_871/img_04.jpg,dataset/person_769/img_10.jpg,Katherine Harris,John Allen Muhammad,0.236515,0.0527
+dataset/person_930/img_01.jpg,dataset/person_1669/img_03.jpg,Larry Thompson,Yu Shyi-kun,0.236501,0.0527
+dataset/person_1151/img_07.jpg,dataset/person_474/img_05.jpg,Mohamed ElBaradei,Fernando Henrique Cardoso,0.236239,0.0524
+dataset/person_1572/img_01.jpg,dataset/person_256/img_02.jpg,Tom Crean,Chanda Rubin,0.236105,0.0523
+dataset/person_1492/img_08.jpg,dataset/person_1490/img_01.jpg,Silvio Berlusconi,Silvan Shalom,0.236029,0.0522
+dataset/person_474/img_03.jpg,dataset/person_870/img_01.jpg,Fernando Henrique Cardoso,Kate Winslet,0.235991,0.0522
+dataset/person_527/img_05.jpg,dataset/person_391/img_04.jpg,George Pataki,Donald Fehr,0.235465,0.0517
+dataset/person_1244/img_10.jpg,dataset/person_040/img_01.jpg,Paul Bremer,Alec Baldwin,0.235194,0.0514
+dataset/person_246/img_02.jpg,dataset/person_1438/img_04.jpg,Catherine Deneuve,Sally Field,0.234894,0.0511
+dataset/person_1492/img_01.jpg,dataset/person_527/img_01.jpg,Silvio Berlusconi,George Pataki,0.234679,0.0509
+dataset/person_049/img_04.jpg,dataset/person_861/img_03.jpg,Alexander Losyukov,Justin Timberlake,0.234177,0.0504
+dataset/person_040/img_04.jpg,dataset/person_235/img_02.jpg,Alec Baldwin,Carmen Electra,0.234103,0.0503
+dataset/person_1387/img_05.jpg,dataset/person_870/img_04.jpg,Robert Kocharian,Kate Winslet,0.233817,0.05
+dataset/person_1097/img_05.jpg,dataset/person_1217/img_01.jpg,Michael Chiklis,Osama bin Laden,0.233335,0.0495
+dataset/person_191/img_05.jpg,dataset/person_1098/img_01.jpg,Boris Becker,Michael Douglas,0.232701,0.0489
+dataset/person_162/img_02.jpg,dataset/person_783/img_01.jpg,Bill Frist,John Manley,0.232671,0.0489
+dataset/person_1334/img_25.jpg,dataset/person_474/img_04.jpg,Ricardo Lagos,Fernando Henrique Cardoso,0.232275,0.0485
+dataset/person_930/img_01.jpg,dataset/person_661/img_11.jpg,Larry Thompson,James Blake,0.231626,0.0478
+dataset/person_1170/img_02.jpg,dataset/person_687/img_01.jpg,Nan Wang,Janet Napolitano,0.23106,0.0473
+dataset/person_896/img_03.jpg,dataset/person_235/img_02.jpg,Kim Clijsters,Carmen Electra,0.230947,0.0471
+dataset/person_909/img_05.jpg,dataset/person_1334/img_08.jpg,Kofi Annan,Ricardo Lagos,0.229939,0.0461
+dataset/person_1546/img_05.jpg,dataset/person_040/img_01.jpg,Thaksin Shinawatra,Alec Baldwin,0.229918,0.0461
+dataset/person_519/img_04.jpg,dataset/person_065/img_08.jpg,George Clooney,Alvaro Uribe,0.229737,0.0459
+dataset/person_309/img_02.jpg,dataset/person_585/img_22.jpg,Colin Montgomerie,Hamid Karzai,0.229718,0.0459
+dataset/person_1369/img_01.jpg,dataset/person_989/img_03.jpg,Rita Wilson,Ludivine Sagnier,0.229642,0.0458
+dataset/person_1191/img_02.jpg,dataset/person_853/img_10.jpg,Nia Vardalos,Julianne Moore,0.229263,0.0455
+dataset/person_1371/img_05.jpg,dataset/person_1572/img_03.jpg,Rob Marshall,Tom Crean,0.229226,0.0454
+dataset/person_256/img_05.jpg,dataset/person_930/img_04.jpg,Chanda Rubin,Larry Thompson,0.228996,0.0452
+dataset/person_1098/img_03.jpg,dataset/person_1097/img_01.jpg,Michael Douglas,Michael Chiklis,0.228607,0.0448
+dataset/person_1653/img_03.jpg,dataset/person_313/img_02.jpg,Win Aung,Condoleezza Rice,0.22846,0.0447
+dataset/person_1387/img_02.jpg,dataset/person_585/img_12.jpg,Robert Kocharian,Hamid Karzai,0.228349,0.0445
+dataset/person_411/img_07.jpg,dataset/person_1411/img_03.jpg,Edmund Stoiber,Roman Polanski,0.227917,0.0441
+dataset/person_354/img_02.jpg,dataset/person_535/img_03.jpg,David Trimble,Geraldine Chaplin,0.227917,0.0441
+dataset/person_1658/img_03.jpg,dataset/person_1588/img_01.jpg,Xanana Gusmao,Tony Bennett,0.227448,0.0436
+dataset/person_491/img_04.jpg,dataset/person_1244/img_07.jpg,Frank Solich,Paul Bremer,0.226896,0.0431
+dataset/person_034/img_05.jpg,dataset/person_111/img_03.jpg,Alastair Campbell,Arianna Huffington,0.226643,0.0428
+dataset/person_034/img_01.jpg,dataset/person_287/img_06.jpg,Alastair Campbell,Christine Todd Whitman,0.226155,0.0424
+dataset/person_311/img_02.jpg,dataset/person_1334/img_12.jpg,Conan OBrien,Ricardo Lagos,0.226133,0.0423
+dataset/person_1326/img_04.jpg,dataset/person_710/img_07.jpg,Ray Romano,Jean Charest,0.225822,0.042
+dataset/person_1098/img_06.jpg,dataset/person_896/img_03.jpg,Michael Douglas,Kim Clijsters,0.225025,0.0412
+dataset/person_374/img_05.jpg,dataset/person_911/img_03.jpg,Diana Krall,Kristanna Loken,0.224979,0.0412
+dataset/person_1454/img_05.jpg,dataset/person_1420/img_03.jpg,Scott McClellan,Roy Moore,0.224746,0.0409
+dataset/person_1022/img_03.jpg,dataset/person_374/img_01.jpg,Maria Shriver,Diana Krall,0.223586,0.0398
+dataset/person_1097/img_05.jpg,dataset/person_149/img_02.jpg,Michael Chiklis,Bernard Law,0.223315,0.0395
+dataset/person_869/img_09.jpg,dataset/person_870/img_03.jpg,Kate Hudson,Kate Winslet,0.222528,0.0387
+dataset/person_783/img_06.jpg,dataset/person_431/img_04.jpg,John Manley,Elizabeth Smart,0.221954,0.0382
+dataset/person_256/img_03.jpg,dataset/person_369/img_03.jpg,Chanda Rubin,Denzel Washington,0.221774,0.038
+dataset/person_1531/img_03.jpg,dataset/person_1577/img_04.jpg,Sylvester Stallone,Tom Harkin,0.220658,0.0369
+dataset/person_229/img_02.jpg,dataset/person_022/img_01.jpg,Carlos Moya,Ai Sugiyama,0.220487,0.0367
+dataset/person_1355/img_03.jpg,dataset/person_289/img_03.jpg,Rick Carlisle,Christopher Reeve,0.220073,0.0363
+dataset/person_1226/img_07.jpg,dataset/person_369/img_03.jpg,Paradorn Srichaphan,Denzel Washington,0.219981,0.0362
+dataset/person_519/img_04.jpg,dataset/person_049/img_02.jpg,George Clooney,Alexander Losyukov,0.219769,0.036
+dataset/person_804/img_07.jpg,dataset/person_369/img_03.jpg,John Travolta,Denzel Washington,0.21972,0.0359
+dataset/person_1326/img_04.jpg,dataset/person_687/img_02.jpg,Ray Romano,Janet Napolitano,0.219283,0.0355
+dataset/person_1658/img_05.jpg,dataset/person_474/img_02.jpg,Xanana Gusmao,Fernando Henrique Cardoso,0.219207,0.0354
+dataset/person_040/img_02.jpg,dataset/person_1326/img_05.jpg,Alec Baldwin,Ray Romano,0.218466,0.0347
+dataset/person_229/img_09.jpg,dataset/person_1396/img_01.jpg,Carlos Moya,Roberto Carlos,0.217786,0.034
+dataset/person_1326/img_05.jpg,dataset/person_844/img_05.jpg,Ray Romano,Juan Pablo Montoya,0.216852,0.033
+dataset/person_065/img_10.jpg,dataset/person_491/img_02.jpg,Alvaro Uribe,Frank Solich,0.216183,0.0324
+dataset/person_229/img_13.jpg,dataset/person_785/img_05.jpg,Carlos Moya,John McCain,0.215612,0.0318
+dataset/person_515/img_03.jpg,dataset/person_1202/img_02.jpg,Gene Robinson,Noelle Bush,0.215598,0.0318
+dataset/person_1217/img_04.jpg,dataset/person_1658/img_05.jpg,Osama bin Laden,Xanana Gusmao,0.215565,0.0318
+dataset/person_289/img_03.jpg,dataset/person_022/img_03.jpg,Christopher Reeve,Ai Sugiyama,0.215501,0.0317
+dataset/person_491/img_02.jpg,dataset/person_1355/img_03.jpg,Frank Solich,Rick Carlisle,0.215281,0.0315
+dataset/person_1022/img_07.jpg,dataset/person_547/img_02.jpg,Maria Shriver,Giuseppe Gibilisco,0.215207,0.0314
+dataset/person_1244/img_07.jpg,dataset/person_367/img_05.jpg,Paul Bremer,Dennis Kucinich,0.214995,0.0312
+dataset/person_1680/img_03.jpg,dataset/person_896/img_03.jpg,Zoran Djindjic,Kim Clijsters,0.21495,0.0311
+dataset/person_815/img_04.jpg,dataset/person_1454/img_02.jpg,Jon Gruden,Scott McClellan,0.21469,0.0309
+dataset/person_1309/img_02.jpg,dataset/person_1097/img_01.jpg,Queen Elizabeth II,Michael Chiklis,0.21444,0.0306
+dataset/person_744/img_14.jpg,dataset/person_1563/img_01.jpg,Jiang Zemin,Tim Duncan,0.214255,0.0305
+dataset/person_1192/img_02.jpg,dataset/person_871/img_03.jpg,Nicanor Duarte Frutos,Katherine Harris,0.212981,0.0292
+dataset/person_311/img_04.jpg,dataset/person_1244/img_14.jpg,Conan OBrien,Paul Bremer,0.212701,0.0289
+dataset/person_527/img_05.jpg,dataset/person_710/img_06.jpg,George Pataki,Jean Charest,0.211508,0.0277
+dataset/person_040/img_04.jpg,dataset/person_1454/img_05.jpg,Alec Baldwin,Scott McClellan,0.211108,0.0273
+dataset/person_287/img_06.jpg,dataset/person_871/img_02.jpg,Christine Todd Whitman,Katherine Harris,0.210635,0.0268
+dataset/person_713/img_06.jpg,dataset/person_162/img_03.jpg,Jeb Bush,Bill Frist,0.210217,0.0264
+dataset/person_1022/img_04.jpg,dataset/person_1369/img_04.jpg,Maria Shriver,Rita Wilson,0.209941,0.0261
+dataset/person_769/img_10.jpg,dataset/person_1563/img_01.jpg,John Allen Muhammad,Tim Duncan,0.209813,0.026
+dataset/person_1226/img_06.jpg,dataset/person_930/img_04.jpg,Paradorn Srichaphan,Larry Thompson,0.209805,0.026
+dataset/person_411/img_01.jpg,dataset/person_711/img_09.jpg,Edmund Stoiber,Jean Chretien,0.209795,0.026
+dataset/person_710/img_13.jpg,dataset/person_1355/img_02.jpg,Jean Charest,Rick Carlisle,0.209071,0.0253
+dataset/person_194/img_01.jpg,dataset/person_1588/img_04.jpg,Brad Garrett,Tony Bennett,0.208926,0.0251
+dataset/person_844/img_02.jpg,dataset/person_1658/img_01.jpg,Juan Pablo Montoya,Xanana Gusmao,0.208858,0.0251
+dataset/person_1097/img_04.jpg,dataset/person_1420/img_02.jpg,Michael Chiklis,Roy Moore,0.208451,0.0246
+dataset/person_1191/img_01.jpg,dataset/person_374/img_06.jpg,Nia Vardalos,Diana Krall,0.208017,0.0242
+dataset/person_391/img_04.jpg,dataset/person_367/img_01.jpg,Donald Fehr,Dennis Kucinich,0.207963,0.0242
+dataset/person_1326/img_08.jpg,dataset/person_776/img_07.jpg,Ray Romano,John Edwards,0.207873,0.0241
+dataset/person_527/img_05.jpg,dataset/person_1098/img_02.jpg,George Pataki,Michael Douglas,0.207806,0.024
+dataset/person_309/img_02.jpg,dataset/person_711/img_03.jpg,Colin Montgomerie,Jean Chretien,0.207609,0.0238
+dataset/person_474/img_06.jpg,dataset/person_1653/img_04.jpg,Fernando Henrique Cardoso,Win Aung,0.207559,0.0238
+dataset/person_870/img_02.jpg,dataset/person_354/img_05.jpg,Kate Winslet,David Trimble,0.207482,0.0237
+dataset/person_1202/img_02.jpg,dataset/person_911/img_04.jpg,Noelle Bush,Kristanna Loken,0.207176,0.0234
+dataset/person_909/img_32.jpg,dataset/person_544/img_04.jpg,Kofi Annan,Gilberto Rodriguez Orejuela,0.207063,0.0233
+dataset/person_1572/img_02.jpg,dataset/person_1492/img_16.jpg,Tom Crean,Silvio Berlusconi,0.20676,0.023
+dataset/person_785/img_06.jpg,dataset/person_924/img_03.jpg,John McCain,Larry Brown,0.20674,0.0229
+dataset/person_1316/img_03.jpg,dataset/person_309/img_03.jpg,Rainer Schuettler,Colin Montgomerie,0.206581,0.0228
+dataset/person_1680/img_02.jpg,dataset/person_1052/img_03.jpg,Zoran Djindjic,Martha Burk,0.206339,0.0225
+dataset/person_853/img_07.jpg,dataset/person_911/img_01.jpg,Julianne Moore,Kristanna Loken,0.206142,0.0223
+dataset/person_527/img_05.jpg,dataset/person_783/img_02.jpg,George Pataki,John Manley,0.206035,0.0222
+dataset/person_149/img_04.jpg,dataset/person_1334/img_12.jpg,Bernard Law,Ricardo Lagos,0.205928,0.0221
+dataset/person_989/img_03.jpg,dataset/person_1486/img_02.jpg,Ludivine Sagnier,Sheryl Crow,0.205865,0.0221
+dataset/person_287/img_01.jpg,dataset/person_711/img_11.jpg,Christine Todd Whitman,Jean Chretien,0.205608,0.0218
+dataset/person_1546/img_04.jpg,dataset/person_891/img_04.jpg,Thaksin Shinawatra,Kevin Spacey,0.205593,0.0218
+dataset/person_412/img_05.jpg,dataset/person_411/img_01.jpg,Eduard Shevardnadze,Edmund Stoiber,0.205582,0.0218
+dataset/person_1309/img_09.jpg,dataset/person_412/img_03.jpg,Queen Elizabeth II,Eduard Shevardnadze,0.205431,0.0216
+dataset/person_930/img_03.jpg,dataset/person_256/img_01.jpg,Larry Thompson,Chanda Rubin,0.20532,0.0215
+dataset/person_1486/img_08.jpg,dataset/person_043/img_03.jpg,Sheryl Crow,Alejandro Toledo,0.204906,0.0211
+dataset/person_1352/img_02.jpg,dataset/person_1382/img_01.jpg,Richard Virenque,Robert Duvall,0.204845,0.021
+dataset/person_1531/img_06.jpg,dataset/person_655/img_13.jpg,Sylvester Stallone,Jackie Chan,0.204687,0.0209
+dataset/person_776/img_04.jpg,dataset/person_515/img_05.jpg,John Edwards,Gene Robinson,0.203929,0.0201
+dataset/person_391/img_02.jpg,dataset/person_1546/img_04.jpg,Donald Fehr,Thaksin Shinawatra,0.203768,0.02
+dataset/person_1355/img_04.jpg,dataset/person_547/img_02.jpg,Rick Carlisle,Giuseppe Gibilisco,0.20367,0.0199
+dataset/person_911/img_01.jpg,dataset/person_853/img_19.jpg,Kristanna Loken,Julianne Moore,0.202936,0.0191
+dataset/person_1371/img_06.jpg,dataset/person_871/img_04.jpg,Rob Marshall,Katherine Harris,0.202782,0.019
+dataset/person_896/img_13.jpg,dataset/person_1439/img_03.jpg,Kim Clijsters,Sally Kirkland,0.2026,0.0188
+dataset/person_935/img_04.jpg,dataset/person_853/img_02.jpg,Laura Linney,Julianne Moore,0.202316,0.0185
+dataset/person_844/img_07.jpg,dataset/person_313/img_01.jpg,Juan Pablo Montoya,Condoleezza Rice,0.202212,0.0184
+dataset/person_1669/img_02.jpg,dataset/person_064/img_01.jpg,Yu Shyi-kun,Alvaro Silva Calderon,0.202084,0.0183
+dataset/person_1420/img_05.jpg,dataset/person_861/img_05.jpg,Roy Moore,Justin Timberlake,0.202073,0.0183
+dataset/person_1371/img_06.jpg,dataset/person_710/img_04.jpg,Rob Marshall,Jean Charest,0.202063,0.0183
+dataset/person_1326/img_09.jpg,dataset/person_313/img_11.jpg,Ray Romano,Condoleezza Rice,0.201072,0.0173
+dataset/person_519/img_09.jpg,dataset/person_1355/img_02.jpg,George Clooney,Rick Carlisle,0.201054,0.0173
+dataset/person_022/img_02.jpg,dataset/person_896/img_05.jpg,Ai Sugiyama,Kim Clijsters,0.200886,0.0171
+dataset/person_431/img_03.jpg,dataset/person_1454/img_03.jpg,Elizabeth Smart,Scott McClellan,0.200351,0.0165
+dataset/person_861/img_07.jpg,dataset/person_391/img_02.jpg,Justin Timberlake,Donald Fehr,0.200013,0.0162
+dataset/person_909/img_18.jpg,dataset/person_1101/img_04.jpg,Kofi Annan,Michael Jordan,0.199777,0.016
+dataset/person_930/img_03.jpg,dataset/person_896/img_11.jpg,Larry Thompson,Kim Clijsters,0.199447,0.0156
+dataset/person_1334/img_16.jpg,dataset/person_354/img_03.jpg,Ricardo Lagos,David Trimble,0.199105,0.0153
+dataset/person_1101/img_02.jpg,dataset/person_1226/img_05.jpg,Michael Jordan,Paradorn Srichaphan,0.198452,0.0146
+dataset/person_049/img_04.jpg,dataset/person_853/img_01.jpg,Alexander Losyukov,Julianne Moore,0.198189,0.0144
+dataset/person_1653/img_01.jpg,dataset/person_744/img_18.jpg,Win Aung,Jiang Zemin,0.197941,0.0141
+dataset/person_1098/img_02.jpg,dataset/person_1355/img_01.jpg,Michael Douglas,Rick Carlisle,0.197802,0.014
+dataset/person_1387/img_03.jpg,dataset/person_1355/img_02.jpg,Robert Kocharian,Rick Carlisle,0.19775,0.0139
+dataset/person_1302/img_04.jpg,dataset/person_1170/img_04.jpg,Princess Caroline,Nan Wang,0.197656,0.0139
+dataset/person_989/img_03.jpg,dataset/person_1202/img_01.jpg,Ludivine Sagnier,Noelle Bush,0.197594,0.0138
+dataset/person_289/img_02.jpg,dataset/person_713/img_10.jpg,Christopher Reeve,Jeb Bush,0.197592,0.0138
+dataset/person_1022/img_03.jpg,dataset/person_1531/img_09.jpg,Maria Shriver,Sylvester Stallone,0.197546,0.0137
+dataset/person_1580/img_21.jpg,dataset/person_1052/img_04.jpg,Tom Ridge,Martha Burk,0.197429,0.0136
+dataset/person_527/img_04.jpg,dataset/person_891/img_05.jpg,George Pataki,Kevin Spacey,0.197021,0.0132
+dataset/person_367/img_05.jpg,dataset/person_354/img_03.jpg,Dennis Kucinich,David Trimble,0.196725,0.0129
+dataset/person_1101/img_04.jpg,dataset/person_1601/img_05.jpg,Michael Jordan,Tung Chee-hwa,0.196444,0.0126
+dataset/person_040/img_02.jpg,dataset/person_963/img_02.jpg,Alec Baldwin,Li Peng,0.196057,0.0123
+dataset/person_1601/img_03.jpg,dataset/person_246/img_05.jpg,Tung Chee-hwa,Catherine Deneuve,0.195591,0.0118
+dataset/person_1492/img_05.jpg,dataset/person_1097/img_02.jpg,Silvio Berlusconi,Michael Chiklis,0.195071,0.0113
+dataset/person_256/img_03.jpg,dataset/person_431/img_04.jpg,Chanda Rubin,Elizabeth Smart,0.194909,0.0111
+dataset/person_1098/img_01.jpg,dataset/person_815/img_02.jpg,Michael Douglas,Jon Gruden,0.194445,0.0106
+dataset/person_1309/img_09.jpg,dataset/person_655/img_08.jpg,Queen Elizabeth II,Jackie Chan,0.194254,0.0105
+dataset/person_1022/img_06.jpg,dataset/person_1454/img_01.jpg,Maria Shriver,Scott McClellan,0.193727,0.0099
+dataset/person_354/img_01.jpg,dataset/person_065/img_23.jpg,David Trimble,Alvaro Uribe,0.193168,0.0094
+dataset/person_1492/img_01.jpg,dataset/person_1355/img_04.jpg,Silvio Berlusconi,Rick Carlisle,0.193166,0.0094
+dataset/person_1309/img_09.jpg,dataset/person_1439/img_03.jpg,Queen Elizabeth II,Sally Kirkland,0.193119,0.0093
+dataset/person_256/img_03.jpg,dataset/person_1097/img_02.jpg,Chanda Rubin,Michael Chiklis,0.193016,0.0092
+dataset/person_519/img_07.jpg,dataset/person_1244/img_05.jpg,George Clooney,Paul Bremer,0.192682,0.0089
+dataset/person_229/img_16.jpg,dataset/person_1580/img_33.jpg,Carlos Moya,Tom Ridge,0.192628,0.0088
+dataset/person_844/img_04.jpg,dataset/person_1658/img_03.jpg,Juan Pablo Montoya,Xanana Gusmao,0.192563,0.0088
+dataset/person_1098/img_01.jpg,dataset/person_1382/img_08.jpg,Michael Douglas,Robert Duvall,0.192559,0.0088
+dataset/person_916/img_01.jpg,dataset/person_1326/img_07.jpg,Kurt Warner,Ray Romano,0.192503,0.0087
+dataset/person_1352/img_03.jpg,dataset/person_1563/img_04.jpg,Richard Virenque,Tim Duncan,0.192431,0.0086
+dataset/person_1244/img_02.jpg,dataset/person_1411/img_05.jpg,Paul Bremer,Roman Polanski,0.192122,0.0083
+dataset/person_535/img_01.jpg,dataset/person_744/img_09.jpg,Geraldine Chaplin,Jiang Zemin,0.192113,0.0083
+dataset/person_844/img_01.jpg,dataset/person_1396/img_02.jpg,Juan Pablo Montoya,Roberto Carlos,0.191112,0.0073
+dataset/person_935/img_03.jpg,dataset/person_1052/img_02.jpg,Laura Linney,Martha Burk,0.190946,0.0071
+dataset/person_1546/img_04.jpg,dataset/person_804/img_03.jpg,Thaksin Shinawatra,John Travolta,0.190921,0.0071
+dataset/person_769/img_08.jpg,dataset/person_1334/img_12.jpg,John Allen Muhammad,Ricardo Lagos,0.190784,0.007
+dataset/person_776/img_02.jpg,dataset/person_1097/img_01.jpg,John Edwards,Michael Chiklis,0.190213,0.0064
+dataset/person_311/img_01.jpg,dataset/person_815/img_06.jpg,Conan OBrien,Jon Gruden,0.189934,0.0061
+dataset/person_909/img_15.jpg,dataset/person_1563/img_01.jpg,Kofi Annan,Tim Duncan,0.189763,0.006
+dataset/person_861/img_08.jpg,dataset/person_1170/img_01.jpg,Justin Timberlake,Nan Wang,0.189743,0.0059
+dataset/person_853/img_17.jpg,dataset/person_1486/img_04.jpg,Julianne Moore,Sheryl Crow,0.189423,0.0056
+dataset/person_710/img_05.jpg,dataset/person_1420/img_05.jpg,Jean Charest,Roy Moore,0.189381,0.0056
+dataset/person_1396/img_04.jpg,dataset/person_1563/img_01.jpg,Roberto Carlos,Tim Duncan,0.189098,0.0053
+dataset/person_256/img_03.jpg,dataset/person_1101/img_03.jpg,Chanda Rubin,Michael Jordan,0.189007,0.0052
+dataset/person_911/img_02.jpg,dataset/person_1316/img_02.jpg,Kristanna Loken,Rainer Schuettler,0.188952,0.0051
+dataset/person_1669/img_01.jpg,dataset/person_367/img_07.jpg,Yu Shyi-kun,Dennis Kucinich,0.188595,0.0048
+dataset/person_519/img_04.jpg,dataset/person_049/img_03.jpg,George Clooney,Alexander Losyukov,0.188534,0.0047
+dataset/person_1492/img_30.jpg,dataset/person_022/img_03.jpg,Silvio Berlusconi,Ai Sugiyama,0.188335,0.0045
+dataset/person_527/img_05.jpg,dataset/person_355/img_07.jpg,George Pataki,David Wells,0.187906,0.0041
+dataset/person_687/img_03.jpg,dataset/person_162/img_02.jpg,Janet Napolitano,Bill Frist,0.187895,0.0041
+dataset/person_256/img_01.jpg,dataset/person_661/img_06.jpg,Chanda Rubin,James Blake,0.187548,0.0037
+dataset/person_474/img_04.jpg,dataset/person_065/img_12.jpg,Fernando Henrique Cardoso,Alvaro Uribe,0.187282,0.0035
+dataset/person_1334/img_01.jpg,dataset/person_655/img_10.jpg,Ricardo Lagos,Jackie Chan,0.187166,0.0034
+dataset/person_229/img_11.jpg,dataset/person_1101/img_04.jpg,Carlos Moya,Michael Jordan,0.18706,0.0033
+dataset/person_544/img_04.jpg,dataset/person_1439/img_04.jpg,Gilberto Rodriguez Orejuela,Sally Kirkland,0.186906,0.0031
+dataset/person_1563/img_01.jpg,dataset/person_861/img_03.jpg,Tim Duncan,Justin Timberlake,0.186623,0.0028
+dataset/person_547/img_01.jpg,dataset/person_585/img_07.jpg,Giuseppe Gibilisco,Hamid Karzai,0.186303,0.0025
+dataset/person_870/img_04.jpg,dataset/person_601/img_03.jpg,Kate Winslet,Heath Ledger,0.186278,0.0025
+dataset/person_713/img_09.jpg,dataset/person_1226/img_03.jpg,Jeb Bush,Paradorn Srichaphan,0.186067,0.0023
+dataset/person_1371/img_05.jpg,dataset/person_022/img_02.jpg,Rob Marshall,Ai Sugiyama,0.185503,0.0017
+dataset/person_769/img_06.jpg,dataset/person_1563/img_03.jpg,John Allen Muhammad,Tim Duncan,0.185468,0.0017
+dataset/person_783/img_03.jpg,dataset/person_1680/img_01.jpg,John Manley,Zoran Djindjic,0.185087,0.0013
+dataset/person_1355/img_03.jpg,dataset/person_861/img_06.jpg,Rick Carlisle,Justin Timberlake,0.185039,0.0012
+dataset/person_844/img_08.jpg,dataset/person_601/img_02.jpg,Juan Pablo Montoya,Heath Ledger,0.184943,0.0011
+dataset/person_1658/img_03.jpg,dataset/person_1355/img_03.jpg,Xanana Gusmao,Rick Carlisle,0.18481,0.001
+dataset/person_354/img_01.jpg,dataset/person_149/img_04.jpg,David Trimble,Bernard Law,0.184427,0.0006

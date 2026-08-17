@@ -85,9 +85,20 @@ def main():
         for a, b, y in pairs:
             w.writerow([a.relative_to(args.root).as_posix(), b.relative_to(args.root).as_posix(), y])
 
+    # plain-text mirror of the same pairs, LFW pairs.txt style: one pair per line
+    txt = out.with_suffix(".txt")
+    with txt.open("w", encoding="utf-8") as f:
+        f.write(f"# {stats['generated_positive']} genuine + {stats['generated_negative']} "
+                f"impostor pairs from the {args.split} split, seed {args.seed}\n")
+        f.write("# label 1 = same person, 0 = different people\n")
+        f.write("# image_a\timage_b\tlabel\n")
+        for a, b, y in pairs:
+            f.write(f"{a.relative_to(args.root).as_posix()}\t"
+                    f"{b.relative_to(args.root).as_posix()}\t{y}\n")
+
     out.with_name(out.stem + "_stats.json").write_text(json.dumps(stats, indent=2))
     print(json.dumps(stats, indent=2))
-    print(f"wrote {len(pairs)} pairs -> {out}")
+    print(f"wrote {len(pairs)} pairs -> {out} and {txt}")
 
 
 if __name__ == "__main__":

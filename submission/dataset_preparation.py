@@ -69,8 +69,39 @@ def fetch(raw_dir):
     raise RuntimeError("no LFW folder after extraction")
 
 
+# ArcFace's canonical 5-point template, defined at 112x112 and scaled to `size`.
+# Aligning every face onto these coordinates removes in-plane rotation, scale and
+# translation, so the network sees eyes, nose and mouth in the same place every time.
+TEMPLATE_112 = np.float32([
+    [38.2946, 51.6963],   # right eye
+    [73.5318, 51.5014],   # left eye
+    [56.0252, 71.7366],   # nose tip
+    [41.5493, 92.3655],   # right mouth corner
+    [70.7299, 92.2041],   # left mouth corner
+])
+
+YUNET_URL = ("https://media.githubusercontent.com/media/opencv/opencv_zoo/main/"
+             "models/face_detection_yunet/face_detection_yunet_2023mar.onnx")
+
+
+def yunet_model(path="../models/yunet.onnx"):
+    """Fetch the YuNet detector weights once, then load them."""
+    path = Path(path)
+    if not path.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        print(f"downloading YuNet detector -> {path}")
+        urllib.request.urlretrieve(YUNET_URL, path)
+    return str(path)
+
+
 class Cropper:
-    def __init__(self, size=SIZE, margin=MARGIN):
+    """YuNet detection + 5-point landmark alignment onto the ArcFace template.
+
+    Falls back to the Haar cascade when YuNet finds nothing, so a detector miss
+    degrades to the previous behaviour instead of dropping the image.
+    """
+
+    def __init__(self, size=SIZE, margin=MARGIN, model=None):
         cascades = Path(cv2.data.haarcascades)
         self.face = cv2.CascadeClassifier(str(cascades / "haarcascade_frontalface_default.xml"))
         self.eye = cv2.CascadeClassifier(str(cascades / "haarcascade_eye.xml"))
@@ -79,6 +110,33 @@ class Cropper:
         self.size = size
         self.margin = margin
         self.stats = defaultdict(int)
+
+        self.template = TEMPLATE_112 * (size / 112.0)
+        try:
+            self.yunet = cv2.FaceDetectorYN.create(yunet_model(model or "../models/yunet.onnx"),
+                                                   "", (320, 320), 0.7, 0.3, 5000)
+        except Exception as e:                       # keep working without the detector
+            print(f"YuNet unavailable ({e}); falling back to Haar + eye alignment")
+            self.yunet = None
+
+    def landmarks(self, img):
+        """Return the 5 landmark points of the most confident face, or None."""
+        if self.yunet is None:
+            return None
+        h, w = img.shape[:2]
+        self.yunet.setInputSize((w, h))
+        _, faces = self.yunet.detect(img)
+        if faces is None or len(faces) == 0:
+            return None
+        f = max(faces, key=lambda r: r[14])          # highest detection score
+        return np.float32(f[4:14]).reshape(5, 2)
+
+    def align_landmarks(self, img, pts):
+        """Similarity transform mapping the 5 points onto the canonical template."""
+        m, _ = cv2.estimateAffinePartial2D(pts, self.template, method=cv2.LMEDS)
+        if m is None:
+            return None
+        return cv2.warpAffine(img, m, (self.size, self.size), flags=cv2.INTER_LINEAR)
 
     def detect(self, gray):
         boxes = self.face.detectMultiScale(gray, 1.1, 5, minSize=(48, 48))
@@ -132,11 +190,21 @@ class Cropper:
         return self.from_array(img)
 
     def from_array(self, img, fallback=True):
-        """Crop the face. With fallback=False, give up instead of centre-cropping.
+        """Crop and align the face. With fallback=False, give up if nothing is found.
 
-        The centre-crop fallback is safe on funnelled LFW images but wrong for
-        arbitrary uploads, where "no face here" is the honest answer.
+        Preferred path is YuNet landmarks + similarity transform. If the detector
+        misses, drop back to Haar detection with eye-line rotation; if that misses
+        too, a centre crop (safe on funnelled LFW, wrong for arbitrary uploads,
+        hence the fallback flag).
         """
+        pts = self.landmarks(img)
+        if pts is not None:
+            face = self.align_landmarks(img, pts)
+            if face is not None:
+                self.stats["landmark_aligned"] += 1
+                return face
+            self.stats["align_failed"] += 1
+
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         box = self.detect(gray)
         if box is None:
@@ -202,6 +270,7 @@ def main():
     ordered.sort(key=lambda t: t[1])
 
     manifest, folders, total = {}, {"train": [], "val": [], "test": []}, 0
+    landmarks = {}
     for i, (split, original) in enumerate(ordered, 1):
         folder = f"person_{i:03d}"
         dest = out / folder
@@ -209,11 +278,27 @@ def main():
 
         n = 0
         for src in people[original]:
-            face = cropper(src)
+            raw = cv2.imread(str(src))
+            if raw is None:
+                cropper.stats["unreadable"] += 1
+                continue
+            pts = cropper.landmarks(raw)
+            face = cropper.from_array(raw)
             if face is None:
                 continue
             n += 1
-            cv2.imwrite(str(dest / f"img_{n:02d}.jpg"), face, [cv2.IMWRITE_JPEG_QUALITY, 95])
+            name = f"img_{n:02d}.jpg"
+            cv2.imwrite(str(dest / name), face, [cv2.IMWRITE_JPEG_QUALITY, 95])
+            if pts is not None:
+                # landmarks in the ORIGINAL image frame, so the crop is reproducible
+                landmarks[f"{folder}/{name}"] = {
+                    "source": str(src.relative_to(lfw.parent)).replace("\\", "/"),
+                    "right_eye": [round(float(pts[0][0]), 2), round(float(pts[0][1]), 2)],
+                    "left_eye": [round(float(pts[1][0]), 2), round(float(pts[1][1]), 2)],
+                    "nose": [round(float(pts[2][0]), 2), round(float(pts[2][1]), 2)],
+                    "mouth_right": [round(float(pts[3][0]), 2), round(float(pts[3][1]), 2)],
+                    "mouth_left": [round(float(pts[4][0]), 2), round(float(pts[4][1]), 2)],
+                }
 
         if n < (MIN_EVAL if split in ("val", "test") else MIN_TRAIN):
             shutil.rmtree(dest)
@@ -240,14 +325,15 @@ def main():
         "splits": {k: {"identities": len(v), "images": sum(manifest[f]["num_images"] for f in v)}
                    for k, v in folders.items()},
         "preprocessing": {
-            "detector": "OpenCV Haar cascade (frontalface_default)",
-            "alignment": "eye-line rotation via haarcascade_eye when both eyes found",
+            "detector": "OpenCV YuNet (5-point landmarks), Haar cascade fallback",
+            "alignment": "similarity transform of the 5 landmarks onto the ArcFace template",
             "crop_margin": MARGIN,
             "fallback": "central 50% box when detection fails",
         },
         "detection_stats": dict(cropper.stats),
     }
 
+    Path("landmarks.json").write_text(json.dumps(landmarks, indent=1))
     Path("dataset_stats.json").write_text(json.dumps(stats, indent=2))
     Path("splits.json").write_text(json.dumps(folders, indent=2))
     Path("identity_manifest.json").write_text(json.dumps(manifest, indent=2))

@@ -1,0 +1,26 @@
+{
+  "note": "same checkpoint and pairing protocol applied to both datasets; MLFW restricted to identities absent from the training split",
+  "LFW": {
+    "pairs": 10000,
+    "roc_auc": 0.95872512,
+    "eer": 0.09609999999999999,
+    "best_accuracy": 0.9071,
+    "tar_at_far_1pct": 0.7276,
+    "tar_at_far_0.1pct": 0.4376
+  },
+  "MLFW": {
+    "pairs": 10000,
+    "identities_used": 1779,
+    "identities_total": 2996,
+    "roc_auc": 0.84521744,
+    "eer": 0.24059999999999998,
+    "best_accuracy": 0.7665,
+    "tar_at_far_1pct": 0.3758,
+    "tar_at_far_0.1pct": 0.2768
+  },
+  "cost_of_mask": {
+    "auc_drop": 0.11350768,
+    "eer_increase_pp": 14.45,
+    "tar_at_far_1pct_drop_pp": 35.18
+  }
+}

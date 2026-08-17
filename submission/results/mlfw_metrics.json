@@ -1,0 +1,38 @@
+{
+  "source": "MLFW (aligned images)",
+  "official_pairs": 6000,
+  "identities": 2996,
+  "identities_in_train": 1206,
+  "train_overlap_fraction": 0.40253671562082777,
+  "leakage_free_official_pairs": 2263,
+  "official_(leaky)": {
+    "pairs": 6000,
+    "genuine": 3000,
+    "impostor": 3000,
+    "roc_auc": 0.5536564444444444,
+    "eer": 0.4643333333333334,
+    "best_accuracy": 0.5456666666666666,
+    "tar_at_far_1pct": 0.018333333333333333,
+    "tar_at_far_0.1pct": 0.004666666666666667
+  },
+  "leakage-free_subset": {
+    "pairs": 2263,
+    "genuine": 1788,
+    "impostor": 475,
+    "roc_auc": 0.5464500176616036,
+    "eer": 0.46781054986459436,
+    "best_accuracy": 0.7909854175872735,
+    "tar_at_far_1pct": 0.010626398210290829,
+    "tar_at_far_0.1pct": 0.0039149888143176735
+  },
+  "leakage-free_balanced": {
+    "pairs": 6000,
+    "genuine": 3000,
+    "impostor": 3000,
+    "roc_auc": 0.8324838333333333,
+    "eer": 0.25,
+    "best_accuracy": 0.7553333333333333,
+    "tar_at_far_1pct": 0.3343333333333333,
+    "tar_at_far_0.1pct": 0.22733333333333333
+  }
+}

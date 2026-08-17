@@ -21,7 +21,7 @@ from torchvision.models import resnet50
 
 HF_REPO = "yashMaini/face-verification-resnet50"
 GITHUB = "https://github.com/Yashmaini30/face-verification-resnet50"
-THRESHOLD = 0.1792          # fitted on the validation split
+THRESHOLD = 0.1838          # fitted on the validation split
 SIZE, MARGIN = 224, 0.30
 MEAN, STD = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
 
@@ -140,8 +140,8 @@ st.write(
     f"similarity against a threshold of **{THRESHOLD}** fitted on a validation split."
 )
 st.caption(
-    "Measured on 120 LFW identities never seen in training — ROC-AUC 0.9700, "
-    f"EER 8.98%, 90.94% verification accuracy.  [Code and full report]({GITHUB})"
+    "Measured on 120 LFW identities never seen in training — ROC-AUC 0.9587, "
+    f"EER 9.61%, 90.60% verification accuracy.  [Code and full report]({GITHUB})"
 )
 
 tab_v, tab_i = st.tabs(["Verify — are these the same person?",
@@ -194,7 +194,7 @@ with tab_v:
             st.progress(min(1.0, max(0.0, (score + 1) / 2)))
             st.caption(
                 "Scores run from −1 to 1. On the held-out test set genuine pairs averaged "
-                "**0.398** and impostor pairs **0.013**."
+                "**0.400** and impostor pairs **0.007**."
             )
 
 with tab_i:
@@ -207,7 +207,7 @@ with tab_i:
             "The gallery holds **120 identities** from the held-out test split, each enrolled "
             "from 2 photos averaged into a single template — the same protocol as the report. "
             "Upload a probe and it is ranked against all 120 by cosine similarity. "
-            "Rank-1 on this gallery is **72.82%**, Rank-5 **91.28%** (chance 0.83%)."
+            "Rank-1 on this gallery is **76.99%**, Rank-5 **92.79%** (chance 0.83%)."
         )
         probe_file = st.file_uploader("Probe — who is this?", type=["jpg", "jpeg", "png"],
                                       key="probe_builtin")

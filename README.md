@@ -26,19 +26,46 @@ Measured on **120 identities that never appear in training** (LFW, identity-disj
 
 | | |
 |---|---|
-| ROC-AUC | **0.9700** |
-| Equal Error Rate | 8.98% |
-| Verification accuracy | 90.94% at threshold **0.1792** |
-| Rank-1 / Rank-5 | **55.87%** / 81.89% (chance 0.83%) |
-| TAR @ FAR = 1% | 67.66% |
-| Open-set DIR @ FPIR = 1% | 20.11% |
+| ROC-AUC | **0.9587** |
+| Equal Error Rate | 9.61% |
+| Verification accuracy | 90.60% at threshold **0.1838** |
+| Rank-1 / Rank-5 | **64.00%** / 85.62% (chance 0.83%) |
+| TAR @ FAR = 1% | 72.76% |
+| Open-set DIR @ FPIR = 1% | 28.62% |
 
 <p align="center">
   <img src="submission/results/roc_curve_exhaustive.png" width="92%"><br>
   <sub>ROC over all 530,965 test pairs. The right panel resolves down to FAR = 10⁻⁵.</sub><br><br>
   <img src="submission/results/similarity_distribution.png" width="72%"><br>
-  <sub>Genuine vs impostor cosine similarity, with the 0.1792 decision threshold.</sub>
+  <sub>Genuine vs impostor cosine similarity, with the 0.1838 decision threshold.</sub>
 </p>
+
+### Cross-dataset: LFW vs MLFW
+
+Same checkpoint, same threshold, same balanced pairing protocol on both datasets,
+so the gap is the mask and nothing else. MLFW is restricted to the 1,779
+identities absent from training — 40.3% of its identities overlap the training
+split, because MLFW derives from CALFW which derives from LFW.
+
+| Dataset | ROC-AUC | EER | TAR @ FAR 1% |
+|---|---|---|---|
+| **LFW** (unmasked) | **0.9587** | 9.61% | 72.76% |
+| **MLFW** (masked) | **0.8452** | 24.06% | 37.58% |
+| cost of the mask | −0.1135 | +14.45 pp | −35.18 pp |
+
+<p align="center">
+  <img src="submission/results/dataset_roc_lfw_vs_mlfw.png" width="92%"><br>
+  <sub>One model, one protocol, two datasets. A mask costs ~11 AUC points but
+  roughly halves usable performance at a 1% false-accept rate.</sub>
+</p>
+
+On MLFW's *official* 6,000-pair protocol the model scores AUC 0.5537 — near
+chance. That protocol is adversarial by design (same identity in different masks,
+different identities in the same mask, on top of CALFW's cross-age gap) and this
+model never saw a masked face in training. Filtering the leaked identities barely
+changes it (0.5465), which confirms the difficulty is the protocol rather than
+the overlap. Full discussion in
+[`submission/README.md`](submission/README.md#8-results).
 
 ### Low-FAR operating points
 
@@ -49,14 +76,14 @@ all 530,965, of which 523,104 are impostors — pushes the measurement floor to
 
 | FAR | TAR | impostor pairs behind it |
 |---|---|---|
-| 10⁻² | 67.07% | 5,231 |
-| 10⁻³ | **40.34%** | 523 |
-| 10⁻⁴ | 23.14% | 52 |
-| 10⁻⁵ | 12.64% | 5 — a plot endpoint, not a reliable measurement |
+| 10⁻² | 72.37% | 5,231 |
+| 10⁻³ | **46.76%** | 523 |
+| 10⁻⁴ | 26.87% | 52 |
+| 10⁻⁵ | 15.62% | 5 — a plot endpoint, not a reliable measurement |
 
-Every pair the system gets wrong is listed out: [`false_accepts.csv`](submission/results/false_accepts.csv) — 398 impostor pairs accepted at the threshold, **7.96% FAR** — and [`false_rejects.csv`](submission/results/false_rejects.csv) — 508 genuine pairs rejected, **10.16% FRR** — both with real identity names, scores and margins, plus montages of the worst cases in `submission/results/`.
+Every pair the system gets wrong is listed out: [`false_accepts.csv`](submission/results/false_accepts.csv) — 369 impostor pairs accepted at the threshold, **7.38% FAR** — and [`false_rejects.csv`](submission/results/false_rejects.csv) — 571 genuine pairs rejected, **11.42% FRR** — both with real identity names, scores and margins, plus montages of the worst cases in `submission/results/`.
 
-AUC 0.9710 and EER 8.92% on all pairs, within 0.001 and 0.06 points of the
+AUC 0.9638 and EER 8.81% on all pairs, within 0.001 and 0.06 points of the
 sampled protocol — so the round-robin sampling was representative and what
 changes is resolution, not bias. Reproduce with
 `python roc_analysis.py --exhaustive --split test`.
@@ -64,7 +91,7 @@ changes is resolution, not bias. Reproduce with
 ## Pipeline
 
 ```
-LFW  →  face detection / alignment / crop  →  224×224
+LFW  →  YuNet detection → 5-point landmarks → align + crop  →  224×224
      →  ResNet50  →  512-D embedding  →  L2 normalise
      →  ├── pair generation → cosine similarity → ROC / AUC → threshold
         └── gallery + probe → cosine search → Rank-1 / CMC / open-set

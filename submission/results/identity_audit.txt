@@ -1,0 +1,77 @@
+IDENTITY LABEL AUDIT
+split: test   identities: 120   images: 1031
+
+Two things can be wrong with identity labels, and both are detectable from
+the embeddings alone:
+
+  A. ONE LABEL, TWO PEOPLE   - a folder holding more than one individual.
+     Detected as low mean similarity between images inside that folder.
+  B. TWO LABELS, ONE PERSON  - the same individual under two names.
+     Detected as two folder templates sitting unusually close together.
+
+==============================================================================
+HOW THE PIPELINE HANDLES THEM
+==============================================================================
+  Pair generation trusts the folder: same folder -> genuine, different
+  folders -> impostor. So:
+
+    case A turns some GENUINE pairs into impostor pairs  -> scores too low
+    case B turns some IMPOSTOR pairs into genuine pairs  -> scores too high
+             for those pairs, i.e. they look like false accepts
+
+  Both push the measured numbers in the PESSIMISTIC direction: A depresses
+  the genuine distribution, B inflates the apparent impostor tail. Neither
+  can flatter the model - a label error cannot invent a correct match.
+
+  Exact duplicate images are checked separately and rejected outright:
+    exact duplicate images found in this split: 0
+    (check_leakage.py runs the same test across the whole dataset)
+
+==============================================================================
+A. LOWEST INTRA-IDENTITY COHERENCE  (candidates for one label, two people)
+==============================================================================
+     mean      min   imgs  identity
+   0.1714  -0.1689      7  John Travolta
+   0.1763  -0.1214      9  Sylvester Stallone
+   0.2271  -0.0045      8  Juan Pablo Montoya
+   0.2343  -0.0979      6  Roy Moore
+   0.2473   0.1179      4  Alvaro Silva Calderon
+   0.2493  -0.1097      5  Kristanna Loken
+   0.2520   0.0375      6  Roman Polanski
+   0.2550   0.0616      5  Princess Caroline
+   0.2575   0.1071      5  Kurt Warner
+   0.2586  -0.0099      8  Justin Timberlake
+   0.2671  -0.1694     19  Julianne Moore
+   0.2709  -0.0149      6  Silvan Shalom
+   0.2741   0.1865      4  Katherine Harris
+   0.2774   0.0385      6  Christine Todd Whitman
+   0.2784   0.0528      7  Larry Brown
+
+  flagged below mean 0.15: 0
+  Low coherence usually means pose, age or lighting spread rather than a
+  genuine label error - inspect before concluding anything.
+
+==============================================================================
+B. CLOSEST DISTINCT IDENTITIES  (candidates for two labels, one person)
+==============================================================================
+      sim  identity A  vs  identity B
+   0.6563  Julianne Moore  vs  Laura Linney  <- FLAGGED
+   0.6364  Bill Frist  vs  Dennis Kucinich  <- FLAGGED
+   0.6290  Win Aung  vs  Yu Shyi-kun  <- FLAGGED
+   0.5824  Roman Polanski  vs  Jean Charest  <- FLAGGED
+   0.5724  Robert Duvall  vs  Silvio Berlusconi  <- FLAGGED
+   0.5721  Denzel Washington  vs  John Allen Muhammad  <- FLAGGED
+   0.5450  Jiang Zemin  vs  Li Peng
+   0.5278  Sheryl Crow  vs  Carmen Electra
+   0.5275  Maria Shriver  vs  Rita Wilson
+   0.5265  Sally Kirkland  vs  Kate Hudson
+   0.5173  Kate Hudson  vs  Kate Winslet
+   0.5131  Rita Wilson  vs  Diana Krall
+   0.5092  Kate Hudson  vs  Kristanna Loken
+   0.4947  Arianna Huffington  vs  Christine Todd Whitman
+   0.4918  Michael Jordan  vs  Kofi Annan
+
+  flagged above 0.55: 6
+  High cross-identity similarity is usually a look-alike, and on LFW often
+  a relative - the dataset contains several members of the same family.
+  A true duplicate identity would show similarity close to the genuine mean.

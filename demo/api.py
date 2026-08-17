@@ -32,7 +32,7 @@ torch.set_num_threads(int(os.getenv("TORCH_THREADS", "1")))
 
 HF_REPO = "yashMaini/face-verification-resnet50"
 GITHUB = "https://github.com/Yashmaini30/face-verification-resnet50"
-THRESHOLD = 0.1792
+THRESHOLD = 0.1838
 SIZE, MARGIN = 224, 0.30
 MEAN, STD = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
 

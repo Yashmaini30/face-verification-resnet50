@@ -1,11 +1,11 @@
 {
-  "threshold": 0.1792155,
+  "threshold": 0.183804,
   "impostor_pairs": 5000,
-  "false_accepts": 398,
-  "false_accept_rate": 0.0796,
+  "false_accepts": 369,
+  "false_accept_rate": 0.0738,
   "genuine_pairs": 5000,
-  "false_rejects": 508,
-  "false_reject_rate": 0.1016,
-  "worst_false_accept": 0.557325,
-  "worst_false_reject": -0.172908
+  "false_rejects": 571,
+  "false_reject_rate": 0.1142,
+  "worst_false_accept": 0.537592,
+  "worst_false_reject": -0.246555
 }

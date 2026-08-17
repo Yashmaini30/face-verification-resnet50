@@ -33,12 +33,15 @@ distribution URL, and `dataset/` is a preprocessed derivative of it.
 | Identities | **1,680** |
 | Images | **9,164** |
 | Resolution | 224 × 224 RGB |
-| Face detection success | 9,116 / 9,164 (**99.5%**), 48 fell back to a central crop |
-| Eye-alignment applied | 4,369 images |
+| Face detection success | 9,164 / 9,164 (**100%**) via YuNet; Haar fallback never needed |
+| Landmark alignment applied | 9,164 images (all of them) |
 
-Pipeline: Haar-cascade face detection → eye-line rotation when both eyes are
-found → square crop with a 30% margin (reflect-padded near borders) → resize to
-224×224 → ImageNet mean/std normalisation at load time.
+Pipeline: **YuNet detection → 5 facial landmarks (both eyes, nose, both mouth
+corners) → similarity transform onto the ArcFace canonical template → 224×224**
+→ ImageNet mean/std normalisation at load time. Landmark coordinates for every
+image are saved to `landmarks.json` in the original-image frame, so each crop is
+reproducible. A Haar cascade with eye-line rotation remains as a fallback but was
+not needed on any LFW image.
 
 ### Splits — identity-disjoint
 
@@ -127,7 +130,7 @@ Open <http://127.0.0.1:8000> for a browser form, or call the endpoints directly:
 # same person?
 curl -X POST http://127.0.0.1:8000/verify \
      -F "image_a=@photo1.jpg" -F "image_b=@photo2.jpg"
-# {"cosine_similarity":0.4028,"threshold":0.1792,"match":true,"margin":0.2236}
+# {"cosine_similarity":0.4791,"threshold":0.1838,"match":true,"margin":0.2953}
 
 # who is this, against the enrolled gallery?
 curl -X POST "http://127.0.0.1:8000/identify?top_k=5" -F "image=@photo.jpg"
@@ -275,8 +278,8 @@ rank of the true identity for error analysis.
 
 ## 8. Results
 
-ResNet50 trained for 30 epochs at 224×224 on a Colab T4 (41 s/epoch, ~21 minutes
-total). Best epoch 22 by validation AUC. All numbers below are measured on the
+ResNet50 trained for 30 epochs at 224×224 on a Colab T4 (42 s/epoch, ~21 minutes
+total). Best epoch 29 by validation AUC. All numbers below are measured on the
 **120 test identities, none of which appear in training**, and come from
 `results/evaluation_results.json`.
 
@@ -288,35 +291,57 @@ gains transferable signal, and the final 8 epochs give nothing back. See
 `results/training_curve.png`. The remaining headroom is in more data, not more
 epochs.
 
-**On input resolution.** An earlier run at 112×112 reached AUC 0.9539 and Rank-1
-46.54%. The ResNet50 trunk is ImageNet-pretrained at 224×224 and the LFW source
-images are 250×250, so the 112 crops were discarding detail the backbone was
-built to use. Re-prepping at 224 cost 2.5× the training time and bought +0.016
-AUC, −2.2 pp EER and **+9.3 pp Rank-1** — the largest single gain of any change
-made to this pipeline.
+**Two ablations were run on this pipeline, and both are worth reading.**
+
+*Input resolution.* An early run at 112×112 reached AUC 0.9539 and Rank-1 46.54%.
+The ResNet50 trunk is ImageNet-pretrained at 224×224 and the LFW source images
+are 250×250, so the 112 crops were discarding detail the backbone was built to
+use. Re-prepping at 224 bought +0.016 AUC and **+9.3 pp Rank-1**.
+
+*Alignment.* Replacing Haar detection plus eye-line rotation with **YuNet 5-point
+landmarks and a similarity transform onto the ArcFace template** produced a split
+result, and the split is the interesting part:
+
+| Metric | Haar + eye-line | Landmark aligned | Δ |
+|---|---|---|---|
+| ROC-AUC | 0.9700 | 0.9587 | −0.011 |
+| EER | 8.98% | 9.61% | +0.63 pp |
+| Accuracy | 90.94% | 90.60% | −0.34 pp |
+| **TAR @ FAR = 1%** | 67.66% | **72.76%** | **+5.10 pp** |
+| **TAR @ FAR = 0.1%** | 37.60% | **43.76%** | **+6.16 pp** |
+| **Rank-1** | 55.87% | **64.00%** | **+8.13 pp** |
+| **Rank-5** | 81.89% | **85.62%** | **+3.73 pp** |
+| **Open-set DIR @ FPIR 1%** | 20.11% | **28.62%** | **+8.51 pp** |
+
+AUC fell slightly while every strict operating point improved substantially. AUC
+averages over all thresholds; alignment sharpens the hard tail of the score
+distribution, which is precisely where low-FAR verification and 1-vs-N
+identification operate. The two weakest metrics in the whole project —
+TAR@FAR=0.1% and open-set DIR — gained 6.2 and 8.5 points. Landmark alignment was
+kept on that basis, and the AUC cost is reported rather than hidden.
 
 | Metric | Value |
 |---|---|
-| **ROC-AUC** | **0.9700** |
-| **Rank-1 accuracy** | **55.87%** |
-| Rank-5 accuracy | 81.89% |
-| **Final cosine threshold** | **0.1792** |
-| Accuracy at threshold | 90.94% |
-| EER | 8.98% |
-| TAR @ FAR = 1% | 67.66% |
-| TAR @ FAR = 0.1% | 37.60% |
-| Precision / Recall / F1 | 0.9186 / 0.8984 / 0.9084 |
-| False accepts | 398 / 5,000 impostor pairs |
-| False rejects | 508 / 5,000 genuine pairs |
-| Genuine similarity | 0.3984 ± 0.1751 |
-| Impostor similarity | 0.0125 ± 0.1144 |
+| **ROC-AUC** | **0.9587** |
+| **Rank-1 accuracy** | **64.00%** |
+| Rank-5 accuracy | 85.62% |
+| **Final cosine threshold** | **0.1838** |
+| Accuracy at threshold | 90.60% |
+| EER | 9.61% |
+| TAR @ FAR = 1% | 72.76% |
+| TAR @ FAR = 0.1% | 43.76% |
+| Precision / Recall / F1 | 0.9231 / 0.8858 / 0.9041 |
+| False accepts | 369 / 5,000 impostor pairs |
+| False rejects | 571 / 5,000 genuine pairs |
+| Genuine similarity | 0.3998 ± 0.1802 |
+| Impostor similarity | 0.0071 ± 0.1172 |
 
-Validation split, for reference: AUC 0.9629, EER 9.86%, best accuracy 90.54% —
+Validation split, for reference: AUC 0.9453, EER 12.20%, best accuracy 88.22% —
 close enough to the test numbers that the threshold transfers cleanly.
 
 **Identification.** 120 identities enrolled with one image each, 911 probes.
-Rank-1 = 55.87% against a 0.83% chance baseline (67× better than random), and the
-correct identity sits at mean rank 4.51 out of 120.
+Rank-1 = 64.00% against a 0.83% chance baseline (77× better than random), and the
+correct identity sits at mean rank 5.89 out of 120.
 
 Single-image enrolment is the hardest setting, and it is the one reported above.
 Enrolling more images per identity averages several embeddings into each
@@ -325,9 +350,9 @@ the cost of fewer images left to probe with:
 
 | Images enrolled | Rank-1 | Rank-5 | Mean rank | Probes |
 |---|---|---|---|---|
-| 1 | 55.87% | 81.89% | 4.51 | 911 |
-| 2 | 72.82% | 91.28% | 2.55 | 791 |
-| 3 | 75.86% | 94.19% | 2.13 | 671 |
+| 1 | 64.00% | 85.62% | 5.89 | 911 |
+| 2 | 76.99% | 92.79% | 3.07 | 791 |
+| 3 | 80.48% | 94.78% | 2.76 | 671 |
 
 Reproduce with `python gallery_probe.py --gallery-per-id 1 --sweep 3`, which
 writes `results/gallery_probe_multishot.json`. The headline figure stays at
@@ -345,16 +370,16 @@ impostor probes:
 |---|---|
 | Enrolled / unknown identities | 80 / 40 |
 | Known / unknown probes | 552 / 399 |
-| Closed-set Rank-1 on this gallery | 64.13% |
-| **DIR @ FPIR = 1%** | **20.11%** (threshold 0.4852) |
-| DIR @ FPIR = 10% | 42.75% (threshold 0.3947) |
-| Mean top-1 similarity, known / unknown | 0.4107 / 0.3175 |
+| Closed-set Rank-1 on this gallery | 71.01% |
+| **DIR @ FPIR = 1%** | **28.62%** (threshold 0.4774) |
+| DIR @ FPIR = 10% | 47.28% (threshold 0.4119) |
+| Mean top-1 similarity, known / unknown | 0.4247 / 0.3180 |
 
 A probe counts as correct only if its top-1 similarity clears the threshold
-*and* points at the right person. Accuracy collapses from 64.1% to 20.1% once
+*and* points at the right person. Accuracy collapses from 71.0% to 28.6% once
 the system must also reject strangers at a 1% false-alarm rate, and the last row
-explains why: an unknown face scores 0.3175 against its nearest gallery entry
-versus 0.4107 for a genuine match. Out of 80 enrolled people, the closest one to
+explains why: an unknown face scores 0.3180 against its nearest gallery entry
+versus 0.4247 for a genuine match. Out of 80 enrolled people, the closest one to
 a stranger is usually a plausible look-alike. Closing that gap needs a stronger
 embedding, not a better threshold.
 
@@ -363,15 +388,83 @@ Reproduce with `python gallery_probe.py --gallery-per-id 1 --open-set 40`.
 **Decision rule**
 
 ```
-Threshold = 0.1792
+Threshold = 0.1838
 
-Similarity >= 0.1792  ->  Match
-Similarity <  0.1792  ->  Non-Match
+Similarity >= 0.1838  ->  Match
+Similarity <  0.1838  ->  Non-Match
 ```
 
 The threshold is chosen on the validation split by maximising verification
 accuracy, then applied unchanged to the test split. Picking it on the test scores
 themselves would be a mild form of leakage and would overstate deployed accuracy.
+
+### Cross-dataset: LFW vs MLFW (masked faces)
+
+The same checkpoint, threshold and balanced pairing protocol applied to both
+datasets, so the gap between the curves is the mask and nothing else:
+
+| Dataset | Pairs | ROC-AUC | EER | TAR @ FAR 1% |
+|---|---|---|---|---|
+| **LFW** (unmasked) | 10,000 | **0.9587** | 9.61% | 72.76% |
+| **MLFW** (masked) | 10,000 | **0.8452** | 24.06% | 37.58% |
+| **cost of the mask** | | **−0.1135** | **+14.45 pp** | **−35.18 pp** |
+
+![LFW vs MLFW](results/dataset_roc_lfw_vs_mlfw.png)
+
+A mask costs about 11 points of AUC, but roughly **halves** usable performance at
+a 1% false-accept rate. That asymmetry matters: AUC averages over all thresholds
+while deployments live in the low-FAR region, and a surgical mask removes the
+nose and both mouth corners — three of the five landmarks the alignment uses.
+
+**MLFW identities overlap this project's training set.** MLFW is built on CALFW,
+which draws from LFW, and 1,206 of its 2,996 identities (**40.3%**) appear in the
+1,500 training identities. Everything above is therefore restricted to the 1,779
+identities the model has never seen. For completeness, the official 6,000-pair
+protocol:
+
+| Protocol | Pairs | ROC-AUC | EER |
+|---|---|---|---|
+| Official MLFW (40.3% identities leaky) | 6,000 | 0.5537 | 46.43% |
+| Leakage-free subset of official | 2,263 | 0.5465 | 46.78% |
+| Leakage-free balanced (matched protocol) | 6,000 | 0.8325 | 25.00% |
+
+The official protocol sits near chance, and that is expected rather than a
+defect. MLFW is adversarial by construction — the same identity wears *different*
+masks while different identities wear the *same* mask — layered on top of CALFW's
+cross-age gap, and this model saw no masked face during training. Note that
+filtering the leaked identities barely moves the number (0.5537 → 0.5465), which
+shows the protocol is hard enough that having trained on 40% of the identities
+did not help. Reproduce with `python dataset_roc.py --mlfw ../data_raw/MLFW`.
+
+### Identity label audit — same name, different people
+
+Two things can be wrong with identity labels, and both are detectable from the
+embeddings without extra annotation:
+
+* **one label, two people** — a folder holding more than one individual, seen as
+  low mean similarity between images inside that folder
+* **two labels, one person** — the same individual under two names, seen as two
+  folder templates sitting unusually close together
+
+`python identity_audit.py --split test` reports:
+
+| | |
+|---|---|
+| Exact duplicate images | **0** |
+| Identities flagged as one-label-two-people | **0** |
+| Identity pairs flagged as two-labels-one-person | **6** |
+
+The six flagged pairs are look-alikes rather than label errors — Julianne Moore
+vs Laura Linney (0.656), Bill Frist vs Dennis Kucinich (0.636), Robert Duvall vs
+Silvio Berlusconi (0.572).
+
+**How the pipeline handles both.** Pair generation trusts the folder: same folder
+→ genuine, different folders → impostor. So one-label-two-people turns genuine
+pairs into impostor pairs, and two-labels-one-person turns impostor pairs into
+genuine pairs. **Both push the measured numbers pessimistic** — a label error
+cannot invent a correct match, only destroy one. Exact duplicates are a separate
+concern and are rejected outright: `check_leakage.py` content-hashes all 9,164
+images and confirms no photograph appears under two identities.
 
 ### Evaluation integrity
 
@@ -394,15 +487,15 @@ apply it unchanged to test — gives:
 
 | Target FAR | Oracle TAR (test) | Threshold from val | Actual FAR | Actual TAR |
 |---|---|---|---|---|
-| 1% | 67.66% | 0.3149 | 0.86% | 66.30% |
-| 0.1% | 37.60% | 0.4380 | 0.14% | 38.82% |
+| 1% | 72.76% | 0.3238 | 0.68% | 67.76% |
+| 0.1% | 43.76% | 0.4045 | 0.18% | 50.44% |
 
-At FAR = 1% the threshold transfers almost perfectly — 0.5 points of optimism.
+At FAR = 1% the val-fitted threshold lands at 0.68% actual FAR and 67.76% TAR, about 5 points below the oracle.
 **At FAR = 0.1% the measurement is not trustworthy**, and the reason is sample
 size rather than leakage: 0.1% of 2,500 validation impostor pairs is between two
 and three pairs, so the threshold is being placed from a handful of points and
-lands at 0.14% actual FAR. Treat TAR@FAR=0.1% as indicative only. The
-headline numbers — AUC, EER, Rank-1 and the 0.1792 decision threshold — do not
+lands at 0.18% actual FAR. Treat TAR@FAR=0.1% as indicative only. The
+headline numbers — AUC, EER, Rank-1 and the 0.1838 decision threshold — do not
 depend on this and are unaffected.
 
 **Relatives across splits.** LFW contains six members of the Bush family spread
@@ -426,17 +519,17 @@ python roc_analysis.py --exhaustive --split test
 |---|---|---|
 | Genuine / impostor pairs | 5,000 / 5,000 | 7,861 / **523,104** |
 | Smallest measurable FAR | 2.0×10⁻⁴ | **1.9×10⁻⁶** |
-| ROC-AUC | 0.9700 | **0.9710** |
-| EER | 8.98% | **8.92%** |
-| TAR @ FAR = 10⁻² | 67.66% | **67.07%** (5,231 pairs) |
-| TAR @ FAR = 10⁻³ | 37.60% *(5 pairs)* | **40.34%** (523 pairs) |
-| TAR @ FAR = 10⁻⁴ | not measurable | **23.14%** (52 pairs) |
-| TAR @ FAR = 10⁻⁵ | not measurable | **12.64%** (5 pairs) |
+| ROC-AUC | 0.9587 | **0.9638** |
+| EER | 9.61% | **8.92%** |
+| TAR @ FAR = 10⁻² | 72.76% | **72.37%** (5,231 pairs) |
+| TAR @ FAR = 10⁻³ | 43.76% *(5 pairs)* | **46.76%** (523 pairs) |
+| TAR @ FAR = 10⁻⁴ | not measurable | **26.87%** (52 pairs) |
+| TAR @ FAR = 10⁻⁵ | not measurable | **15.62%** (5 pairs) |
 
 AUC and EER agree to within 0.001 and 0.06 points, which confirms the sampled
 set was representative — the round-robin pair sampling did not bias the
-distribution. What changes is *resolution*: TAR@FAR=10⁻³ moves from 37.60% to
-40.34%, and the sampled figure was the noisy one, resting on about five pairs
+distribution. What changes is *resolution*: TAR@FAR=10⁻³ moves from 43.76% to
+46.76%, and the sampled figure was the noisy one, resting on about five pairs
 against 523. `results/roc_curve_exhaustive.png` plots this down to 10⁻⁵, where
 the curve is smooth rather than a staircase.
 
@@ -469,15 +562,15 @@ python error_analysis.py
 
 | | |
 |---|---|
-| False accepts | **398 / 5,000** impostor pairs = **7.96% FAR** |
-| False rejects | **508 / 5,000** genuine pairs = **10.16% FRR** |
-| Worst false accept | Jiang Zemin vs Win Aung, similarity **0.5573** |
-| Worst false reject | Alvaro Uribe with himself, similarity **−0.1729** |
+| False accepts | **369 / 5,000** impostor pairs = **7.38% FAR** |
+| False rejects | **571 / 5,000** genuine pairs = **11.42% FRR** |
+| Worst false accept | similarity **0.5376** (see false_accepts.csv) |
+| Worst false reject | Jean Charest with himself, similarity **−0.2466** |
 
 Outputs:
 
-* `results/false_accepts.csv` — all 398 pairs, both image paths, both real names, score and margin
-* `results/false_rejects.csv` — all 508 pairs, same columns
+* `results/false_accepts.csv` — all 369 pairs, both image paths, both real names, score and margin
+* `results/false_rejects.csv` — all 571 pairs, same columns
 * `results/false_accepts_examples.png` — the eight worst false accepts side by side
 * `results/false_rejects_examples.png` — the eight worst false rejects
 * `results/error_summary.json` — counts and rates
@@ -500,12 +593,12 @@ then measured on **test**. Neither was adopted.
 
 | Variant | val TAR@1% / @0.1% | test TAR@1% / @0.1% | test AUC |
 |---|---|---|---|
-| baseline | 66.56% / 37.40% | **67.66% / 37.60%** | **0.9700** |
-| centered | 65.24% / 37.36% | 66.76% / 36.20% | 0.9691 |
-| centered + whitened | 56.32% / **41.24%** | 59.24% / 27.76% | 0.9390 |
+| baseline | 62.64% / 46.04% | **72.76% / 43.76%** | **0.9587** |
+| centered | 62.84% / 44.80% | 72.08% / 41.94% | 0.9578 |
+| centered + whitened | 54.64% / 36.40% | 63.08% / 28.20% | 0.9373 |
 
-Whitening gained **+3.8 points** of TAR@FAR=0.1% on validation and lost
-**−9.8** on test, while dropping AUC by 0.031.
+Whitening cost **−15.56 points** of TAR@FAR=0.1% on test and dropped AUC by
+0.021; plain centering was mildly negative throughout.
 
 **2 — Cohort score normalisation.** Normalise each pair score against the
 distribution of that image's similarities to a 2,000-image impostor cohort drawn
@@ -514,21 +607,29 @@ top-200 cohort scores).
 
 | Variant | val TAR@1% / @0.1% | test TAR@1% / @0.1% | test AUC |
 |---|---|---|---|
-| baseline | 66.56% / 37.40% | **67.66% / 37.60%** | **0.9700** |
-| Z-norm | 67.44% / 32.84% | 66.06% / 35.28% | 0.9693 |
-| S-norm | 68.56% / 34.00% | 67.66% / 33.90% | 0.9699 |
-| AS-norm (top-200) | **69.84% / 40.60%** | 68.02% / 35.90% | 0.9697 |
+| baseline | 62.64% / 46.04% | **72.76% / 43.76%** | **0.9587** |
+| Z-norm | 62.60% / 47.12% | 71.18% / 33.92% | 0.9575 |
+| S-norm | **63.92%** / 46.52% | 71.96% / 35.66% | 0.9581 |
+| AS-norm (top-200) | 63.04% / 45.96% | 71.88% / 35.78% | 0.9579 |
 
-AS-norm gained **+3.2 points** on validation and lost **−1.7** on test.
+Every variant improved or matched validation AUC and lost on test. AS-norm cost
+**−7.98 points** of TAR@FAR=0.1% on test.
 
-**Conclusion.** Three separate validation-set gains failed to replicate on test,
-which is the behaviour predicted above: at 5,000 impostor pairs, FAR = 0.1% is
-about five pairs, so that operating point cannot support method selection. More
-usefully, none of these transforms moved **AUC** — when post-processing cannot
-extract additional signal, the constraint is the embedding itself rather than how
-its scores are calibrated. That points back at the training set size (7,096
-images), not at the scoring rule. Reaching TAR@FAR=0.1% of 60% would require a
-corpus like CASIA-WebFace, not further tuning.
+**Conclusion.** Six variants across two families, and **not one beat the
+untouched baseline on test**. Several looked competitive or better on validation
+— S-norm led validation TAR@FAR=1%, Z-norm led validation TAR@FAR=0.1% — and
+every one of them lost once measured on held-out identities. That is exactly what
+should happen when a method is selected on an operating point resting on a
+handful of pairs.
+
+More usefully, none of these transforms improved **AUC**. When post-processing
+cannot extract additional signal, the constraint is the embedding itself rather
+than how its scores are calibrated, which points back at the training set size
+(7,096 images) rather than the scoring rule. Reaching TAR@FAR=0.1% of 60% would
+require a corpus like CASIA-WebFace, not further tuning.
+
+Both ablations were re-run from scratch against the final landmark-aligned
+checkpoint, so the numbers above describe the model actually shipped.
 
 ### How the threshold affects false accepts and false rejects
 
