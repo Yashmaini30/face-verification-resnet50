@@ -115,6 +115,13 @@ def to_bgr(pil):
     return cv2.cvtColor(np.array(pil.convert("RGB")), cv2.COLOR_RGB2BGR)
 
 
+def rank_probe(probe_face, gallery):
+    """gallery: list of (name, face_bgr). Returns ranked (name, score, face)."""
+    zp = embed(probe_face)
+    scored = [(name, float(zp @ embed(face)), face) for name, face in gallery]
+    return sorted(scored, key=lambda r: -r[1])
+
+
 st.title("Face Verification — ResNet50 + ArcFace")
 st.write(
     "Upload two photos and the model decides whether they show the same person. "
@@ -127,6 +134,9 @@ st.caption(
     f"EER 8.98%, 90.94% verification accuracy.  [Code and full report]({GITHUB})"
 )
 
+tab_v, tab_i = st.tabs(["Verify — are these the same person?",
+                        "Identify — who is this?"])
+
 EX = Path(__file__).parent / "examples"
 PRESETS = {
     "— upload my own —": None,
@@ -135,46 +145,101 @@ PRESETS = {
     "Different people (A)": ("annan_1.jpg", "ridge_1.jpg"),
     "Different people (B)": ("karzai_1.jpg", "ridge_1.jpg"),
 }
-choice = st.selectbox("Try an example, or upload your own photos", list(PRESETS))
+with tab_v:
+    choice = st.selectbox("Try an example, or upload your own photos", list(PRESETS))
 
-if PRESETS[choice]:
-    a_img, b_img = (Image.open(EX / f) for f in PRESETS[choice])
-else:
-    c1, c2 = st.columns(2)
-    fa = c1.file_uploader("Image A", type=["jpg", "jpeg", "png"])
-    fb = c2.file_uploader("Image B", type=["jpg", "jpeg", "png"])
-    a_img = Image.open(fa) if fa else None
-    b_img = Image.open(fb) if fb else None
-
-if a_img and b_img:
-    fa_, fb_ = cropper(to_bgr(a_img)), cropper(to_bgr(b_img))
-    if fa_ is None or fb_ is None:
-        which = "first" if fa_ is None else "second"
-        st.error(f"No face detected in the {which} image. Try a clearer, more frontal photo.")
+    if PRESETS[choice]:
+        a_img, b_img = (Image.open(EX / f) for f in PRESETS[choice])
     else:
-        score = float(embed(fa_) @ embed(fb_))
-        match = score >= THRESHOLD
-        margin = score - THRESHOLD
-
         c1, c2 = st.columns(2)
-        c1.image(cv2.cvtColor(fa_, cv2.COLOR_BGR2RGB), caption="Detected face A")
-        c2.image(cv2.cvtColor(fb_, cv2.COLOR_BGR2RGB), caption="Detected face B")
+        fa = c1.file_uploader("Image A", type=["jpg", "jpeg", "png"])
+        fb = c2.file_uploader("Image B", type=["jpg", "jpeg", "png"])
+        a_img = Image.open(fa) if fa else None
+        b_img = Image.open(fb) if fb else None
 
-        if match:
-            st.success(f"### SAME PERSON  ·  similarity {score:.4f}")
+    if a_img and b_img:
+        fa_, fb_ = cropper(to_bgr(a_img)), cropper(to_bgr(b_img))
+        if fa_ is None or fb_ is None:
+            which = "first" if fa_ is None else "second"
+            st.error(f"No face detected in the {which} image. Try a clearer, more frontal photo.")
         else:
-            st.error(f"### DIFFERENT PEOPLE  ·  similarity {score:.4f}")
+            score = float(embed(fa_) @ embed(fb_))
+            match = score >= THRESHOLD
+            margin = score - THRESHOLD
 
-        m1, m2, m3 = st.columns(3)
-        m1.metric("Cosine similarity", f"{score:.4f}")
-        m2.metric("Threshold", f"{THRESHOLD}")
-        m3.metric("Margin", f"{margin:+.4f}",
-                  "clear" if abs(margin) > 0.15 else "borderline")
-        st.progress(min(1.0, max(0.0, (score + 1) / 2)))
-        st.caption(
-            "Scores run from −1 to 1. On the held-out test set genuine pairs averaged "
-            "**0.398** and impostor pairs **0.013**."
-        )
+            c1, c2 = st.columns(2)
+            c1.image(cv2.cvtColor(fa_, cv2.COLOR_BGR2RGB), caption="Detected face A")
+            c2.image(cv2.cvtColor(fb_, cv2.COLOR_BGR2RGB), caption="Detected face B")
+
+            if match:
+                st.success(f"### SAME PERSON  ·  similarity {score:.4f}")
+            else:
+                st.error(f"### DIFFERENT PEOPLE  ·  similarity {score:.4f}")
+
+            m1, m2, m3 = st.columns(3)
+            m1.metric("Cosine similarity", f"{score:.4f}")
+            m2.metric("Threshold", f"{THRESHOLD}")
+            m3.metric("Margin", f"{margin:+.4f}",
+                      "clear" if abs(margin) > 0.15 else "borderline")
+            st.progress(min(1.0, max(0.0, (score + 1) / 2)))
+            st.caption(
+                "Scores run from −1 to 1. On the held-out test set genuine pairs averaged "
+                "**0.398** and impostor pairs **0.013**."
+            )
+
+with tab_i:
+    st.write(
+        "Enrol a few people by uploading one photo each — the filename becomes the label — "
+        "then upload a probe photo. The probe is compared against every enrolled face by "
+        "cosine similarity and ranked. This is the gallery/probe protocol from the report, "
+        "run on your own images."
+    )
+    g_files = st.file_uploader("Gallery — one photo per person", type=["jpg", "jpeg", "png"],
+                               accept_multiple_files=True, key="gal")
+    p_file = st.file_uploader("Probe — who is this?", type=["jpg", "jpeg", "png"], key="probe")
+
+    gallery, skipped = [], []
+    for f in g_files or []:
+        face = cropper(to_bgr(Image.open(f)))
+        (gallery.append((Path(f.name).stem, face)) if face is not None else skipped.append(f.name))
+    if skipped:
+        st.warning("No face detected, skipped: " + ", ".join(skipped))
+    if gallery:
+        st.caption(f"{len(gallery)} identities enrolled")
+        st.image([cv2.cvtColor(f, cv2.COLOR_BGR2RGB) for _, f in gallery],
+                 caption=[n for n, _ in gallery], width=96)
+
+    if p_file and len(gallery) >= 2:
+        probe = cropper(to_bgr(Image.open(p_file)))
+        if probe is None:
+            st.error("No face detected in the probe image.")
+        else:
+            ranked = rank_probe(probe, gallery)
+            c1, c2 = st.columns([1, 3])
+            c1.image(cv2.cvtColor(probe, cv2.COLOR_BGR2RGB), caption="Probe", width=140)
+            top_name, top_score, _ = ranked[0]
+            gap = top_score - (ranked[1][1] if len(ranked) > 1 else -1.0)
+            if top_score >= THRESHOLD:
+                c2.success(f"### Rank-1: {top_name}\n\nsimilarity {top_score:.4f} "
+                           f"· leads runner-up by {gap:+.4f}")
+            else:
+                c2.warning(f"### Closest: {top_name} ({top_score:.4f})\n\n"
+                           f"below the {THRESHOLD} threshold — the probe may not be "
+                           f"anyone in this gallery.")
+            st.write("**Ranking**")
+            for i, (name, score, face) in enumerate(ranked[:5], 1):
+                a, b, c = st.columns([1, 3, 2])
+                a.image(cv2.cvtColor(face, cv2.COLOR_BGR2RGB), width=64)
+                b.write(f"**{i}. {name}**")
+                c.write(f"{score:.4f}")
+            st.caption(
+                "Closed-set identification always returns the nearest enrolled face, even for "
+                "someone who is not enrolled. A large rank-1 to rank-2 gap is the confidence "
+                "signal; a flat ranking means the model is unsure."
+            )
+    elif p_file:
+        st.info("Enrol at least two people first, so there is something to rank against.")
+
 
 with st.expander("Limitations"):
     st.markdown(

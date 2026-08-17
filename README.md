@@ -14,7 +14,7 @@ ResNet50 backbone.
 
 | | |
 |---|---|
-| **Live demo** | Streamlit app in [`demo/`](demo/) — upload two photos, get a same/different verdict |
+| **Live demo** | Streamlit app in [`demo/`](demo/) — verify two photos, or enrol a gallery and identify a probe |
 | **Model weights** | [huggingface.co/yashMaini/face-verification-resnet50](https://huggingface.co/yashMaini/face-verification-resnet50) |
 | **Technical report** | [`submission/report.pdf`](submission/report.pdf) |
 
