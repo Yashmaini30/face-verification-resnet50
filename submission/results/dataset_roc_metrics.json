@@ -6,21 +6,41 @@
     "eer": 0.09609999999999999,
     "best_accuracy": 0.9071,
     "tar_at_far_1pct": 0.7276,
-    "tar_at_far_0.1pct": 0.4376
+    "tar_at_far_0.1pct": 0.4376,
+    "exhaustive": {
+      "pairs": 530965,
+      "impostor_pairs": 523104,
+      "roc_auc": 0.9638146483285583,
+      "eer": 0.08807196107819158,
+      "best_accuracy": 0.9912932114169484,
+      "tar_at_far_1pct": 0.7236992749014121,
+      "tar_at_far_0.1pct": 0.46762498409871517
+    }
   },
   "MLFW": {
     "pairs": 10000,
     "identities_used": 1779,
     "identities_total": 2996,
-    "roc_auc": 0.84521744,
-    "eer": 0.24059999999999998,
-    "best_accuracy": 0.7665,
-    "tar_at_far_1pct": 0.3758,
-    "tar_at_far_0.1pct": 0.2768
+    "images": "origin",
+    "preprocessing": "our YuNet + landmark alignment",
+    "roc_auc": 0.8388492599999999,
+    "eer": 0.24580000000000002,
+    "best_accuracy": 0.7576,
+    "tar_at_far_1pct": 0.3536,
+    "tar_at_far_0.1pct": 0.2662,
+    "exhaustive": {
+      "pairs": 16678200,
+      "impostor_pairs": 16668556,
+      "roc_auc": 0.8501805236084278,
+      "eer": 0.2346345373369354,
+      "best_accuracy": 0.9995256082790709,
+      "tar_at_far_1pct": 0.3890501866445458,
+      "tar_at_far_0.1pct": 0.28670676068021567
+    }
   },
   "cost_of_mask": {
-    "auc_drop": 0.11350768,
-    "eer_increase_pp": 14.45,
-    "tar_at_far_1pct_drop_pp": 35.18
+    "auc_drop": 0.11987586000000006,
+    "eer_increase_pp": 14.970000000000002,
+    "tar_at_far_1pct_drop_pp": 37.4
   }
 }

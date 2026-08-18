@@ -27,9 +27,33 @@ import torch
 import torch.nn.functional as F
 from PIL import Image
 
+from dataset_preparation import Cropper
 from generate_pairs import make_pairs
 from model import eval_tf, load_model
 from roc_analysis import metrics
+
+
+def all_pairs(z, owner, block=2048):
+    """Every C(n,2) pair from an embedding matrix, blocked to bound memory.
+
+    The sampled pair set cannot resolve a FAR below 1/n_impostor. Scoring every
+    pair instead pushes that floor down by orders of magnitude, which is what the
+    low-FAR panel needs to be smooth rather than a staircase of single pairs.
+    """
+    owner = np.asarray(owner)
+    n = len(z)
+    scores, labels = [], []
+    for i in range(0, n, block):
+        hi = min(i + block, n)
+        sim = z[i:hi] @ z.T
+        same = owner[i:hi, None] == owner[None, :]
+        for r in range(hi - i):
+            j0 = i + r + 1                      # upper triangle only
+            if j0 >= n:
+                continue
+            scores.append(sim[r, j0:])
+            labels.append(same[r, j0:])
+    return np.concatenate(scores), np.concatenate(labels).astype(int)
 
 
 def mlfw_identity(name):
@@ -37,10 +61,24 @@ def mlfw_identity(name):
 
 
 @torch.no_grad()
-def embed_files(model, paths, device, tf, batch=64):
+def embed_files(model, paths, device, tf, batch=64, cropper=None):
+    """Embed images, optionally running them through our own detect+align first.
+
+    MLFW ships 112x112 crops made with its own alignment. Feeding those to a model
+    trained on 224x224 crops from our YuNet landmark pipeline compares two
+    preprocessing chains, not two datasets. Passing a cropper here applies the
+    identical pipeline to both sides.
+    """
     out = []
     for i in range(0, len(paths), batch):
-        ims = [cv2.imread(str(p)) for p in paths[i:i + batch]]
+        ims = []
+        for p in paths[i:i + batch]:
+            im = cv2.imread(str(p))
+            if cropper is not None:
+                face = cropper.from_array(im, fallback=True)
+                if face is not None:
+                    im = face
+            ims.append(im)
         xs = torch.stack([tf(Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB)))
                           for im in ims]).to(device)
         z = model(xs, normalize=False) + model(torch.flip(xs, [3]), normalize=False)
@@ -48,7 +86,7 @@ def embed_files(model, paths, device, tf, batch=64):
     return np.concatenate(out)
 
 
-def score_pairs(model, pairs, device, tf, cache=None):
+def score_pairs(model, pairs, device, tf, cache=None, cropper=None):
     paths = sorted({str(p) for a, b, _ in pairs for p in (a, b)})
     if cache is not None and cache.exists():
         d = np.load(cache, allow_pickle=True)
@@ -60,7 +98,7 @@ def score_pairs(model, pairs, device, tf, cache=None):
         z = None
     if z is None:
         print(f"    embedding {len(paths):,} images ...")
-        z = embed_files(model, [Path(p) for p in paths], device, tf)
+        z = embed_files(model, [Path(p) for p in paths], device, tf, cropper=cropper)
         if cache is not None:
             np.savez_compressed(cache, z=z, paths=np.array(paths))
     index = {p: i for i, p in enumerate(paths)}
@@ -94,8 +132,17 @@ def main():
     lfw_s = df["cosine_similarity"].to_numpy()
     lfw_y = df["label"].to_numpy().astype(int)
     m_lfw = metrics(lfw_s, lfw_y)
-    print(f"LFW  : {len(lfw_y):,} pairs   AUC {m_lfw['roc_auc']:.4f}  "
+    print(f"LFW  : {len(lfw_y):,} sampled pairs   AUC {m_lfw['roc_auc']:.4f}  "
           f"EER {m_lfw['eer']*100:.2f}%")
+
+    lfw_emb = Path(args.results_dir) / "embeddings/embeddings_test.npz"
+    m_lfw_all = None
+    if lfw_emb.exists():
+        d = np.load(lfw_emb, allow_pickle=False)
+        s_all, y_all = all_pairs(d["embeddings"], d["folder"])
+        m_lfw_all = metrics(s_all, y_all)
+        print(f"LFW  : {len(y_all):,} exhaustive pairs "
+              f"({int((y_all==0).sum()):,} impostor)   AUC {m_lfw_all['roc_auc']:.4f}")
 
     # ---- MLFW: balanced pairs over identities never seen in training ------- #
     man = json.loads((Path(args.root) / "identity_manifest.json").read_text())
@@ -103,7 +150,12 @@ def main():
     trained = {man[f]["original_identity"] for f in sp["train"]}
 
     root = Path(args.mlfw)
-    img_dir = root / "aligned" if (root / "aligned").is_dir() else root
+    use_origin = (root / "origin").is_dir()
+    img_dir = root / "origin" if use_origin else (
+        root / "aligned" if (root / "aligned").is_dir() else root)
+    cropper = Cropper(size=model.input_size) if use_origin else None
+    print(f"MLFW : using {img_dir.name}/ images"
+          + ("  (our own YuNet + landmark alignment applied)" if use_origin else ""))
     by_id = {}
     for p in sorted(img_dir.glob("*.jpg")):
         who = mlfw_identity(p.name)
@@ -115,10 +167,20 @@ def main():
           f"(of {total_ids:,} total)")
 
     pairs, st = make_pairs(by_id, args.n_pairs // 2, args.n_pairs // 2, args.seed)
-    mlfw_s, mlfw_y = score_pairs(model, pairs, device, tf, res / "_mlfw_emb.npz")
+    mlfw_s, mlfw_y = score_pairs(model, pairs, device, tf, res / "_mlfw_emb.npz", cropper)
     m_mlfw = metrics(mlfw_s, mlfw_y)
-    print(f"MLFW : {len(mlfw_y):,} pairs   AUC {m_mlfw['roc_auc']:.4f}  "
+    print(f"MLFW : {len(mlfw_y):,} sampled pairs   AUC {m_mlfw['roc_auc']:.4f}  "
           f"EER {m_mlfw['eer']*100:.2f}%")
+
+    cache = res / "_mlfw_emb.npz"
+    m_mlfw_all = None
+    if cache.exists():
+        d = np.load(cache, allow_pickle=True)
+        owner = [mlfw_identity(Path(p).name) for p in d["paths"]]
+        s_all, y_all = all_pairs(d["z"], owner)
+        m_mlfw_all = metrics(s_all, y_all)
+        print(f"MLFW : {len(y_all):,} exhaustive pairs "
+              f"({int((y_all==0).sum()):,} impostor)   AUC {m_mlfw_all['roc_auc']:.4f}")
 
     # ---- side-by-side figure ---------------------------------------------- #
     fig, ax = plt.subplots(1, 2, figsize=(13.5, 5.8))
@@ -129,9 +191,20 @@ def main():
         ax[0].plot(fpr, tpr, lw=2.2, color=colour,
                    label=f"{name}   AUC {m['roc_auc']:.4f}")
         ax[0].plot(m["eer"], 1 - m["eer"], "o", color=colour, ms=7)
+
+
+    for name, m, colour in [("LFW (unmasked)", m_lfw_all or m_lfw, "#1f77b4"),
+                            ("MLFW (masked)", m_mlfw_all or m_mlfw, "#d62728")]:
+        fpr = np.array(m["roc_curve"]["fpr"])
+        tpr = np.array(m["roc_curve"]["tpr"])
         keep = fpr > 0
+        n_imp = m["num_impostor"]
         ax[1].semilogx(fpr[keep], tpr[keep], lw=2.2, color=colour,
-                       label=f"{name}   EER {m['eer']*100:.2f}%")
+                       label=f"{name}   {n_imp:,} impostor pairs")
+        for far in (1e-4, 1e-3, 1e-2):
+            ok = np.where(fpr <= far)[0]
+            if ok.size:
+                ax[1].plot(far, tpr[ok[-1]], "o", color=colour, ms=6)
 
     ax[0].plot([0, 1], [0, 1], "--", color="grey", lw=1, label="chance")
     ax[0].set_xlabel("False Positive Rate (FAR)")
@@ -140,11 +213,12 @@ def main():
     ax[0].legend(loc="lower right")
     ax[0].grid(alpha=0.3)
 
-    for far in (1e-3, 1e-2):
+    for far in (1e-4, 1e-3, 1e-2):
         ax[1].axvline(far, ls="--", color="grey", lw=1)
+    ax[1].set_xlim(left=5e-6)
     ax[1].set_xlabel("False Positive Rate (log scale)")
     ax[1].set_ylabel("True Positive Rate")
-    ax[1].set_title("Low-FAR region")
+    ax[1].set_title("Low-FAR region - every pair scored, not a 5k sample")
     ax[1].legend(loc="lower right")
     ax[1].grid(alpha=0.3, which="both")
 
@@ -159,9 +233,18 @@ def main():
     out = {
         "note": "same checkpoint and pairing protocol applied to both datasets; "
                 "MLFW restricted to identities absent from the training split",
-        "LFW": {"pairs": int(len(lfw_y)), **{k: m_lfw[k] for k in keys}},
+        "LFW": {"pairs": int(len(lfw_y)), **{k: m_lfw[k] for k in keys},
+                "exhaustive": ({"pairs": m_lfw_all["num_genuine"] + m_lfw_all["num_impostor"],
+                                "impostor_pairs": m_lfw_all["num_impostor"],
+                                **{k: m_lfw_all[k] for k in keys}} if m_lfw_all else None)},
         "MLFW": {"pairs": int(len(mlfw_y)), "identities_used": len(by_id),
-                 "identities_total": total_ids, **{k: m_mlfw[k] for k in keys}},
+                 "identities_total": total_ids, "images": img_dir.name,
+                 "preprocessing": "our YuNet + landmark alignment" if use_origin
+                                  else "MLFW's own 112px alignment",
+                 **{k: m_mlfw[k] for k in keys},
+                 "exhaustive": ({"pairs": m_mlfw_all["num_genuine"] + m_mlfw_all["num_impostor"],
+                                 "impostor_pairs": m_mlfw_all["num_impostor"],
+                                 **{k: m_mlfw_all[k] for k in keys}} if m_mlfw_all else None)},
         "cost_of_mask": {
             "auc_drop": m_lfw["roc_auc"] - m_mlfw["roc_auc"],
             "eer_increase_pp": (m_mlfw["eer"] - m_lfw["eer"]) * 100,

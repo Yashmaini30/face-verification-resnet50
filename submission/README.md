@@ -406,8 +406,30 @@ datasets, so the gap between the curves is the mask and nothing else:
 | Dataset | Pairs | ROC-AUC | EER | TAR @ FAR 1% |
 |---|---|---|---|---|
 | **LFW** (unmasked) | 10,000 | **0.9587** | 9.61% | 72.76% |
-| **MLFW** (masked) | 10,000 | **0.8452** | 24.06% | 37.58% |
-| **cost of the mask** | | **−0.1135** | **+14.45 pp** | **−35.18 pp** |
+| **MLFW** (masked) | 10,000 | **0.8388** | 24.58% | 35.36% |
+| **cost of the mask** | | **−0.1199** | **+14.97 pp** | **−37.40 pp** |
+
+Both datasets go through the **same preprocessing**: MLFW's 250×250 `origin/`
+images are run through this project's own YuNet detection and landmark alignment
+rather than using its pre-supplied 112×112 crops, so the comparison measures the
+datasets and not two preprocessing chains. YuNet detects 100% of the masked
+faces. Using MLFW's own aligned crops instead scores marginally *higher*
+(AUC 0.8452), so the pre-supplied alignment is not the limiting factor — the
+matched pipeline is reported because it is the defensible comparison, not the
+flattering one.
+
+The low-FAR panel scores **every** pair rather than a 5,000-pair sample, since a
+sample cannot resolve a FAR below 1/5000:
+
+| Dataset | Exhaustive pairs | Impostor pairs | ROC-AUC | EER | TAR@1% | TAR@0.1% |
+|---|---|---|---|---|---|---|
+| LFW | 530,965 | 523,104 | 0.9638 | 8.81% | 72.37% | 46.76% |
+| MLFW | 16,678,200 | 16,668,556 | 0.8502 | 23.46% | 38.91% | 28.67% |
+
+Below FAR ≈ 10⁻⁴ the LFW curve is itself under-resolved — 523k impostor pairs put
+its floor at 1.9×10⁻⁶, against 6×10⁻⁸ for MLFW's 16.7M — so the two curves
+converging in the far-left tail is a sampling artefact rather than masked faces
+catching up.
 
 ![LFW vs MLFW](results/dataset_roc_lfw_vs_mlfw.png)
 

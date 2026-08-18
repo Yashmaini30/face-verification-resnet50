@@ -50,13 +50,13 @@ split, because MLFW derives from CALFW which derives from LFW.
 | Dataset | ROC-AUC | EER | TAR @ FAR 1% |
 |---|---|---|---|
 | **LFW** (unmasked) | **0.9587** | 9.61% | 72.76% |
-| **MLFW** (masked) | **0.8452** | 24.06% | 37.58% |
-| cost of the mask | −0.1135 | +14.45 pp | −35.18 pp |
+| **MLFW** (masked) | **0.8388** | 24.58% | 35.36% |
+| cost of the mask | −0.1199 | +14.97 pp | −37.40 pp |
 
 <p align="center">
   <img src="submission/results/dataset_roc_lfw_vs_mlfw.png" width="92%"><br>
   <sub>One model, one protocol, two datasets. A mask costs ~11 AUC points but
-  roughly halves usable performance at a 1% false-accept rate.</sub>
+  roughly halves usable performance at a 1% false-accept rate. The low-FAR panel scores every pair (523k impostor pairs for LFW, 16.7M for MLFW) rather than a 5,000-pair sample.</sub>
 </p>
 
 On MLFW's *official* 6,000-pair protocol the model scores AUC 0.5537 — near

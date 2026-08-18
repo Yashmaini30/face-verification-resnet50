@@ -182,9 +182,9 @@ All figures measured on identities never seen during training.
 
     dataset       pairs      AUC      EER    TAR@1%
     LFW          10,000   0.9587    9.61%    72.76%
-    MLFW         10,000   0.8452   24.06%    37.58%
+    MLFW         10,000   0.8388   24.58%    35.36%
 
-  Cost of the mask: -0.1135 AUC, +14.45 pp EER, -35.18 pp TAR@FAR=1%
+  Cost of the mask: -0.1199 AUC, +14.97 pp EER, -37.40 pp TAR@FAR=1%
 
   MLFW official protocol, for reference:
     identities                  : 2,996
