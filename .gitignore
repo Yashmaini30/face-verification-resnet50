@@ -13,3 +13,6 @@ dev/
 submission/checkpoints/best_model_mask.pth
 submission/checkpoints/training_history_mask.json
 submission/checkpoints/mask_run_metrics.json
+
+# 28 MB text dump - regenerate with: python export_embeddings.py --mlfw --text
+submission/results/embeddings/embeddings_mlfw.txt
