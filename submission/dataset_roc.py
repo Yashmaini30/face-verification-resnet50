@@ -193,17 +193,26 @@ def main():
         ax[0].plot(m["eer"], 1 - m["eer"], "o", color=colour, ms=7)
 
 
+    MIN_PAIRS = 50          # below this many impostor pairs a point is noise
     for name, m, colour in [("LFW (unmasked)", m_lfw_all or m_lfw, "#1f77b4"),
                             ("MLFW (masked)", m_mlfw_all or m_mlfw, "#d62728")]:
         fpr = np.array(m["roc_curve"]["fpr"])
         tpr = np.array(m["roc_curve"]["tpr"])
-        keep = fpr > 0
         n_imp = m["num_impostor"]
-        ax[1].semilogx(fpr[keep], tpr[keep], lw=2.2, color=colour,
+        floor = MIN_PAIRS / n_imp     # FAR below which too few pairs support the curve
+
+        solid = (fpr >= floor)
+        thin = (fpr > 0) & (fpr <= floor)
+        ax[1].semilogx(fpr[solid], tpr[solid], lw=2.2, color=colour,
                        label=f"{name}   {n_imp:,} impostor pairs")
+        # the under-resolved tail is drawn faint so it cannot be read as signal
+        ax[1].semilogx(fpr[thin], tpr[thin], lw=1.0, color=colour, alpha=0.28, ls=":")
+        ax[1].axvline(floor, color=colour, lw=1, alpha=0.5, ls=":")
+        ax[1].annotate(f"{MIN_PAIRS} pairs", (floor, 0.045), color=colour, fontsize=7,
+                       rotation=90, ha="right", va="bottom", alpha=0.85)
         for far in (1e-4, 1e-3, 1e-2):
             ok = np.where(fpr <= far)[0]
-            if ok.size:
+            if ok.size and far >= floor:
                 ax[1].plot(far, tpr[ok[-1]], "o", color=colour, ms=6)
 
     ax[0].plot([0, 1], [0, 1], "--", color="grey", lw=1, label="chance")
@@ -218,7 +227,7 @@ def main():
     ax[1].set_xlim(left=5e-6)
     ax[1].set_xlabel("False Positive Rate (log scale)")
     ax[1].set_ylabel("True Positive Rate")
-    ax[1].set_title("Low-FAR region - every pair scored, not a 5k sample")
+    ax[1].set_title("Low-FAR region - every pair scored\ndotted tail = fewer than 50 impostor pairs, not measurable")
     ax[1].legend(loc="lower right")
     ax[1].grid(alpha=0.3, which="both")
 

@@ -426,10 +426,13 @@ sample cannot resolve a FAR below 1/5000:
 | LFW | 530,965 | 523,104 | 0.9638 | 8.81% | 72.37% | 46.76% |
 | MLFW | 16,678,200 | 16,668,556 | 0.8502 | 23.46% | 38.91% | 28.67% |
 
-Below FAR ≈ 10⁻⁴ the LFW curve is itself under-resolved — 523k impostor pairs put
-its floor at 1.9×10⁻⁶, against 6×10⁻⁸ for MLFW's 16.7M — so the two curves
-converging in the far-left tail is a sampling artefact rather than masked faces
-catching up.
+The two datasets do not have equal resolution: 523k impostor pairs put LFW's
+floor at 1.9×10⁻⁶, against 6×10⁻⁸ for MLFW's 16.7M. Each curve in the low-FAR
+panel is therefore drawn **solid only where at least 50 impostor pairs support
+it** and faint-dotted below, with the boundary marked. Left of LFW's marker at
+FAR ≈ 10⁻⁴ the blue curve appears to be overtaken by the masked one; that is the
+sampling floor, not masked faces catching up. Across the whole measurable range
+the unmasked curve stays above the masked one, as it should.
 
 ![LFW vs MLFW](results/dataset_roc_lfw_vs_mlfw.png)
 
