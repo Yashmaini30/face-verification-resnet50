@@ -2,6 +2,9 @@
 
 import math
 
+import cv2
+import numpy as np
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -15,9 +18,78 @@ STD = (0.229, 0.224, 0.225)
 SIZE = 224
 
 
-def train_tf(size=SIZE):
+class RandomMask:
+    """Randomly draw a synthetic surgical mask over an already-aligned face.
+
+    Faces reaching this point are aligned onto the ArcFace template, so the eyes,
+    nose and mouth sit at known positions and the mask can be drawn from the
+    template itself - no per-image landmark lookup is needed at train time.
+
+    A model trained only on bare faces leans on the nose and mouth, and loses
+    most of its signal when they are covered (see the MLFW evaluation). Masking a
+    fraction of every epoch forces the embedding to survive on the eyes, brow and
+    face outline while keeping one embedding space for masked and unmasked faces.
+    """
+
+    COLOURS = [(235, 235, 232), (214, 205, 176), (160, 145, 120), (248, 245, 245),
+               (120, 130, 140), (250, 250, 250)]
+
+    def __init__(self, p=0.4, size=SIZE):
+        self.p = p
+        self.k = size / 112.0            # template is defined at 112 px
+
+    def __call__(self, img):
+        import random as _r
+        if _r.random() >= self.p:
+            return img
+
+        a = np.array(img)
+        k = self.k
+        # ArcFace template points, scaled to this image size
+        rex, rey = 38.2946 * k, 51.6963 * k
+        lex, ley = 73.5318 * k, 51.5014 * k
+        nx, ny = 56.0252 * k, 71.7366 * k
+        rmy = 92.3655 * k
+        h, w = a.shape[:2]
+
+        span = lex - rex
+        jitter = _r.uniform(-0.06, 0.06) * span
+        top = ny - _r.uniform(0.02, 0.22) * span      # how high the mask rides
+        chin = min(h - 1, rmy + _r.uniform(0.85, 1.25) * span)
+        half = _r.uniform(0.85, 1.05) * span
+        cx = (rex + lex) / 2 + jitter
+
+        poly = np.array([
+            [cx - half, top + 0.10 * span],
+            [cx - half * 1.02, (top + chin) / 2],
+            [cx - half * 0.72, chin],
+            [cx, chin + 0.10 * span],
+            [cx + half * 0.72, chin],
+            [cx + half * 1.02, (top + chin) / 2],
+            [cx + half, top + 0.10 * span],
+            [cx, top - 0.05 * span],
+        ], np.int32)
+
+        colour = list(self.COLOURS[_r.randrange(len(self.COLOURS))])
+        colour = [max(0, min(255, c + _r.randint(-18, 18))) for c in colour]
+
+        cv2.fillPoly(a, [poly], colour, cv2.LINE_AA)
+        for f in (0.35, 0.55, 0.75):                  # pleats
+            y = int(top + f * (chin - top))
+            cv2.line(a, (int(cx - half * 0.95), y), (int(cx + half * 0.95), y),
+                     tuple(int(c * 0.92) for c in colour), 1, cv2.LINE_AA)
+        cv2.polylines(a, [poly], True, tuple(int(c * 0.75) for c in colour), 2, cv2.LINE_AA)
+        eye_y = (rey + ley) / 2
+        for sx, ex in ((cx - half, 0), (cx + half, w - 1)):   # ear straps
+            cv2.line(a, (int(sx), int(top + 0.15 * span)), (int(ex), int(eye_y + 0.18 * span)),
+                     tuple(int(c * 0.8) for c in colour), 2, cv2.LINE_AA)
+        return Image.fromarray(a)
+
+
+def train_tf(size=SIZE, mask_p=0.0):
     return transforms.Compose([
         transforms.Resize((size, size)),
+        RandomMask(p=mask_p, size=size),
         transforms.RandomHorizontalFlip(),
         transforms.RandomApply(
             [transforms.RandomAffine(8, translate=(0.05, 0.05), scale=(0.92, 1.08))], p=0.7),

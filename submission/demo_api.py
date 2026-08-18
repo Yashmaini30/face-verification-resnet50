@@ -26,7 +26,7 @@ from dataset_preparation import Cropper
 from model import embed, eval_tf, load_model
 
 ROOT = Path(__file__).resolve().parent
-DEFAULT_THRESHOLD = 0.1792
+DEFAULT_THRESHOLD = 0.1838      # fitted on the validation split
 
 app = FastAPI(title="Face Verification")
 state = {}

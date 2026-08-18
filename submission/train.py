@@ -87,6 +87,8 @@ def main():
     ap.add_argument("--root", default=".")
     ap.add_argument("--dim", type=int, default=512)
     ap.add_argument("--size", type=int, default=224)
+    ap.add_argument("--mask-p", type=float, default=0.0,
+                    help="fraction of training images given a synthetic mask")
     ap.add_argument("--epochs", type=int, default=30)
     ap.add_argument("--batch-p", type=int, default=16)
     ap.add_argument("--batch-k", type=int, default=4)
@@ -114,9 +116,9 @@ def main():
     device = torch.device(args.device or ("cuda" if torch.cuda.is_available() else "cpu"))
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    print(f"device={device}")
+    print(f"device={device}  mask augmentation p={args.mask_p}")
 
-    ds = FaceData(args.root, "train", train_tf(args.size))
+    ds = FaceData(args.root, "train", train_tf(args.size, args.mask_p))
     sampler = PKSampler(ds, args.batch_p, args.batch_k, args.batches_per_epoch)
     loader = DataLoader(ds, batch_sampler=sampler, num_workers=args.workers,
                         pin_memory=(device.type == "cuda"),
@@ -205,6 +207,7 @@ def main():
         if m["roc_auc"] > best:
             best = m["roc_auc"]
             torch.save({"model": model.state_dict(), "dim": args.dim, "size": args.size,
+                        "mask_p": args.mask_p,
                         "epoch": epoch,
                         "val_metrics": m, "backbone": "resnet50",
                         "train_identities": len(ds.classes)}, out / "best_model.pth")
@@ -214,6 +217,7 @@ def main():
         "backbone": "resnet50",
         "dim": args.dim,
         "size": args.size,
+        "mask_p": args.mask_p,
         "train_identities": len(ds.classes),
         "train_images": len(ds),
         "history": history,

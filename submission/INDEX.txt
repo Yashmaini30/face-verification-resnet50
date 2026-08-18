@@ -1,0 +1,271 @@
+FACE VERIFICATION / RE-IDENTIFICATION - REQUIREMENTS PACKAGE
+Yash Maini   github.com/Yashmaini30
+
+Model weights are not in this archive (94 MB). They live at
+  https://huggingface.co/yashMaini/face-verification-resnet50
+
+MODEL VERSION: baseline - trained on unmasked faces only.
+Every number below comes from that checkpoint, measured on 120 LFW
+identities that appear nowhere in training.
+
+Each section answers one requirement. Files are listed in the order
+worth opening.
+
+
+==============================================================================
+1.  ROC ON THE DATASETS - LFW vs MLFW, SIDE BY SIDE
+==============================================================================
+  results/dataset_roc_lfw_vs_mlfw.png    both datasets on one axis
+  results/dataset_roc_metrics.json       every number behind the plot
+  results/mlfw_roc.png                   MLFW official 6,000-pair protocol
+  results/mlfw_metrics.json
+  dataset_roc.py, masked_eval.py         code that produced them
+
+  One checkpoint, one threshold, one pairing protocol, two datasets, so the
+  difference measured is the mask and nothing else. Both datasets go through
+  the same YuNet + landmark alignment - MLFW is read from its origin/ images
+  rather than its supplied 112px crops, so preprocessing is not a confound.
+
+                        ROC-AUC     EER      TAR @ FAR 1%
+    LFW  (unmasked)      0.9587    9.61%        72.76%
+    MLFW (masked)        0.8388   24.58%        35.36%
+    cost of the mask    -0.1199   +14.97pp     -37.40pp
+
+  MLFW is restricted to the 1,779 of its 2,996 identities absent from the
+  training split. The other 40.3% overlap, because MLFW derives from CALFW
+  which derives from LFW. That overlap was found and excluded before any
+  MLFW number was produced.
+
+  The right-hand panel scores EVERY pair rather than a 5,000-pair sample -
+  523,104 impostor pairs for LFW, 16,668,556 for MLFW - so the low-FAR
+  region is genuinely resolved instead of being a staircase. Curves are
+  drawn solid where at least 50 impostor pairs support the point and dotted
+  below that, because the far tail is an extrapolation, not a measurement.
+
+  On MLFW's own official 6,000-pair protocol the model scores AUC 0.5537,
+  near chance. That protocol is adversarial by construction - same identity
+  in different masks, different identities in the same mask, layered on
+  CALFW's cross-age gap - and this model never saw a masked face while
+  training. Filtering the leaked identities barely moves it (0.5465), which
+  says the difficulty is the protocol, not the overlap.
+
+
+==============================================================================
+2.  EMBEDDINGS FILES
+==============================================================================
+  results/embeddings/embeddings_test.npz   LFW  - 1,031 x 512
+  results/embeddings/embeddings_test.txt   same data, plain text
+  results/embeddings/embeddings_mlfw.npz   MLFW - 5,776 x 512
+  results/embeddings/embeddings_mlfw.txt   same data, plain text
+  export_embeddings.py
+
+  512-D, L2-normalised, so a dot product IS the cosine similarity.
+
+    import numpy as np
+    d = np.load("embeddings_test.npz", allow_pickle=True)
+    d["embeddings"] @ d["embeddings"].T      # full similarity matrix
+
+  npz keys: embeddings, image, identity (LFW also carries folder).
+  The text files repeat the same content with a header, for reading
+  without numpy.
+
+  The MLFW export contains the exact vectors the reported MLFW ROC was
+  computed from - scoring all 16,678,200 pairs from this file reproduces
+  AUC 0.8501805, matching dataset_roc_metrics.json to seven decimals.
+  1,779 identities, all leakage-filtered.
+
+
+==============================================================================
+3.  GALLERY AND PROBE CANVAS
+==============================================================================
+  results/gallery_probe_canvas.png       visual: probe -> top-5 gallery hits
+  results/gallery_probe_results.csv      every probe, its rank and score
+  results/gallery_probe_metrics.json     Rank-1 / Rank-5 / CMC
+  results/gallery_probe_multishot.json   1 vs 3 images enrolled per identity
+  gallery_canvas.py, gallery_probe.py
+
+  120 identities enrolled, 911 probes searched against them.
+
+    Rank-1  64.00%      Rank-5  85.62%      chance  0.83%
+
+  On the canvas each row is one probe followed by its five nearest gallery
+  entries; correct matches are outlined green, wrong ones red. The failures
+  are meant to be visible rather than averaged away.
+
+
+==============================================================================
+4.  FALSE POSITIVES AND FALSE NEGATIVES
+==============================================================================
+  results/false_accepts.csv              369 impostor pairs accepted - 7.38% FAR
+  results/false_rejects.csv              571 genuine pairs rejected - 11.42% FRR
+  results/false_accepts_examples.png     the worst cases, as images
+  results/false_rejects_examples.png
+  results/error_summary.json
+  error_analysis.py
+
+  Both CSVs carry real identity names, the cosine score and the distance
+  from the 0.1838 threshold, sorted worst-first. Every mistake the system
+  makes at the operating point is listed individually, not summarised.
+
+  Reading the errors: false accepts concentrate on same-sex, similar-age
+  faces in similar poses. False rejects concentrate on large pose change,
+  heavy expression difference and low-resolution source photographs.
+
+
+==============================================================================
+5.  CMC PLOT AND ROC
+==============================================================================
+  results/cmc_curve.png                  rank-k identification accuracy
+  results/roc_curve.png                  verification ROC, 10,000 pairs
+  results/roc_curve_exhaustive.png       all 530,965 pairs, down to FAR 1e-5
+  results/open_set_curve.png             DIR @ FPIR - unenrolled probes
+  results/threshold_analysis.png         accuracy / FAR / FRR vs threshold
+  results/similarity_distribution.png    genuine vs impostor separation
+  results/evaluation_results.json        numbers behind the curves
+  results/exhaustive_metrics.json
+  results/open_set_metrics.json
+  roc_analysis.py
+
+    ROC-AUC                  0.9587     (0.9638 scoring all pairs)
+    Equal Error Rate          9.61%
+    Verification accuracy    90.60%     at threshold 0.1838
+    TAR @ FAR 1%             72.76%
+    TAR @ FAR 0.1%           43.76%
+    Open-set DIR @ FPIR 1%   28.62%
+
+  The threshold is fitted on the VALIDATION split and applied unchanged to
+  test. It is never tuned on the numbers reported here.
+
+  Sampled and exhaustive protocols agree to within 0.005 AUC, so the
+  round-robin pair sampling was representative - what the exhaustive run
+  buys is resolution at low FAR, not a different answer.
+
+
+==============================================================================
+6.  CROPPING, ALIGNMENT AND FACE LANDMARKS
+==============================================================================
+  landmarks.json                         5 points for all 9,164 images
+  dataset_preparation.py                 detect -> landmarks -> align -> crop
+
+  YuNet detects the face and returns five landmarks: both eye centres, the
+  nose tip and both mouth corners. A similarity transform maps those onto
+  the canonical ArcFace template, so the eyes land on the same pixels in
+  every image and the network stops spending capacity on pose.
+
+  Measured effect of adding alignment, same everything else:
+
+    Rank-1            +8.13 pp
+    TAR @ FAR 0.1%    +6.16 pp
+    Open-set DIR      +8.51 pp
+    ROC-AUC           -0.011
+
+  Kept despite the AUC dip, because the strict operating points are the
+  ones that decide whether a system is deployable.
+
+  Detection succeeds on 9,164 of 9,164 images. Where YuNet returns nothing
+  the pipeline can fall back to a centre crop, but the demo API disables
+  that fallback deliberately so a non-face input errors instead of quietly
+  returning a similarity score.
+
+
+==============================================================================
+7.  PAIRS AS TEXT FILES
+==============================================================================
+  results/pairs_test.txt                 5,000 genuine + 5,000 impostor
+  results/pairs_val.txt                  validation pairs
+  results/pairs_test_stats.json          generation audit
+  results/pairs_val_stats.json
+  results/pair_scores.csv                every pair with its cosine score
+  generate_pairs.py, evaluate_pairs.py
+
+  Format:   path_a <TAB> path_b <TAB> label        1 = same, 0 = different
+
+  Seed 42. Zero duplicate pairs, zero identity overlap with training - both
+  asserted at generation time and recorded in the stats files.
+
+  Positives are drawn round-robin across identities rather than uniformly
+  over possible pairs. LFW is heavily imbalanced - a few people have
+  hundreds of photographs - and uniform sampling would let those few
+  dominate the genuine set and quietly decide the score.
+
+
+==============================================================================
+8.  SAME NAME / DIFFERENT PHOTOS   AND   DIFFERENT NAMES / SAME PERSON
+==============================================================================
+  results/identity_audit.txt             readable report - START HERE
+  results/identity_audit.json            per-identity numbers
+  identity_audit.py
+
+  Both failure modes are detectable from the embeddings alone, with no
+  extra labels required:
+
+    A. ONE LABEL, TWO PEOPLE - a folder holding more than one individual.
+       Detected as low mean similarity WITHIN that folder.
+       Effect: turns genuine pairs into impostor pairs. Scores read low
+       and the model is blamed for a labelling error.
+
+    B. TWO LABELS, ONE PERSON - one individual filed under two names.
+       Detected as two folder templates sitting unusually close together.
+       Effect: turns impostor pairs into genuine ones. They surface as
+       false accepts that are not actually the model's mistake.
+
+  Result on the 120 test identities:
+
+    exact duplicate images                    0
+    case A flagged (coherence below 0.15)     0
+    case B flagged (similarity above 0.55)    6
+
+  All six case-B pairs were inspected and are different people - Julianne
+  Moore vs Laura Linney, Bill Frist vs Dennis Kucinich, Denzel Washington
+  vs John Allen Muhammad and three more. Look-alikes, not label errors. On
+  LFW a close pair is often a relative; the dataset contains several
+  members of the same family. A genuine duplicate identity would sit near
+  the genuine-pair mean, far above 0.55.
+
+  So zero confirmed label errors, and the reported error rates are not
+  inflated by label noise. The audit runs independently of the evaluation
+  and can be pointed at any split.
+
+  How the pipeline handles each case if it did occur: pair generation
+  trusts the folder, so case A costs recall and case B costs precision.
+  The audit is the check that neither is silently happening.
+
+
+==============================================================================
+9.  SUPPORTING
+==============================================================================
+  results/metrics_summary.txt            every number in one plain-text file
+  model.py, train.py                     architecture and training loop
+  check_leakage.py                       independent audit of the no-leakage
+                                         claims - run it, do not trust me
+  requirements.txt, README.md
+
+  ResNet50 -> 2048 pool -> 512-D -> L2 normalise. Trained with ArcFace
+  additive angular margin plus batch-hard triplet loss. Both losses are
+  implemented from scratch; no face-recognition library is used. The only
+  pretrained component is the ImageNet ResNet50 backbone.
+
+  ArcFace because the deployed system scores by cosine similarity, so
+  training should optimise the same angular geometry it is judged on. The
+  triplet term because the classifier is thrown away at inference, and hard
+  mining works directly on the sample-to-sample distances the ROC is
+  built from.
+
+  Splits are drawn over IDENTITIES, not images, so no test person appears
+  anywhere in training. check_leakage.py verifies this from the files
+  rather than asking you to take it on trust.
+
+  No frontend or demo code is included in this archive, as requested.
+
+
+==============================================================================
+KNOWN LIMITATIONS
+==============================================================================
+  Absolute accuracy sits below published LFW figures, because those train
+  on external corpora orders of magnitude larger than the ~7k images used
+  here. LFW skews heavily towards light-skinned adult males in frontal
+  poses, so these numbers are NOT evidence of fairness across demographics.
+  Open-set rejection is measured rather than assumed, and it is weak -
+  28.62% DIR at 1% FPIR means most unenrolled probes are not confidently
+  rejected. Masked performance is a real degradation, not a protocol
+  artefact, and is the clearest target for the next iteration.

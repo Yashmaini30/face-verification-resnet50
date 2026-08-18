@@ -8,3 +8,8 @@ submission/results/_mlfw_emb.npz
 models/
 .devcontainer/
 dev/
+
+# large local-only checkpoints (mask-augmentation experiment, not shipped)
+submission/checkpoints/best_model_mask.pth
+submission/checkpoints/training_history_mask.json
+submission/checkpoints/mask_run_metrics.json
