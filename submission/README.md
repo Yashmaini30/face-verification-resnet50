@@ -656,6 +656,46 @@ require a corpus like CASIA-WebFace, not further tuning.
 Both ablations were re-run from scratch against the final landmark-aligned
 checkpoint, so the numbers above describe the model actually shipped.
 
+### Mask augmentation — measured, and not adopted
+
+The MLFW gap above is the largest single weakness in this system, so the obvious
+remedy was tested: synthesise surgical masks during training and make the model
+earn its accuracy from the eyes, brow and face outline.
+
+`RandomMask` (in `model.py`) draws a mask directly from the ArcFace template
+coordinates, which is possible because every training crop is already aligned to
+that template — so no per-image landmark lookup is needed at train time. Colour,
+height, width and horizontal offset are all randomised, so the model cannot
+memorise one mask shape. The run was identical to the shipped one in every other
+respect: same architecture, same losses, same 30 epochs, same seed, `--mask-p 0.4`.
+
+| | LFW AUC | LFW EER | LFW TAR@1% | LFW Rank-1 | MLFW AUC | MLFW EER | MLFW TAR@1% |
+|---|---|---|---|---|---|---|---|
+| baseline (shipped) | **0.9587** | **9.61%** | **72.76%** | **64.00%** | 0.8388 | 24.58% | 35.36% |
+| mask-augmented | 0.9567 | 10.57% | 68.76% | 59.50% | **0.8788** | **21.01%** | **43.32%** |
+
+The augmentation **works**: masked TAR@FAR=1% rises 7.96 points and masked EER
+falls 3.57 points. It is not a wasted experiment, and the code ships enabled by
+a single flag.
+
+It was not adopted because the gain is paid for on unmasked faces, which is what
+this system is actually evaluated on: **−4.00 points** of TAR@FAR=1% and
+**−4.50 points** of Rank-1. Roughly 40% of training images showed less face, and
+some model capacity moved from fine identity detail to occlusion robustness.
+AUC barely moved (−0.002), which is why AUC alone is a poor way to judge this
+trade — the cost sits at the strict operating points that decide deployability.
+
+A third measurement agreed. The identity audit flags distinct identities sitting
+closer than 0.55; the baseline flags 6 such pairs and the mask-augmented model
+flags 8, all of them genuine look-alikes rather than label errors. Slightly
+weaker identity separation, consistent with the other two results.
+
+**Conclusion.** Mask augmentation is the right intervention for a masked-face
+deployment and the wrong one here. If masked input were part of the requirement,
+this model would ship instead, or — better — both would, with a mask detector
+routing between them. Reproduce with
+`python train.py --root . --size 224 --epochs 30 --mask-p 0.4`.
+
 ### How the threshold affects false accepts and false rejects
 
 Cosine similarity rises with confidence that two faces match, and the threshold

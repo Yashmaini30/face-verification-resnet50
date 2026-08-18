@@ -42,6 +42,13 @@ worth opening.
   drawn solid where at least 50 impostor pairs support the point and dotted
   below that, because the far tail is an extrapolation, not a measurement.
 
+  Mask augmentation was tested as a fix - synthesise masks during training so
+  the model must work from eyes, brow and outline. It works on masked faces
+  (+7.96 pp TAR@FAR=1%, -3.57 pp EER) but costs unmasked accuracy (-4.00 pp
+  TAR@FAR=1%, -4.50 pp Rank-1), so the unmasked-optimised model ships. Full
+  numbers in README.md under "Mask augmentation - measured, and not adopted";
+  the code ships behind a --mask-p flag.
+
   On MLFW's own official 6,000-pair protocol the model scores AUC 0.5537,
   near chance. That protocol is adversarial by construction - same identity
   in different masks, different identities in the same mask, layered on
